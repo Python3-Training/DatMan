@@ -5,7 +5,7 @@
 # Related: https://github.com/Python3-Training/DatMan
 #   Video: https://youtu.be/utazxKN7uJA
 # Author: Randall Nagy
-# Version: 1.1
+# Version: 1.1.1
 import os
 import os.path
 import json
@@ -17,11 +17,18 @@ class S3D2:
     records using JSON.
     '''
 
-    def __init__(self, record_dict, home_folder=None):
-        ''' Default home director is the pwd.
-        Note: If home folder does not exist, it will be created. 
+    def __init__(self, record_dict, home_folder=None, unikey=True):
+        ''' Parameters:
+        home_folder: Location / folder to store data.
+            If home folder does not exist, it will be created. 
+            Default home director is the pwd.
+        unikey: Case-insensitivity for key lookup. 
+            Intended for POSIX Systems, where multi-case FNs ok.
+            Caveat MS Windows - still awaiting POSIX promises?
+            Default is insensitivity, so all happy. 
         '''
         if isinstance(record_dict, dict):
+            self._unikey = unikey
             self._source = record_dict
         else:
             self._source = None
@@ -38,7 +45,10 @@ class S3D2:
                 pass
 
     def _create_filename(self, key):
-        return f"{self.data_dir}{key.lower()}.json"
+        if self._unikey:
+            return f"{self.data_dir}{key.lower()}.json"
+        else:
+            return f"{self.data_dir}{key}.json"
 
     def _base_name(self, file):
         return file.replace(".json", "")
@@ -195,6 +205,15 @@ if __name__ == '__main__':
 # TC1100: Data-location creation, AE
     assert(os.path.exists(test.data_dir))
     test = S3D2(source, "./testing")
+#endregion
+#region
+# TC1110: Clean-folder verification
+    for foo in test.delete(lambda a: True):
+        pass
+    count = 0
+    for foo in test.delete(lambda a: True):
+        count += 1
+    assert(count == 0)
 #endregion
 #region
 # TC1200: Bad-data creation
