@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/~test.dbm.bak
+/~test.dbm.dat
+/~test.dbm.dir
+/.vs/VSWorkspaceState.json
+/.vs/slnx.sqlite
+/.vs/ProjectSettings.json
+/.vs/DatMan/v16/.suo
