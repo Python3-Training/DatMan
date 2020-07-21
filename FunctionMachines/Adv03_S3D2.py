@@ -149,7 +149,6 @@ class S3D2:
     def delete(self, query): # D1
         ''' Scenario: 
         Remove any record matching query.
-        Backup deleted data to file, when specified.
         Raise verbose exception on error.
         Returns number of records deleted.
         '''
@@ -172,7 +171,7 @@ class S3D2:
 
     def deleteTo(self, query, SaveFN): # D2
         ''' Save deleted records to a JSON file.
-        Previous contents, if any, will be deleted.
+        Previous file contents, if any, will be deleted.
         Return the number of items deleted / saved to same.'''
         if not callable(query):
             return None
