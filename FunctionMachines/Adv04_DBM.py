@@ -111,9 +111,9 @@ class MyDbm:
     # Public:
     #region
     def count(self):
-        count = 0
-        for record in test.search(lambda a, b: True):
-            count += 1
+        self._open()
+        count = len(self._dbm)
+        self._close()
         return count
 
     def source(self): # S1
@@ -245,10 +245,7 @@ if __name__ == '__main__':
     #endregion
     # TC1100: Verify serialization
     #region
-    count = 0
-    for record in test.search(lambda a, b: True):
-        count += 1
-    assert(count == 1)
+    assert(test.count() == 1)
     #endregion
     # TC1200: Multi-record creation
     #region
@@ -256,10 +253,7 @@ if __name__ == '__main__':
     record['key'] = "TestKey2"
     record['value'] = "TestValue2"
     assert(test.sync(record))
-    count = 0
-    for record in test.search(lambda a, b: True):
-        count += 1
-    assert(count == 2)
+    assert(test.count() == 2)
     #endregion
     # TC1300: Unary update
     #region
@@ -272,10 +266,7 @@ if __name__ == '__main__':
     for record in test.search(bing):
         count += 1
     assert(count == 1)
-    count = 0
-    for record in test.search(lambda a, b: True):
-        count += 1
-    assert(count == 2)
+    assert(test.count() == 2)
     #endregion
     # TC2000: Basic deletion
     #region
@@ -283,10 +274,7 @@ if __name__ == '__main__':
     for record in test.delete(bing):
         count += 1
     assert(count == 1)
-    count = 0
-    for record in test.search(lambda a, b: True):
-        count += 1
-    assert(count == 1)
+    assert(test.count() == 1)
     for _ in test.delete(lambda a, b: True):
         pass
     #endregion
