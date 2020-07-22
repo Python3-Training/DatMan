@@ -218,24 +218,31 @@ class MyDbm:
             print("]", file=fh)
         return count
 
-
+#region
 if __name__ == '__main__':
     # TC0000: Clean start
+    #region
     TEST_FILE = "~test.dbm"
     test = MyDbm(TEST_FILE)
     if test._exists():
         test._clear()
+    #endregion
     # TC1000: Basic serilaization
+    #region
     record = test.source()
     record['key'] = "TestKey"
     record['value'] = "TestValue"
     assert(test.sync(record))
+    #endregion
     # TC1100: Verify serialization
+    #region
     count = 0
     for record in test.search(lambda a, b: True):
         count += 1
     assert(count == 1)
+    #endregion
     # TC1200: Multi-record creation
+    #region
     record = test.source()
     record['key'] = "TestKey2"
     record['value'] = "TestValue2"
@@ -244,7 +251,9 @@ if __name__ == '__main__':
     for record in test.search(lambda a, b: True):
         count += 1
     assert(count == 2)
+    #endregion
     # TC1300: Unary update
+    #region
     record['value'] = "Bingo"
     assert(test.sync(record))
     count = 0
@@ -258,7 +267,9 @@ if __name__ == '__main__':
     for record in test.search(lambda a, b: True):
         count += 1
     assert(count == 2)
+    #endregion
     # TC2000: Basic deletion
+    #region
     count = 0
     for record in test.delete(bing):
         count += 1
@@ -269,7 +280,9 @@ if __name__ == '__main__':
     assert(count == 1)
     for _ in test.delete(lambda a, b: True):
         pass
+    #endregion
     # TC2100: Re-Population
+    #region
     data = [
         {'key':'ab lew', 'value':'this is a test'},
         {'key':'ShaZ\tip', 'value':'this\nisa\ttest'},
@@ -295,8 +308,9 @@ if __name__ == '__main__':
 
     for record in data:
         row = test.search(Goal(record))
-
+    #endregion
     # TC3000: Basic deletion to-file
+    #region
     import json
     BFN = "~backup.tmp"
     assert(test.deleteTo(lambda a, b: True, BFN) == len(data))
@@ -305,3 +319,6 @@ if __name__ == '__main__':
         guts = json.load(fh)
         assert(len(guts) == len(data))
     os.unlink(BFN)
+    #endregion
+
+#endregion
