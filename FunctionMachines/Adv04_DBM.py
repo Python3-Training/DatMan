@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Meta:
+#region
 # License: MIT
 # File: Adv04_DBM.py
 # Mission: Use S3D2 over the core DBM Package
@@ -6,13 +8,15 @@
 # Playlist: https://youtu.be/utazxKN7uJA
 # Author: Randall Nagy
 # Version: 1.0
+#endregion
 
 import os
 import os.path
 import dbm
 
 class MyDbm:
-
+    # Internals:
+    #region
     def __init__(self, file, sync=False):
         self._file = file
         self._sync = sync
@@ -102,7 +106,10 @@ class MyDbm:
             if key not in record:
                 return False
         return True
+    #endregion
 
+    # Public:
+    #region
     def count(self):
         count = 0
         for record in test.search(lambda a, b: True):
@@ -217,7 +224,9 @@ class MyDbm:
                     count += 1
             print("]", file=fh)
         return count
+    #endregion
 
+    # Test Cases:
 #region
 if __name__ == '__main__':
     # TC0000: Clean start
