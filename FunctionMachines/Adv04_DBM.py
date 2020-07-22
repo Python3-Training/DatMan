@@ -103,6 +103,12 @@ class MyDbm:
                 return False
         return True
 
+    def count(self):
+        count = 0
+        for record in test.search(lambda a, b: True):
+            count += 1
+        return count
+
     def source(self): # S1
         ''' Get record keys, with data types. '''
         return self._source
@@ -167,7 +173,7 @@ class MyDbm:
                 react = query(key, value)
                 if react == True:
                     value = self._dbm.pop(key)
-                    if value:
+                    if value != None:
                         count += 1
                         yield {'key':key, 'value':value} # (ahem)
                         self._close()
@@ -194,6 +200,7 @@ class MyDbm:
         ''' Save deleted records to a JSON file.
         Previous contents, if any, will be deleted.
         Return the number of items deleted / saved to same.'''
+        import json
         if not callable(query):
             return 0
         count = 0
@@ -202,6 +209,10 @@ class MyDbm:
             for record in self.delete(query):
                     if (count):
                         print(",", file=fh)
+                    hit = {
+                        'tag':str(record['key']),
+                        'value':str(record['value'])
+                        }
                     json.dump(hit, fh)
                     count += 1
             print("]", file=fh)
@@ -256,4 +267,41 @@ if __name__ == '__main__':
     for record in test.search(lambda a, b: True):
         count += 1
     assert(count == 1)
-    # TC2000: Basic deletion to-file (TODO!)
+    for _ in test.delete(lambda a, b: True):
+        pass
+    # TC2100: Re-Population
+    data = [
+        {'key':'ab lew', 'value':'this is a test'},
+        {'key':'ShaZ\tip', 'value':'this\nisa\ttest'},
+        {'key':' pook\nie', 'value':''},
+        {'key':'\r\n', 'value':'  '},
+        {'key':'bingite', 'value':'wannite'},
+        ]
+    for record in data:
+        test.sync(record)
+    assert(test.count() == len(data))
+
+    class Goal:
+        def __init__(self, record):
+            self.record = record
+            self.bDone = False
+        def __call__(self, key, value):
+            if self.bDone:
+                return False
+            if key == self.record['key']:
+                if value == self.record['value']:
+                    self.bDone = True
+                    return True
+
+    for record in data:
+        row = test.search(Goal(record))
+
+    # TC3000: Basic deletion to-file
+    import json
+    BFN = "~backup.tmp"
+    assert(test.deleteTo(lambda a, b: True, BFN) == len(data))
+    assert(os.path.exists(BFN))
+    with open(BFN) as fh:
+        guts = json.load(fh)
+        assert(len(guts) == len(data))
+    os.unlink(BFN)
