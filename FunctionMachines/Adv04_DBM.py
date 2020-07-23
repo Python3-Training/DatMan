@@ -32,7 +32,7 @@ class MyDbm:
         return os.path.exists(f'{self._file}.dat')
 
     def _clear(self):
-        ''' Empty th database. Always returns None.
+        ''' Empty the database. Always returns None.
         '''
         try:
             if self._open():
@@ -236,7 +236,7 @@ if __name__ == '__main__':
     if test._exists():
         test._clear()
     #endregion
-    # TC1000: Basic serilaization
+    # TC1000: Basic serialization
     #region
     record = test.source()
     record['key'] = "TestKey"

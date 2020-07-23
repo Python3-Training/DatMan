@@ -44,7 +44,7 @@ class MyShelf:
         return os.path.exists(f'{self._file}.dat')
 
     def _clear(self):
-        ''' Empty th database. Always returns None.
+        ''' Empty the database. Always returns None.
         '''
         try:
             if self._open():
@@ -256,7 +256,7 @@ if __name__ == '__main__':
     if test._exists():
         test._clear()
     #endregion
-    # TC1000: Basic serilaization
+    # TC1000: Basic object persistence
     #region
     record = test.source()
     obj = record['value']
@@ -264,7 +264,7 @@ if __name__ == '__main__':
     record = test.sync(record)
     assert(record)
     #endregion
-    # TC1100: Verify serialization
+    # TC1100: Verify object persistence
     #region
     assert(test.count() == 1)
     #endregion
