@@ -2,34 +2,40 @@
 # Meta:
 #region
 # License: MIT
-# File: Adv05_Shelves.py
-# Mission: Use S3D2 over the core 'shelve' Package
+# File: Adv06_Shelf.py
+# Mission: Use S3D2 to mange 'objects' on a 'shelf'
 # Related:  https://github.com/Python3-Training/DatMan
 # Playlist: https://youtu.be/utazxKN7uJA
 # Author: Randall Nagy
 # Version: 1.0
 #endregion
 
-# Note: Conversion from `dbm` to `shelve` was pretty
-# much in-place. Because we are perisiting objects, not 
-# serializing to octets (bytes,) Python strings
-# are queried (i.e. we had to drop the 'b' before
-# 'Bingo'.)
+# Key values are automatically assigned, when absent.
 
 import os
 import os.path
 import shelve
 
+# Something to store:
+#region
+class Person:
+    def __init__(self, name, address, balance):
+        self.name = name
+        self.address = address
+        self.balance = balance
+
+#endregion
+
 class MyShelf:
     # Internals:
     #region
-    def __init__(self, file, sync=False):
+    def __init__(self, file, object_, sync=False):
         self._file = file
         self._sync = sync
         self._dbm = None
         self._open()
         self._close()
-        self._source = {"key":'', "value":object}
+        self._source = {'key':'', 'value':object_}
 
     def _exists(self):
         ''' See if the dbm file exists 
@@ -73,24 +79,31 @@ class MyShelf:
             self._dbm = None
         return False
 
-    def _create(self, key, value):
+    def _create(self, value):
+        key = str(self.count())
         if self._open():
             self._dbm[key] = value
-            return self._close()
+            if self._close():
+                return key
         return False
 
     def _read(self, key):
-        result = None
+        result = self.source()
+        result['key'] = key
         try:
             if self._open():
-                result = self._dbm[key]
+                result[value] = self._dbm[key]
                 self._close()
         except:
             pass
         return result
 
     def _update(self, key, value):
-        return self._create(key, value)
+        if self._open():
+            self._dbm[key] = value
+            if self._close():
+                return self._read(key)
+        return False
 
     def _delete(self, key):
         value = None
@@ -124,7 +137,7 @@ class MyShelf:
 
     def source(self): # S1
         ''' Get record keys, with data types. '''
-        return self._source
+        return dict(self._source)
 
     def sync(self, record): # S2
         ''' Scenario:
@@ -134,10 +147,11 @@ class MyShelf:
         '''
         if not self._param_ok(record):
             raise Exception("Invalid input. Please verify .source.")
-        value = self._read(record['key'])
+        value = record['key']
         if not value:
-            if self._create(record['key'], record['value']):
-                return record
+            key = self._create(record['value'])
+            if key:
+                return self._read(key)
         else:
             if self._update(record['key'], record['value']):
                 return record
@@ -224,7 +238,7 @@ class MyShelf:
                         print(",", file=fh)
                     hit = {
                         'tag':str(record['key']),
-                        'value':str(record['value'])
+                        'value':str(record['value'].__dict__)
                         }
                     json.dump(hit, fh)
                     count += 1
@@ -237,17 +251,18 @@ class MyShelf:
 if __name__ == '__main__':
     # TC0000: Clean start
     #region
-    TEST_FILE = "~test.shelves"
-    test = MyShelf(TEST_FILE)
+    TEST_FILE = "~test.shelf"
+    test = MyShelf(TEST_FILE, Person)
     if test._exists():
         test._clear()
     #endregion
     # TC1000: Basic serilaization
     #region
     record = test.source()
-    record['key'] = "TestKey"
-    record['value'] = "TestValue"
-    assert(test.sync(record))
+    obj = record['value']
+    record['value'] = obj("Nagy", "foo@bar.net", 123.654)
+    record = test.sync(record)
+    assert(record)
     #endregion
     # TC1100: Verify serialization
     #region
@@ -256,18 +271,19 @@ if __name__ == '__main__':
     # TC1200: Multi-record creation
     #region
     record = test.source()
-    record['key'] = "TestKey2"
-    record['value'] = "TestValue2"
-    assert(test.sync(record))
+    record['value'] = Person("Zookie", "Wookie@Zookie.star", 12345.626)
+    recordU = test.sync(record)
+    assert(recordU)
     assert(test.count() == 2)
     #endregion
     # TC1300: Unary update
     #region
-    record['value'] = "Bingo"
-    assert(test.sync(record))
+    recordU['value'].address = "Bingo"
+    record = test.sync(recordU)
+    assert(record)
     count = 0
     def bing(a, b):
-        if b == "Bingo": # 'b' no longer required.
+        if b.address == "Bingo":
             return True
     for record in test.search(bing):
         count += 1
@@ -286,15 +302,22 @@ if __name__ == '__main__':
     #endregion
     # TC2100: Re-Population
     #region
-    data = [
-        {'key':'ab lew', 'value':'this is a test'},
-        {'key':'ShaZ\tip', 'value':'this\nisa\ttest'},
-        {'key':' pook\nie', 'value':''},
-        {'key':'\r\n', 'value':'  '},
-        {'key':'bingite', 'value':'wannite'},
-        ]
-    for record in data:
-        test.sync(record)
+    data = []
+    record = test.source()
+    record['value'] = Person("Able", "Able@Able.star", 1000)
+    data.append(test.sync(record))
+    record = test.source()
+    record['value'] = Person("Baker", "Baker@Able.star", 2000)
+    data.append(test.sync(record))
+    record = test.source()
+    record['value'] = Person("Charley", "Charley@Able.star", 3000)
+    data.append(test.sync(record))
+    record = test.source()
+    record['value'] = Person("Delta", "Delta@Able.star", 4000)
+    data.append(test.sync(record))
+    record = test.source()
+    record['value'] = Person("Espsi", "Espsi@Able.star", 5000)
+    data.append(test.sync(record))
     assert(test.count() == len(data))
 
     class Goal:
