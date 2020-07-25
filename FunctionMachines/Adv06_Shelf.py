@@ -7,7 +7,7 @@
 # Related:  https://github.com/Python3-Training/DatMan
 # Playlist: https://youtu.be/utazxKN7uJA
 # Author: Randall Nagy
-# Version: 1.0
+# Version: 2.0
 #endregion
 
 # Key values are automatically assigned, when absent.
@@ -29,6 +29,7 @@ class Person:
 class MyShelf:
     # Internals:
     #region
+    NEXT_KEY = "next_key"
     def __init__(self, file, object_, sync=False):
         self._file = file
         self._sync = sync
@@ -79,8 +80,17 @@ class MyShelf:
             self._dbm = None
         return False
 
+    def _get_next_key(self):
+        self._open()
+        if not MyShelf.NEXT_KEY in self._dbm:
+            self._dbm[MyShelf.NEXT_KEY] = 0
+        value = int(self._dbm[MyShelf.NEXT_KEY])
+        self._dbm[MyShelf.NEXT_KEY] = value + 1
+        self._close()
+        return str(value)
+
     def _create(self, value):
-        key = str(self.count())
+        key = self._get_next_key()
         if self._open():
             self._dbm[key] = value
             if self._close():
@@ -92,10 +102,10 @@ class MyShelf:
         result['key'] = key
         try:
             if self._open():
-                result[value] = self._dbm[key]
+                result['value'] = self._dbm[key]
                 self._close()
-        except:
-            pass
+        except Exception as ex:
+            print(ex)
         return result
 
     def _update(self, key, value):
@@ -132,6 +142,8 @@ class MyShelf:
     def count(self):
         self._open()
         count = len(self._dbm)
+        if count > 0:
+            count -= 1 # ignore next_key row
         self._close()
         return count
 
@@ -168,6 +180,8 @@ class MyShelf:
             raise Exception("Database not found.")
         for key in self._dbm:
             value = self._dbm[key]
+            if not isinstance(value, self._source['value']):
+                continue
             trool = query(key, value)
             if trool is True:
                 record = self.source()
@@ -197,6 +211,8 @@ class MyShelf:
                     raise Exception("Database not found.")
             for key in self._dbm:
                 value = self._dbm[key]
+                if not isinstance(value, self._source['value']):
+                    continue
                 react = query(key, value)
                 if react == True:
                     value = self._dbm.pop(key)
