@@ -176,37 +176,24 @@ class MyShelf:
         '''
         if not callable(query):
             return 0
-        count = 0; zState = 1
-        while zState > 0:
-            if not self._dbm:
-                if not self._open():
-                    raise Exception("Database not found.")
-            for key in self._dbm:
-                value = self._dbm[key]
-                react = query(key, value)
-                if react == True:
-                    value = self._dbm.pop(key)
-                    if value != None:
-                        count += 1
-                        yield {'key':key, 'value':value} # (ahem)
-                        self._close()
-                        zState = 9
-                        break
-                    else:
-                        zState = 6
-                        self._close()
-                        raise Exception(
-                            f"Unable to remove {record['key']}")
-                elif react == False:
-                    zState = 8
-                    self._close()
-                    break
+        count = 0;
+        self._open()
+        for key in dict(self._dbm):
+            value = self._dbm[key]
+            react = query(key, value)
+            if react == True:
+                value = self._dbm.pop(key) # shallow
+                if value != None:
+                    count += 1
+                    yield {'key':key, 'value':value} # (ahem)
+                    continue
                 else:
-                    zState = 7
-            if zState == 9:
-                zState = 1
-            else:
-                zState = 0
+                    self._close()
+                    raise Exception(
+                        f"Unable to remove {record['key']}")
+            elif react == False:
+                break
+        self._close()
         return count
 
     def deleteTo(self, query, SaveFN): # D2
