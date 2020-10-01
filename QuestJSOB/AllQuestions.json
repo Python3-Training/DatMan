@@ -1,0 +1,20 @@
+[
+   {
+      "ID": 1,
+      "KID": "tbd",
+      "difficulty": "beginner",
+      "association": "_builtins",
+      "status": "gtg",
+      "question": "What is the difference between dir() and help()?",
+      "answer": "undefined"
+   },
+   {
+      "ID": 2,
+      "KID": "tbd",
+      "difficulty": "beginner",
+      "association": "_help",
+      "status": "gtg",
+      "question": "Which command do you use to exit help window or help command prompt?",
+      "answer": "undefined"
+   }
+]
