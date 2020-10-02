@@ -4,6 +4,7 @@
 
 import json
 
+
 class JSOB:
     ''' A quick-fix to enable multi-line strings for Python in J.S.O.N '''
     def __init__(self, file_name, backup=True):
@@ -132,10 +133,15 @@ class Quest:
         
     @staticmethod
     def Renum(values):
-        ''' Demonstrate how do work on a list of Quest()ions '''
+        ''' Demonstrate how to work on a list of Quest()ions '''
         for ss, q in enumerate(values, 1):
             q.ID = ss
         return len(values)
+        
+    @staticmethod
+    def Reorder(values):
+        ''' Demonstrate how to work on a list of Quest()ions '''
+        return sorted(values, key=lambda a: a.status + a.association + a.difficulty)
         
     @staticmethod
     def Sync(values, file_name = FILE_DEFAULT):
@@ -152,17 +158,18 @@ class Quest:
         ''' Get a data-source that can be used by the constructor '''
         return {
             'ID'            : -1,
-            'KID'           : 'tbd',
-            'difficulty'    : 'undefined',
-            'association'   : 'tbd',
-            'status'        : 'undefined',
-            'question'      : 'undefined',
-            'answer'        : 'undefined'
+            'KID'           : 'zkid',
+            'difficulty'    : 'zdifficulty',
+            'association'   : 'zassociation',
+            'status'        : 'zstat',
+            'question'      : 'zquestion',
+            'answer'        : 'zanswer'
             }
 
 if __name__ == '__main__':
     ''' Demonstration: Putting it all together! '''
     data = Quest.Load(Quest.FILE_DEFAULT)
+    data = Quest.Reorder(data)
     Quest.Renum(data)
     Quest.Sync(data)
     for q in data:
