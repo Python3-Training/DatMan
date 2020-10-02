@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # 2020/10/01: Created, Randall Nagy
+# 2020/10/02: New: Load by eval(), save / pretty-print via JSON.
 
 import json
 
@@ -11,7 +12,7 @@ class JSOB:
         self.last_snap = None
         self.last_execption = None
 
-    def snapshot(self):
+    def snapshot(self) -> bool:
         ''' Backup the constructed file to a 'probably unique' file name. '''
         import time; import shutil
         self.last_snap = '~' + self.file + '.' + str(time.time()) + ".tmp"
@@ -21,29 +22,73 @@ class JSOB:
             self.last_execption = ex
             return False
         self.last_execption = None
-        return True        
+        return True
 
-    def load(self) -> str:
-        ''' Reads file, converting JSON's 'human readable' multiline escapes, to inline \\n style. '''
+    def normalize(self, data):
+        ''' Encode the multi-line for Python parsing '''
+        if data.find('\r'):
+            data = data.replace('\r\n', '\n')
+        data = data.replace('\n\n', '\\n')
+        data = data.replace('\t', '\\t')
+        return data
+
+    def decode(self, json_string):
+        ''' Decode the multi-line for HUMAN parsing '''
+        json_string = json_string.replace("\\n", "\\\n")
+        json_string = json_string.replace("\\t", "\t")
+        return json_string.replace("\\\\ ", "\\\n\t")
+
+    def load_by_eval(self) -> list:
+        ''' Parses one dictionary-entry, at-a-time, using eval - NOT THE JSON PARSER. '''
         self.last_execption = None
-        data = ''
+        results = []; errors = 0
         try:
             with open(self.file, encoding='utf-8') as fh:
-                data = fh.read()
-                if data.find('\r'):
-                    data = data.replace('\r\n', '\n')
-                data = data.replace('\\\n', '\\n')
-                data = data.replace('\t', '\\t')
+                ignore = ('[', ']')
+                zlines = list()
+                for ss, line in enumerate(fh, 1):
+                    line = self.normalize(line.strip())
+                    if line in ignore:
+                        continue
+                    if line[0] == '{':
+                        if len(zlines) > 0:
+                            try:
+                                data = ''
+                                for ix in zlines:
+                                    data += ix
+                                    data += ' '
+                                zdict = eval(data)
+                                results.append(zdict)
+                            except Exception as ex:
+                                print('ERROR:', data)
+                                print('\tCAUSE:', ex)
+                                errors += 1
+                        zlines.clear()
+                        zlines.append(line)
+                    else:
+                        if line[0] == "}":
+                            line = "}"
+                        zlines.append(line)
+
         except Exception as ex:
             self.last_exception = ex
-        return data
+        return errors, results
+    
+    def load_by_json(self) -> str:
+        ''' Reads file, converting JSON's 'human readable' multiline escapes, to inline \\n style. '''
+        self.last_execption = None
+        try:
+            with open(self.file, encoding='utf-8') as fh:
+                return self.normalize(fh.read())
+        except Exception as ex:
+            self.last_exception = ex
+        return ''
 
     def sync(self, json_string) -> bool:
         ''' Save a file, backing-up if, and as, desired. '''
         if self.backup:
             self.snapshot()
-        json_string = json_string.replace("\\n", "\\\n")
-        json_string = json_string.replace("\\t", "\t")
+        json_string = self.decode(json_string)
         try:
             with open(self.file, 'w') as fh:
                 print(json_string, file=fh)
@@ -69,13 +114,20 @@ class Quest:
         self.answer     = vals['answer']
 
     @staticmethod
-    def Load(file_name = FILE_DEFAULT):
+    def Load(file_name = FILE_DEFAULT, use_eval=True):
         ''' Load a pre-existing file into a list of Quest()s '''
         results = list()
         coder = JSOB(file_name)
-        data = coder.load()
-        for zdict in json.loads(data, encoding='utf-8'):
-            results.append(Quest(zdict))
+        if use_eval:
+            errors, data = coder.load_by_eval()
+            if errors:
+                raise Exception(f"eval: {errors} errors were found.")
+            for dict_ in data:
+                results.append(Quest(dict_))
+        else:
+            data = coder.load_by_json()
+            for zdict in json.loads(data, encoding='utf-8'):
+                results.append(Quest(zdict))
         return results
         
     @staticmethod
@@ -110,7 +162,7 @@ class Quest:
 
 if __name__ == '__main__':
     ''' Demonstration: Putting it all together! '''
-    data = Quest.Load()
+    data = Quest.Load(Quest.FILE_DEFAULT)
     Quest.Renum(data)
     Quest.Sync(data)
     for q in data:
