@@ -16,5 +16,23 @@
       "status": "gtg",
       "question": "Which command do you use to exit help window or help command prompt?",
       "answer": "undefined"
+   },
+   {
+      "ID": 145,
+      "KID": "tbd",
+      "difficulty": "expert.jokes",
+      "association": "_jokes",
+      "status": "gtg",
+      "question": "How many Enterprise Architects does it take to screw in a light-bulb?",
+      "answer": "Impossible to say: That is an implementation detail."
+   },
+   {
+      "ID": 146,
+      "KID": "tbd",
+      "difficulty": "expert.jokes",
+      "association": "_jokes",
+      "status": "gtg",
+      "question": "How many Agile Architects does it take to screw in a light-bulb?",
+      "answer": "Impossible to say: We won't know until we try to do it."
    }
 ]
