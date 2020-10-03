@@ -152,6 +152,26 @@ class Quest:
         return sorted(values, key=lambda a: a.status + a.association + a.difficulty)
         
     @staticmethod
+    def Tally(values):
+        ''' Demonstrate how to work on a list of Quest()ions '''
+        results = {}
+        for value in values:
+            tags = value.association.split('|')
+            tags.append('level.' + value.difficulty)
+            tags.append('status.' + value.status)
+            for tag in tags:
+                if tag.find('zzend') != -1:
+                    continue
+                if tag in results:
+                    results[tag] += 1
+                else:
+                    results[tag] = 1
+        zresults = []
+        for row in results:
+            zresults.append(f'{results[row]:05}|{row}') 
+        return sorted(zresults)
+    
+    @staticmethod
     def Sync(values, file_name = FILE_DEFAULT):
         ''' Save the data to a multi-line / human editable J.S.O.N database '''
         zlist = list()
@@ -180,6 +200,9 @@ if __name__ == '__main__':
     data = Quest.Reorder(data)
     Quest.Renum(data)
     Quest.Sync(data)
+
     for q in data:
         print(json.dumps(q.__dict__, indent = 3))
     
+    for line in Quest.Tally(data):
+        print(line)
