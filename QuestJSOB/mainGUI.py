@@ -13,6 +13,8 @@ from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
 from collections import OrderedDict
 
+from QuestJSOB.Questions import Quest as Quest
+
 
 class Main(Tk):
 
@@ -21,7 +23,6 @@ class Main(Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ztitle = 'Quest 0.1'
-        self.d2c = None
         self.project = None
         self.zoptions = (
             ("Project",     [("New...", self._on_new),

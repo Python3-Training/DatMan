@@ -15,11 +15,13 @@ import json
 from QuestJSOB.Questions import Quest as Quest
 
 if __name__ == '__main__':
-    ''' Demonstration: Putting it all together! '''
-    data = Quest.Load('./QuestJSOB/'+Quest.FILE_DEFAULT)
+  
+  ''' Demonstration: Putting it all together! '''
+    zfile = './QuestJSOB/'+Quest.FILE_DEFAULT
+    data = Quest.Load(zfile)
     data = Quest.Reorder(data)
     Quest.Renum(data)
-    Quest.Sync(data)
+    Quest.Sync(data, zfile)
 
     for q in data:
         print(json.dumps(q.__dict__, indent = 3))
