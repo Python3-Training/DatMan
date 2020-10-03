@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
+#
+# MISSION: Use a J.S.O.N friendly editor (like Notepad++ - Recommnded!)
+# to spell-check, edit, and otherwise manage a collection of questions.
+# Project @ https://github.com/Python3-Training/DatMan/tree/master/QuestJSOB
+#
 # 2020/10/01: Created, Randall Nagy
 # 2020/10/02: New: Load by eval(), save / pretty-print via JSON.
+# 2020/10/03: New: Categorized question reporting.
 
 import json
 
