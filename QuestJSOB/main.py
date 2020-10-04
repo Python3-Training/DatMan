@@ -14,9 +14,8 @@ sys.path.insert(0, '.')
 import json
 from QuestJSOB.Questions import Quest as Quest
 
-if __name__ == '__main__':
-  
-  ''' Demonstration: Putting it all together! '''
+if __name__ == '__main__': 
+    ''' Demonstration: Putting it all together! '''
     zfile = './QuestJSOB/'+Quest.FILE_DEFAULT
     data = Quest.Load(zfile)
     data = Quest.Reorder(data)

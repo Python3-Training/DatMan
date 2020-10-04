@@ -13,10 +13,11 @@ from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
 from collections import OrderedDict
 
+from QuestJSOB.TkFrames import QuestImport, TkParent
 from QuestJSOB.Questions import Quest as Quest
 
 
-class Main(Tk):
+class Main(Tk, TkParent):
 
     PROJ_TYPE = '.json'
 
@@ -24,6 +25,7 @@ class Main(Tk):
         super().__init__(*args, **kwargs)
         self.ztitle = 'Quest 0.1'
         self.project = None
+        self.pw_view = None
         self.zoptions = (
             ("Project",     [("New...", self._on_new),
                              ("Source...", self._on_open),
@@ -36,12 +38,6 @@ class Main(Tk):
             )
         self.home = "."
 
-        '''
-        activeBackground, foreground, selectColor,
-        activeForeground, highlightBackground, selectBackground,
-        background, highlightColor, selectForeground,
-        disabledForeground, insertBackground, troughColor.
-        '''
         self.tk_setPalette(
                 background="Light Green",# e.g. Global
                 foreground="dark blue",  # e.g. Font color
@@ -69,7 +65,6 @@ class Main(Tk):
         else:
             self.title(self.project)
             self._show_view()
-
     
     def _on_save(self):
         if False:
@@ -87,9 +82,9 @@ class Main(Tk):
             "Sync Source Required.")
             
     def _on_import(self):
-         messagebox.showerror(
-            "TODO: Import",
-            "Sync Source Required.")
+        self.pw_view.destroy()
+        fact = QuestImport()
+        self.pw_view = fact.create_form(self)
          
     def _on_report(self):
         messagebox.showerror(
@@ -104,9 +99,14 @@ class Main(Tk):
     def _show_view(self):
         return False
 
-    def _set_frame(self):
-        zframe = Frame(self, width=600, height=400)
-        zframe.pack(fill=BOTH)
+    def form_done(self, changed, tag, dict_):
+        if self.pw_view:
+            self.pw_view.destroy()
+        self._set_frame_default()
+
+    def _set_frame_default(self):
+        self.pw_view = Frame(self, width=600, height=400)
+        self.pw_view.pack(fill=BOTH)
 
     def begin(self):
         self.title(self.ztitle)
@@ -122,7 +122,7 @@ class Main(Tk):
             for zz in zsub[1]:
                 zdrop.add_command(label=zz[0], command=zz[1])
         self.config(menu=zmain)
-        self._set_frame()
+        self._set_frame_default()
         return True
 
     def run(self):
