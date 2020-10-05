@@ -13,7 +13,9 @@ from tkinter.filedialog import askopenfilename
 from collections import OrderedDict
 
 from QuestJSOB.TkFrames import TkForm
+from QuestJSOB.TkMacro import McText
 from QuestJSOB.Questions import Quest as Quest
+from QuestJSOB.QuestExchange import EncodedJSOB as Decoder
 
 class FrmQuestImport(TkForm):
     ''' Data importation Form '''
@@ -21,20 +23,34 @@ class FrmQuestImport(TkForm):
         self._parent = None
         self._fields = None
         self._frame = None
+        self._name_tag = None
+        self._tcontrol = None
+        self._decoded = None
+        self._encoded = None
 
     def _on_import(self):
-        self._parent.form_done(True,'',{})
+        self._parent.form_done(True,self._name_tag,{})
+
+    def _on_decode(self):
+        block = McText.get(self._tcontrol).strip()
+        if Decoder.is_encoded(block):
+            self._encoded = block
+            self._decoded = Decoder.decode(block)
+            McText.put(self._tcontrol, self._decoded)
+        else:
+            self._parent.show_error('Error', 'Encoded block, not found.')
 
     def _on_quit(self):
-        self._parent.form_done(False,'',{})
+        self._parent.form_done(False,self._name_tag,{})
 
     def destroy(self):
         if self._frame:
             self._frame.destroy()
 
-    def create_form(self, zframe):
+    def create_form(self, zframe, name_tag):
         ''' Creates another TkForm. Return TkForm / self. '''
         self._parent = zframe
+        self._name_tag = name_tag
 
         # Parent Frame
         self._frame = PanedWindow(zframe)
@@ -42,12 +58,13 @@ class FrmQuestImport(TkForm):
 
         # Child Frame
         zLF1 = LabelFrame(self._frame, text=" Quest Block:  ")
-        efn = Text(zLF1, bg='white')
-        efn.grid(row=0, column=1)
+        self._tcontrol = Text(zLF1, bg='white')
+        self._tcontrol.grid(row=0, column=1)
 
         # Child Frame
         zLF2 = LabelFrame(self._frame, text=" Actions ")
         Button(zLF2, text="Import", width=10, command=self._on_import).pack()
+        Button(zLF2, text="Decode", width=10, command=self._on_decode).pack()
         Button(zLF2, text="Quit", width=10, command=self._on_quit).pack()
 
         self._frame.add(zLF2)

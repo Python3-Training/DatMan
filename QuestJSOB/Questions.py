@@ -1,5 +1,5 @@
 import json
-from JSOB import JSOB as JSOB
+from QuestJSOB.JSOB import JSOB as JSOB
 
 class Quest:
     ''' Demonstrate how to use a basic JSON-serialized dictionary. '''

@@ -48,6 +48,9 @@ class Main(Tk, TkParent):
                 activeBackground="gold", # e.g. Menu selections
                 )
 
+    def show_error(self, title, message):
+        messagebox.showerror(title, message)
+
     def _on_new(self):
         self.title(self.ztitle)
         self._show_view()
@@ -61,9 +64,7 @@ class Main(Tk, TkParent):
             return
 
         if True:
-            messagebox.showerror(
-                "W.I.P",
-                "Unable to import " + self.project)
+            self.show_error("W.I.P", "Unable to import " + self.project)
         else:
             self.title(self.project)
             self._show_view()
@@ -81,12 +82,12 @@ class Main(Tk, TkParent):
     def _on_export(self):
         self.pw_view.destroy()
         fact = FrmQuestExport()
-        self.pw_view = fact.create_form(self)
+        self.pw_view = fact.create_form(self, 'export')
         
     def _on_import(self):
         self.pw_view.destroy()
         fact = FrmQuestImport()
-        self.pw_view = fact.create_form(self)
+        self.pw_view = fact.create_form(self, 'import')
          
     def _on_report(self):
         messagebox.showerror(
@@ -102,6 +103,7 @@ class Main(Tk, TkParent):
         return False
 
     def form_done(self, changed, tag, dict_):
+        print(changed, tag)
         if self.pw_view:
             self.pw_view.destroy()
         self._set_frame_default()

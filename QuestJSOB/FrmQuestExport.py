@@ -14,6 +14,7 @@ from collections import OrderedDict
 
 from QuestJSOB.TkFrames import TkForm
 from QuestJSOB.Questions import Quest as Quest
+from QuestJSOB.QuestExchange import EncodedJSOB as Encoder
 
 class FrmQuestExport(TkForm):
     ''' Data importation Form '''
@@ -21,20 +22,23 @@ class FrmQuestExport(TkForm):
         self._parent = None
         self._fields = None
         self._frame = None
+        self._name_tag = None
+        self._tcontrol = None
 
     def _on_export(self):
-        self._parent.form_done(True,'',{})
+        self._parent.form_done(True,self._name_tag,{})
 
     def _on_quit(self):
-        self._parent.form_done(False,'',{})
+        self._parent.form_done(False,self._name_tag,{})
 
     def destroy(self):
         if self._frame:
             self._frame.destroy()
 
-    def create_form(self, zframe):
+    def create_form(self, zframe, name_tag):
         ''' Creates another TkForm. Return TkForm / self. '''
         self._parent = zframe
+        self._name_tag = name_tag
 
         # Parent Frame
         self._frame = PanedWindow(zframe)
@@ -42,8 +46,8 @@ class FrmQuestExport(TkForm):
 
         # Child Frame
         zLF1 = LabelFrame(self._frame, text=" Quest Block:  ")
-        efn = Text(zLF1, bg='white')
-        efn.grid(row=0, column=1)
+        self._tcontrol = Text(zLF1, bg='white')
+        self._tcontrol.grid(row=0, column=1)
 
         # Child Frame
         zLF2 = LabelFrame(self._frame, text=" Actions ")
