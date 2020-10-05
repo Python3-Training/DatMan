@@ -60,11 +60,7 @@ class FrmQuestBrowse(TkForm):
                                text=" Questions  ", 
                                bg='dark green', fg='white')
 
-        self._item_list = Listbox(zlf_items, height=6, width=100)
-        self._item_list.grid(row=0, column=1, sticky=N+E)
-        sb = Scrollbar(zlf_items, orient="vertical")
-        sb.grid(row=0, column=0, padx=3, sticky=NS)
-        sb.config(command=self._item_list.yview)
+        self._item_list = McListbox.create(zlf_items)
 
         # LabelFrame Center
         zlf_item = LabelFrame(self._frame, text=" Quest  ",
@@ -101,7 +97,7 @@ class FrmQuestBrowse(TkForm):
         self._fields.extend(quest_data)
         short = list()
         for quest in quest_data:
-            short.append(quest.question[0:80] + '...')
+            short.append(quest.question[0:80] + ' ...')
         McListbox.set(self._item_list, short)
         return True
 

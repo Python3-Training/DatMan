@@ -3,8 +3,18 @@ from tkinter import *
 class McListbox:
 
     @staticmethod
+    def create(parent_frame):
+        ''' Wire-up a Listbox + Scrollbar '''
+        sb = Scrollbar(parent_frame, orient="vertical")
+        sb.grid(row=0, column=0, padx=3, sticky=NS)
+        _item_list = Listbox(parent_frame, height=6, width=100, yscrollcommand=sb.set)
+        _item_list.grid(row=0, column=1, sticky=N+E)
+        sb.config(command=_item_list.yview)
+        return _item_list
+
+    @staticmethod
     def set(list_box, items):
-        list_box.delete(0, LAST)
+        list_box.delete(0, len(items))
         for ss, item in enumerate(items, 0):
             list_box.insert(ss, item)
 
