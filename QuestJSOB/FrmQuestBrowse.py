@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Randall Nagy
-# Mission: Manage the Quest()ion importation, ONLY!
+# Mission: Browse the Quest()ions - ONLY!
 
 import os
 import sys
@@ -16,7 +16,7 @@ from QuestJSOB.TkMacro import McText
 from QuestJSOB.Questions import Quest as Quest
 from QuestJSOB.QuestExchange import EncodedJSOB as Decoder
 
-class FrmQuestImport(TkForm):
+class FrmQuestBrowse(TkForm):
     ''' Data importation Form '''
     def __init__(self):
         self._parent = None
@@ -26,18 +26,13 @@ class FrmQuestImport(TkForm):
         self._tcontrol = None
         self._decoded = None
         self._encoded = None
+        self._item_list = None
 
-    def _on_import(self):
-        self._parent.form_done(True,self._name_tag,{})
+    def _on_copy(self):
+        self._parent.show_error('TODO', '_on_copy()')
 
-    def _on_decode(self):
-        block = McText.get(self._tcontrol).strip()
-        if Decoder.is_encoded(block):
-            self._encoded = block
-            self._decoded = Decoder.decode(block)
-            McText.put(self._tcontrol, self._decoded)
-        else:
-            self._parent.show_error('Error', 'Encoded block, not found.')
+    def _on_hide(self):
+        self._parent.show_error('TODO', '_on_hide()')
 
     def _on_quit(self):
         self._parent.form_done(False,self._name_tag,{})
@@ -53,21 +48,37 @@ class FrmQuestImport(TkForm):
 
         # Parent Frame
         self._frame = PanedWindow(zframe)
+
+        # LabelFrame Sidebar
+        zlf_sidem = LabelFrame(self._frame, text=" Actions   ",
+                               bg='gold', fg='dark green')
+        Button(zlf_sidem, text="Copy", width=10, command=self._on_copy).pack()
+        Button(zlf_sidem, text="Hide", width=10, command=self._on_hide).pack()
+
+        # LabelFrame Top
+        zlf_items = LabelFrame(self._frame, 
+                               text=" Questions  ", 
+                               bg='dark green', fg='white')
+
+        self._item_list = Listbox(zlf_items, height=5, width=100)
+        self._item_list.grid(row=0, column=1, sticky=N+E)
+        self._item_list.insert(0, '1', 'two', 'three', 'q', 'u', 'e', 's', 't',)
+
+        # LabelFrame Center
+        zlf_item = LabelFrame(self._frame, text=" Quest  ",
+                              bg='dark green', fg='white')
+
+        self._tcontrol = Text(zlf_item, bg='light gray')
+        self._tcontrol.grid(row=0, column=0, sticky=N+E)
+        self._tcontrol.config(state=DISABLED)
+
+        self._frame.add(zlf_sidem)
+        self._frame.add(zlf_items)
+        self._frame.add(zlf_item)
+        zlf_sidem.grid(row=0, column=0, sticky=N+E)
+        zlf_items.grid(row=0, column=1, sticky=N+W)
+        zlf_item.grid(row=1, column=1)
         self._frame.pack(anchor=N, fill=BOTH, expand=True)
-
-        # Child Frame
-        zLF1 = LabelFrame(self._frame, text=" Quest Block:  ")
-        self._tcontrol = Text(zLF1, bg='white')
-        self._tcontrol.grid(row=0, column=1)
-
-        # Child Frame
-        zLF2 = LabelFrame(self._frame, text=" Actions ")
-        Button(zLF2, text="Import", width=10, command=self._on_import).pack()
-        Button(zLF2, text="Decode", width=10, command=self._on_decode).pack()
-        Button(zLF2, text="Quit", width=10, command=self._on_quit).pack()
-
-        self._frame.add(zLF2)
-        self._frame.add(zLF1)
         return self
 
     def get_dict(self, dict_) -> bool:

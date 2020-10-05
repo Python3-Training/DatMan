@@ -1,3 +1,15 @@
+from tkinter import *
+
+class McMenu:
+    ''' Make Menu() management a tad easier.
+    '''
+    @staticmethod
+    def enable_item(menubar, tag_name):
+        menubar.entryconfig(tag_name, state="normal")
+
+    @staticmethod
+    def disable_item(menubar, tag_name):
+        menubar.entryconfig(tag_name, state="disabled")
 
 class McText:
     ''' Help the Text() work as in other platforms.

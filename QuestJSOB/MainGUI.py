@@ -13,7 +13,9 @@ from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
 from collections import OrderedDict
 
+from QuestJSOB.TkMacro import McMenu
 from QuestJSOB.TkFrames import TkParent
+from QuestJSOB.FrmQuestBrowse import FrmQuestBrowse
 from QuestJSOB.FrmQuestImport import FrmQuestImport
 from QuestJSOB.FrmQuestExport import FrmQuestExport
 from QuestJSOB.Questions import Quest as Quest
@@ -26,8 +28,9 @@ class Main(Tk, TkParent):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ztitle = 'Quest 0.1'
-        self.project = None
-        self.pw_view = None
+        self._menu_main = None
+        self.project    = None
+        self.pw_view    = None
         self.zoptions = (
             ("Project",     [("New...", self._on_new),
                              ("Source...", self._on_open),
@@ -50,6 +53,14 @@ class Main(Tk, TkParent):
 
     def show_error(self, title, message):
         messagebox.showerror(title, message)
+
+    def disable_menu(self):
+        McMenu.disable_item(self._menu_main, 'Tools')
+        McMenu.disable_item(self._menu_main, 'Project')
+
+    def enable_menu(self):
+        McMenu.enable_item(self._menu_main, 'Tools')
+        McMenu.enable_item(self._menu_main, 'Project')
 
     def _on_new(self):
         self.title(self.ztitle)
@@ -75,29 +86,25 @@ class Main(Tk, TkParent):
                 "Project Saved",
                 "Project file saved.")
         else:
-            messagebox.showerror(
-                "No Data",
-                "Sync Source Required.")           
+            self.show_error("No Data", "Synchronization source required.")         
 
     def _on_export(self):
         self.pw_view.destroy()
         fact = FrmQuestExport()
         self.pw_view = fact.create_form(self, 'export')
+        self.disable_menu()
         
     def _on_import(self):
         self.pw_view.destroy()
         fact = FrmQuestImport()
         self.pw_view = fact.create_form(self, 'import')
+        self.disable_menu()
          
     def _on_report(self):
-        messagebox.showerror(
-            "TODO: Report",
-            "Sync Source Required.")
+        self.show_error("TODO: Report", "Synchronization Source Required.")
 
     def _on_about(self):
-        messagebox.showinfo(
-            self.ztitle,
-            "Mode: Framework Testing")
+        messagebox.showinfo(self.ztitle, "Mode: Framework Testing")
 
     def _show_view(self):
         return False
@@ -109,8 +116,9 @@ class Main(Tk, TkParent):
         self._set_frame_default()
 
     def _set_frame_default(self):
-        self.pw_view = Frame(self, width=600, height=400)
-        self.pw_view.pack(fill=BOTH)
+        fact = FrmQuestBrowse()
+        self.pw_view = fact.create_form(self, 'browse')
+        self.enable_menu()
 
     def begin(self):
         self.title(self.ztitle)
@@ -119,13 +127,13 @@ class Main(Tk, TkParent):
             self.wm_iconphoto(self, image)
         except:
             pass
-        zmain = Menu(self)
+        self._menu_main = Menu(self)
         for zsub in self.zoptions:
-            zdrop = Menu(zmain, tearoff=False)
-            zmain.add_cascade(label=zsub[0], menu=zdrop)
+            zdrop = Menu(self._menu_main, tearoff=False)
+            self._menu_main.add_cascade(label=zsub[0], menu=zdrop)
             for zz in zsub[1]:
                 zdrop.add_command(label=zz[0], command=zz[1])
-        self.config(menu=zmain)
+        self.config(menu=self._menu_main)
         self._set_frame_default()
         return True
 

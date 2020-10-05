@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Randall Nagy
-# Mission: Create a reusable graphical user interface.
-# Re-used: https://github.com/soft9000/PyDAO/blob/master/SqltDAO/main.py
+# Mission: Manage the Quest()ion exportation - ONLY!
 
 import os
 import sys
