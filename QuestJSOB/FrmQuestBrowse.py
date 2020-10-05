@@ -12,7 +12,7 @@ from tkinter.filedialog import askopenfilename
 from collections import OrderedDict
 
 from QuestJSOB.TkFrames import TkForm
-from QuestJSOB.TkMacro import McText
+from QuestJSOB.TkMacro import *
 from QuestJSOB.Questions import Quest as Quest
 from QuestJSOB.QuestExchange import EncodedJSOB as Decoder
 
@@ -20,7 +20,7 @@ class FrmQuestBrowse(TkForm):
     ''' Data importation Form '''
     def __init__(self):
         self._parent = None
-        self._fields = None
+        self._fields = list()
         self._frame = None
         self._name_tag = None
         self._tcontrol = None
@@ -60,9 +60,11 @@ class FrmQuestBrowse(TkForm):
                                text=" Questions  ", 
                                bg='dark green', fg='white')
 
-        self._item_list = Listbox(zlf_items, height=5, width=100)
+        self._item_list = Listbox(zlf_items, height=6, width=100)
         self._item_list.grid(row=0, column=1, sticky=N+E)
-        self._item_list.insert(0, '1', 'two', 'three', 'q', 'u', 'e', 's', 't',)
+        sb = Scrollbar(zlf_items, orient="vertical")
+        sb.grid(row=0, column=0, padx=3, sticky=NS)
+        sb.config(command=self._item_list.yview)
 
         # LabelFrame Center
         zlf_item = LabelFrame(self._frame, text=" Quest  ",
@@ -81,20 +83,25 @@ class FrmQuestBrowse(TkForm):
         self._frame.pack(anchor=N, fill=BOTH, expand=True)
         return self
 
-    def get_dict(self, dict_) -> bool:
+    def get_data(self, quest_data) -> bool:
         ''' Return: True if the data is assigned '''
-        if not isinstance(dict_, dict):
+        if not isinstance(quest_data, dict):
             return False
-        dict_.update(self._fields)
+        quest_data.clear()
+        quest_data.extend(self._fields)
         return True
 
-    def put_dict(self, dict_) -> bool:
+    def put_data(self, quest_data) -> bool:
         ''' Return: True if the data is able to be used '''
-        if not isinstance(dict_, dict):
+        if not isinstance(quest_data, list):
             return False
-        if len(dict_) == 0:
+        if not quest_data:
             return False
         self._fields.clear()
-        self._fields.update(dict_)
+        self._fields.extend(quest_data)
+        short = list()
+        for quest in quest_data:
+            short.append(quest.question[0:80] + '...')
+        McListbox.set(self._item_list, short)
         return True
 

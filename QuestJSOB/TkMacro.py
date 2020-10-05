@@ -1,5 +1,13 @@
 from tkinter import *
 
+class McListbox:
+
+    @staticmethod
+    def set(list_box, items):
+        list_box.delete(0, LAST)
+        for ss, item in enumerate(items, 0):
+            list_box.insert(ss, item)
+
 class McMenu:
     ''' Make Menu() management a tad easier.
     '''

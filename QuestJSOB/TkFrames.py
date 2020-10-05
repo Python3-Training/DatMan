@@ -13,7 +13,7 @@ class TkParent(ABC):
         pass
 
     @abstractmethod
-    def form_done(self, changed, tag, dict_):
+    def form_done(self, changed, tag, data):
         ''' TkForm / Child Forms: Exit routine callback. '''
         pass
 
@@ -36,13 +36,13 @@ class TkForm(ABC):
         pass
 
     @abstractmethod
-    def get_dict(self, dict_) -> bool:
+    def get_data(self, data) -> bool:
         ''' Usually called by TkParent.
         Return True if the data is assigned '''
         pass
 
     @abstractmethod
-    def put_dict(self, dict_) -> bool:
+    def put_data(self, data) -> bool:
         ''' Usually called by TkParent.
         Return True if the data is able to be used '''
         pass

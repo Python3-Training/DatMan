@@ -70,20 +70,21 @@ class FrmQuestImport(TkForm):
         self._frame.add(zLF1)
         return self
 
-    def get_dict(self, dict_) -> bool:
+    def get_data(self, quest_data) -> bool:
         ''' Return: True if the data is assigned '''
-        if not isinstance(dict_, dict):
+        if not isinstance(quest_data, list):
             return False
-        dict_.update(self._fields)
+        quest_data.clear()
+        quest_data.extend(self._fields)
         return True
 
-    def put_dict(self, dict_) -> bool:
+    def put_data(self, quest_data) -> bool:
         ''' Return: True if the data is able to be used '''
-        if not isinstance(dict_, dict):
+        if not isinstance(quest_data, list):
             return False
-        if len(dict_) == 0:
+        if not quest_data:
             return False
         self._fields.clear()
-        self._fields.update(dict_)
+        self._fields.extend(quest_data)
         return True
 

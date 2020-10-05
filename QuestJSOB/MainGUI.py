@@ -28,6 +28,7 @@ class Main(Tk, TkParent):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ztitle = 'Quest 0.1'
+        self._quest_data = list()
         self._menu_main = None
         self.project    = None
         self.pw_view    = None
@@ -73,12 +74,8 @@ class Main(Tk, TkParent):
             )
         if not self.project:
             return
-
-        if True:
-            self.show_error("W.I.P", "Unable to import " + self.project)
-        else:
-            self.title(self.project)
-            self._show_view()
+        
+        self._show_view()
     
     def _on_save(self):
         if False:
@@ -106,10 +103,20 @@ class Main(Tk, TkParent):
     def _on_about(self):
         messagebox.showinfo(self.ztitle, "Mode: Framework Testing")
 
-    def _show_view(self):
-        return False
+    def _show_view(self) -> None:
+        if not os.path.exists(self.project):
+            self.show_error("File not Found", "Unable to import " + self.project)
+        else:
+            self._quest_data = Quest.Load(self.project)
+            if not self._quest_data:
+                self.show_error("No Data", "Data not found in " + self.project)
+                return
+            self.title(self.project)
+            if not self.pw_view.put_data(self._quest_data):
+                self.show_error('Data Format Error', 'Unable to load questions from ' + self.project)
 
-    def form_done(self, changed, tag, dict_):
+
+    def form_done(self, changed, tag, quest_data):
         print(changed, tag)
         if self.pw_view:
             self.pw_view.destroy()
@@ -118,6 +125,7 @@ class Main(Tk, TkParent):
     def _set_frame_default(self):
         fact = FrmQuestBrowse()
         self.pw_view = fact.create_form(self, 'browse')
+        self.pw_view.put_data(self._quest_data)
         self.enable_menu()
 
     def begin(self):
