@@ -1,43 +1,55 @@
 [
-   {
-      "ID": 1,
-      "KID": "tbd",
-      "difficulty": "beginner",
-      "association": "_builtins",
-      "status": "gtg",
-      "question": "What is the \
+{
+   "ID": 1,
+   "KID": "tbd",
+   "difficulty": "beginner",
+   "association": "_builtins",
+   "status": "gtg",
+   "question": "What is the \
 	  difference between dir() \
 	  and help()?\
 	  ",
-      "answer": "undefined"
-   },
-   {
-      "ID": 2,
-      "KID": "tbd",
-      "difficulty": "beginner",
-      "association": "_help",
-      "status": "gtg",
-      "question": "Which command do you use \
+   "answer": "undefined"
+},
+{
+   "ID": 2,
+   "KID": "tbd",
+   "difficulty": "beginner",
+   "association": "_help",
+   "status": "gtg",
+   "question": "Which command do you use \
 	  to exit help window or help \
 	  command prompt?",
-      "answer": "undefined"
-   },
-   {
-      "ID": 3,
-      "KID": "tbd",
-      "difficulty": "expert.jokes",
-      "association": "_jokes",
-      "status": "gtg",
-      "question": "How many Enterprise Architects does it take to screw in a light-bulb?",
-      "answer": "Impossible to say: That is an implementation detail."
-   },
-   {
-      "ID": 4,
-      "KID": "tbd",
-      "difficulty": "expert.jokes",
-      "association": "_jokes",
-      "status": "gtg",
-      "question": "How many Agile Architects does it take to screw in a light-bulb?",
-      "answer": "Impossible to say: We won't know until we try to do it."
-   }
+   "answer": "undefined"
+},
+{
+   "ID": 3,
+   "KID": "tbd",
+   "difficulty": "expert.jokes",
+   "association": "_jokes",
+   "status": "gtg",
+   "question": "How many Enterprise Architects does it take to screw in a light-bulb?",
+   "answer": "Impossible to say: That is an implementation detail."
+},
+{
+   "ID": 4,
+   "KID": "tbd",
+   "difficulty": "expert.jokes",
+   "association": "_jokes",
+   "status": "gtg",
+   "question": "How many Agile Architects does it take to screw in a light-bulb?",
+   "answer": "Impossible to say: We won't know until we try to do it."
+},
+{
+   "ID": -1,
+   "KID": "tbd",
+   "difficulty": "intermediate.jokes",
+   "association": "_jokes",
+   "status": "gtg",
+   "question": "Why is a python, \
+   on dry land?",
+   "answer": "Because it is above \
+   `C` level..."
+}
 ]
+

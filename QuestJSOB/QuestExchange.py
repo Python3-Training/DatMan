@@ -19,7 +19,6 @@ class EncodedJSOB:
             return False
         clear = str(quest_obj)
         data = JSOB.to_human(clear)
-        print('to_share\t', data)
         return EncodedJSOB.encode(data)
 
     @staticmethod
@@ -27,9 +26,7 @@ class EncodedJSOB:
         ''' Copy-in the human to_share(), to an object. '''
         data = EncodedJSOB.decode(block)
         try:
-            print('from_share\t', data)
             data = JSOB.human_to_eval(data)
-            print('xrom_share\t', data)
             return Quest(eval(data))
         except:
             pass

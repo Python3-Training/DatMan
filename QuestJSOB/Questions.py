@@ -76,11 +76,14 @@ class Quest:
     @staticmethod
     def Sync(values, file_name = FILE_DEFAULT):
         ''' Save the data to a multi-line / human editable J.S.O.N database '''
-        zlist = list()
-        for obj in values:
-            zlist.append(obj.__dict__)
+        data = '['
+        for ss, obj in enumerate(values):
+            if ss:
+                data += ','
+            data += '\n'
+            data += str(obj)
+        data += '\n]\n'
         coder = JSOB(file_name)
-        data = json.dumps(zlist, indent=3)
         return coder.sync(data)
         
     @staticmethod

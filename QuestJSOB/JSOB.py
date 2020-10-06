@@ -136,7 +136,7 @@ class JSOB:
         ''' Save a file, backing-up if, and as, desired. '''
         if self.backup:
             self.snapshot()
-        json_string = JSOB.from_human_line(json_string)
+        # json_string = JSOB.from_human_line(json_string)
         try:
             with open(self.file, 'w') as fh:
                 print(json_string, file=fh)
@@ -145,8 +145,3 @@ class JSOB:
             self.last_exception = ex
         return False
 
-if __name__ == '__main__':
-    data = '"We have\\ \nTESTED\\\n' * 3
-    encoded = JSOB.from_human_line(data)
-    test1 = JSOB.to_human(encoded)
-    assert(test1 == data)
