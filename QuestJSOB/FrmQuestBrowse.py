@@ -46,18 +46,40 @@ class FrmQuestBrowse(TkForm):
                 "Please select an item to encode?")
             return
         block = McText.get(self._text_item).strip()
-        self._encoded = EncodedJSOB.encode(block)
+        if EncodedJSOB.is_encoded(block):
+            return
+        encoded = EncodedJSOB.encode(block)
         McText.unlock(self._text_item)
-        McText.put(self._text_item, self._encoded)
+        McText.put(self._text_item, encoded)
         McText.lock(self._text_item)
 
     def _on_share_decode(self):
         if not McText.has_text(self._text_item):
+            return
+        text = McText.get(self._text_item).strip()
+        if not EncodedJSOB.is_encoded(text):
             self._parent.show_error(
-                "No Data", 
-                "Please paste an item to decode?")
+                "Unsupported Format", 
+                "Please paste an Encoded JSOB question?")
+            return
+        zdict = EncodedJSOB.decode(text)
+        if not zdict:
+            self._parent.show_error(
+                "Unsuported Format", 
+                "Unknown JSOB format. Time to upgrade?")
             return
         self._pw_quest = None
+        try:
+            data = eval(zdict)
+            self._pw_quest = Quest(data)
+            block = str(self._pw_quest)
+            McText.upl(self._text_item, block)
+            self._parent.title('JSOB Question Decoded.')
+            return
+        except:
+            self._parent.show_error(
+                "Unsuported Dictionary Format", 
+                "Unsuported JSOB data. Time to upgrade?")
 
     def _on_share_import(self):
         if not McText.has_text(self._text_item):
@@ -68,7 +90,11 @@ class FrmQuestBrowse(TkForm):
         self._pw_quest = None
 
     def _on_clip_paste(self):
-        text = self._parent.clipboard_get().strip()
+        text = None
+        try:
+            text = self._parent.clipboard_get().strip()
+        except:
+            pass
         if not text:
             self._parent.show_error(
                 "No Data", 
@@ -87,6 +113,7 @@ class FrmQuestBrowse(TkForm):
             self._parent.show_error(
                 "No Question", 
                 "Please select a question to copy to the clipboard.")
+            return
         str_ = McText.get(self._text_item).strip()
         self._parent.clipboard_clear()
         self._parent.clipboard_append(str_)
