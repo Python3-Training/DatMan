@@ -16,6 +16,14 @@ class Quest:
         self.question   = vals['question']
         self.answer     = vals['answer']
 
+    def __str__(self):
+        message = json.dumps(self.__dict__, indent=3)
+        return JSOB.decode(message)
+
+    def __repr__(self):
+        message = str(self.__dict__)
+        return JSOB.decode(message)
+
     @staticmethod
     def Load(file_name = FILE_DEFAULT, use_eval=True):
         ''' Load a pre-existing file into a list of Quest()s '''

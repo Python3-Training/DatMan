@@ -16,7 +16,7 @@ class EncodedJSOB:
         for ss, ch in enumerate(block,1):
             result += f'0y{ord(ch)}'
             if ss % 15 == 0:
-                result += '$\n'
+                result += '$'
             else:
                 result += '|'
         result += '\n$END_BLOCK\n'

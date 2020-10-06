@@ -13,11 +13,9 @@ from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
 from collections import OrderedDict
 
-from QuestJSOB.TkMacro import McMenu
+from QuestJSOB.TkMacro import McMenu, McText
 from QuestJSOB.TkFrames import TkParent
 from QuestJSOB.FrmQuestBrowse import FrmQuestBrowse
-from QuestJSOB.FrmQuestImport import FrmQuestImport
-from QuestJSOB.FrmQuestExport import FrmQuestExport
 from QuestJSOB.Questions import Quest as Quest
 
 
@@ -36,9 +34,7 @@ class Main(Tk, TkParent):
             ("Project",     [("New...", self._on_new),
                              ("Source...", self._on_open),
                              ("Sync...", self._on_save)]),
-            ("Tools",       [("Export...", self._on_export),
-                             ("Import...", self._on_import),
-                             ("Report...", self._on_report)]),
+            ("Tools",       [("Report...", self._on_report)]),
             ("About",       [("About " + self.ztitle, self._on_about),
                              ("Quit", self.destroy)]),
             )
@@ -85,20 +81,16 @@ class Main(Tk, TkParent):
         else:
             self.show_error("No Data", "Synchronization source required.")         
 
-    def _on_export(self):
-        self.pw_view.destroy()
-        fact = FrmQuestExport()
-        self.pw_view = fact.create_form(self, 'export')
-        self.disable_menu()
-        
-    def _on_import(self):
-        self.pw_view.destroy()
-        fact = FrmQuestImport()
-        self.pw_view = fact.create_form(self, 'import')
-        self.disable_menu()
-         
     def _on_report(self):
-        self.show_error("TODO: Report", "Synchronization Source Required.")
+      dlg = Toplevel(master=self)
+      dlg.title("Database Status")
+      text = Text(dlg, width=50, height=12)
+      McText.put(text, 'Booper')
+      McText.lock(text)
+      text.pack()
+      Button(dlg, text="Okay", command=dlg.destroy).pack()
+      dlg.grab_set() # modal
+      self.wait_window(dlg)
 
     def _on_about(self):
         messagebox.showinfo(self.ztitle, "Mode: Framework Testing")

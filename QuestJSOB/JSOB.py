@@ -20,7 +20,8 @@ class JSOB:
         self.last_execption = None
         return True
 
-    def normalize(self, data):
+    @staticmethod
+    def encode(data) -> str:
         ''' Encode the multi-line for Python parsing '''
         if data.find('\r'):
             data = data.replace('\r\n', '\n')
@@ -28,7 +29,8 @@ class JSOB:
         data = data.replace('\t', '\\t')
         return data
 
-    def decode(self, json_string):
+    @staticmethod
+    def decode(json_string) ->str:
         ''' Decode the multi-line for HUMAN parsing '''
         json_string = json_string.replace("\\n", "\\\n")
         json_string = json_string.replace("\\t", "\t")
@@ -50,7 +52,7 @@ class JSOB:
                 ignore = ('[', ']')
                 zlines = list()
                 for ss, line in enumerate(fh, 1):
-                    line = self.normalize(line.strip())
+                    line = JSOB.encode(line.strip())
                     if line in ignore:
                         continue
                     if line[0] == '{':
@@ -83,7 +85,7 @@ class JSOB:
         self.last_execption = None
         try:
             with open(self.file, encoding='utf-8') as fh:
-                return self.normalize(fh.read())
+                return self.encode(fh.read())
         except Exception as ex:
             self.last_exception = ex
         return ''
@@ -92,7 +94,7 @@ class JSOB:
         ''' Save a file, backing-up if, and as, desired. '''
         if self.backup:
             self.snapshot()
-        json_string = self.decode(json_string)
+        json_string = JSOB.decode(json_string)
         try:
             with open(self.file, 'w') as fh:
                 print(json_string, file=fh)
