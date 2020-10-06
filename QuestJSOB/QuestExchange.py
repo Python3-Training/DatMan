@@ -1,3 +1,5 @@
+from QuestJSOB.Questions import Quest
+from QuestJSOB.JSOB import JSOB
 
 class EncodedJSOB:
     ''' Rather than fight whitespaces (etc.) here is
@@ -9,6 +11,29 @@ class EncodedJSOB:
             if message.find(char) == -1:
                 return False
         return True
+
+    @staticmethod
+    def to_share(quest_obj):
+        ''' Copy-out object to the human-sharable format. '''
+        if not isinstance(quest_obj, Quest):
+            return False
+        clear = str(quest_obj)
+        data = JSOB.to_human(clear)
+        print('to_share\t', data)
+        return EncodedJSOB.encode(data)
+
+    @staticmethod
+    def from_share(block):
+        ''' Copy-in the human to_share(), to an object. '''
+        data = EncodedJSOB.decode(block)
+        try:
+            print('from_share\t', data)
+            data = JSOB.human_to_eval(data)
+            print('xrom_share\t', data)
+            return Quest(eval(data))
+        except:
+            pass
+        return None
 
     @staticmethod 
     def encode(block):
@@ -34,10 +59,3 @@ class EncodedJSOB:
                     result += chr(num)
         return result
 
-if __name__ == '__main__':
-    test1 = 'This is\n?\ta\n?\rTEsT!' * 10
-    block = EncodedJSOB.encode(test1)
-    print(block)
-    result1 = EncodedJSOB.decode(block)
-    assert(test1 == result1)
-    print('Testing success.')

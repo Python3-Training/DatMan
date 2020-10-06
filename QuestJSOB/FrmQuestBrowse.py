@@ -28,50 +28,45 @@ class FrmQuestBrowse(TkForm):
         self._lstbx_items = None
 
     def _on_browse_click(self, vevent):
-        line = McListbox.get_selected(self._lstbx_items)
-        if line:
-            pos = line.find('\t')
-            if pos == -1:
-                return
-            else:
-                index = int(line[0:pos]) - 1
-                self._pw_quest = self._data[index]
-                block = str(self._pw_quest)
-                McText.upl(self._text_item, block)
+        try:
+            line = McListbox.get_selected(self._lstbx_items)
+            if line:
+                pos = line.find('\t')
+                if pos == -1:
+                    return
+                else:
+                    index = int(line[0:pos]) - 1
+                    self._pw_quest = self._data[index]
+                    block = str(self._pw_quest)
+                    McText.upl(self._text_item, block)
+        except:
+            pass
 
-    def _on_share_encode(self):
-        if not McText.has_text(self._text_item):
+    def _on_sel_encode(self):
+        if not self._pw_quest:
             self._parent.show_error(
                 "No Data", 
                 "Please select an item to encode?")
             return
-        block = McText.get(self._text_item).strip()
-        if EncodedJSOB.is_encoded(block):
-            return
-        encoded = EncodedJSOB.encode(block)
+        encoded = EncodedJSOB.to_share(self._pw_quest)
         McText.unlock(self._text_item)
         McText.put(self._text_item, encoded)
         McText.lock(self._text_item)
 
-    def _on_share_decode(self):
+    def _on_text_decode(self):
         if not McText.has_text(self._text_item):
             return
         text = McText.get(self._text_item).strip()
         if not EncodedJSOB.is_encoded(text):
-            self._parent.show_error(
-                "Unsupported Format", 
-                "Please paste an Encoded JSOB question?")
-            return
-        zdict = EncodedJSOB.decode(text)
-        if not zdict:
-            self._parent.show_error(
-                "Unsuported Format", 
-                "Unknown JSOB format. Time to upgrade?")
             return
         self._pw_quest = None
         try:
-            data = eval(zdict)
-            self._pw_quest = Quest(data)
+            self._pw_quest = EncodedJSOB.from_share(text)
+            if not self._pw_quest:
+                self._parent.show_error(
+                    "Unsuported Format", 
+                    "Unknown JSOB format. Time to upgrade?")
+                return
             block = str(self._pw_quest)
             McText.upl(self._text_item, block)
             self._parent.title('JSOB Question Decoded.')
@@ -114,9 +109,11 @@ class FrmQuestBrowse(TkForm):
                 "No Question", 
                 "Please select a question to copy to the clipboard.")
             return
-        str_ = McText.get(self._text_item).strip()
+        encoded = McText.get(self._text_item).strip()
+        if not EncodedJSOB.is_encoded(encoded):
+            encoded = EncodedJSOB.encode(encoded)
         self._parent.clipboard_clear()
-        self._parent.clipboard_append(str_)
+        self._parent.clipboard_append(encoded)
         self._parent.title(f"Copied {self._pw_quest.ID} to Clipboard")
 
     def _on_quit(self):
@@ -137,8 +134,8 @@ class FrmQuestBrowse(TkForm):
         # LabelFrame Sidebar
         zlf_sidem = LabelFrame(self._frame, text=" Actions   ",
                                bg='gold', fg='dark green')
-        Button(zlf_sidem, text="Encode", width=10, command=self._on_share_encode).pack()
-        Button(zlf_sidem, text="Decode", width=10, command=self._on_share_decode).pack()
+        Button(zlf_sidem, text="Encode", width=10, command=self._on_sel_encode).pack()
+        Button(zlf_sidem, text="Decode", width=10, command=self._on_text_decode).pack()
         Button(zlf_sidem, text="Import", width=10, command=self._on_share_import).pack()
         Button(zlf_sidem, text="Copy", width=10, command=self._on_clip_copy).pack()
         Button(zlf_sidem, text="Paste", width=10, command=self._on_clip_paste).pack()

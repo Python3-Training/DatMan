@@ -21,7 +21,38 @@ class JSOB:
         return True
 
     @staticmethod
-    def encode(data) -> str:
+    def human_to_eval(data) -> str:
+        ''' Encode a multi-line block, for eval() parsing '''
+        results = ''
+        if data.find('\r'):
+            data = data.replace('\r\n', '\n')
+        buffer = ''
+        for seg in data.split('\n'):
+            if seg.endswith('\\'):
+                seg += '\n'
+                buffer += seg
+                continue
+            if buffer:
+                buffer += seg
+                seg = buffer
+                buffer = ''
+            seg = seg.replace('\\\n', r'\\n')
+            seg = seg.replace('\t', r'\t')
+            results += seg
+        return results
+
+    @staticmethod
+    def from_human_line(data) -> str:
+        ''' Encode a single-line for json parsing '''
+        if data.find('\r'):
+            data = data.replace('\r\n', '\n')
+        data = data.replace('\\\n', r'\\n')
+        data = data.replace('\n', r'\n')
+        data = data.replace('\t', r'\t')
+        return data
+
+    @staticmethod
+    def __from_human(data) -> str:
         ''' Encode the multi-line for Python parsing '''
         if data.find('\r'):
             data = data.replace('\r\n', '\n')
@@ -30,11 +61,12 @@ class JSOB:
         return data
 
     @staticmethod
-    def decode(json_string) ->str:
+    def to_human(json_string) ->str:
         ''' Decode the multi-line for HUMAN parsing '''
-        json_string = json_string.replace("\\n", "\\\n")
-        json_string = json_string.replace("\\t", "\t")
-        return json_string.replace("\\\\ ", "\\\n\t")
+        json_string = json_string.replace(r"\n", "\n")
+        json_string = json_string.replace(r"\t", "\t")
+        json_string = json_string.replace(r"\\n", "\\n")
+        return json_string
 
     def parse_one(self, zlines) -> dict:
         data = ''
@@ -51,14 +83,23 @@ class JSOB:
             with open(self.file, encoding='utf-8') as fh:
                 ignore = ('[', ']')
                 zlines = list()
+                buffer = ''
                 for ss, line in enumerate(fh, 1):
-                    line = JSOB.encode(line.strip())
+                    if line.endswith('\\\n'):
+                        buffer += line
+                        continue
+                    if buffer:
+                        buffer += line
+                        line = buffer
+                        buffer = ''
+                    line = JSOB.from_human_line(line.strip())
                     if line in ignore:
                         continue
                     if line[0] == '{':
                         if len(zlines) > 0:
                             try:
-                                results.append(self.parse_one(zlines))
+                                quest = self.parse_one(zlines)
+                                results.append(quest)
                             except Exception as ex:
                                 print('ERROR:', data)
                                 print('\tCAUSE:', ex)
@@ -71,7 +112,8 @@ class JSOB:
                         zlines.append(line)
                 if len(zlines) > 0:
                     try:
-                        results.append(self.parse_one(zlines))
+                        quest = self.parse_one(zlines)
+                        results.append(quest)
                     except Exception as ex:
                         print('ERROR:', data)
                         print('\tCAUSE:', ex)
@@ -85,7 +127,7 @@ class JSOB:
         self.last_execption = None
         try:
             with open(self.file, encoding='utf-8') as fh:
-                return self.encode(fh.read())
+                return self.from_human_line(fh.read())
         except Exception as ex:
             self.last_exception = ex
         return ''
@@ -94,7 +136,7 @@ class JSOB:
         ''' Save a file, backing-up if, and as, desired. '''
         if self.backup:
             self.snapshot()
-        json_string = JSOB.decode(json_string)
+        json_string = JSOB.from_human_line(json_string)
         try:
             with open(self.file, 'w') as fh:
                 print(json_string, file=fh)
@@ -102,3 +144,9 @@ class JSOB:
         except Exception as ex:
             self.last_exception = ex
         return False
+
+if __name__ == '__main__':
+    data = '"We have\\ \nTESTED\\\n' * 3
+    encoded = JSOB.from_human_line(data)
+    test1 = JSOB.to_human(encoded)
+    assert(test1 == data)

@@ -18,11 +18,11 @@ class Quest:
 
     def __str__(self):
         message = json.dumps(self.__dict__, indent=3)
-        return JSOB.decode(message)
+        return JSOB.to_human(message)
 
     def __repr__(self):
         message = str(self.__dict__)
-        return JSOB.decode(message)
+        return JSOB.to_human(message)
 
     @staticmethod
     def Load(file_name = FILE_DEFAULT, use_eval=True):
