@@ -93,6 +93,8 @@ class JSOB:
                         line = buffer
                         buffer = ''
                     line = JSOB.from_human_line(line.strip())
+                    if not line:
+                        continue
                     if line in ignore:
                         continue
                     if line[0] == '{':
