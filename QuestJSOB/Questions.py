@@ -44,8 +44,11 @@ class Quest:
         
     @staticmethod
     def Renum(values):
+        import uuid
         ''' Demonstrate how to work on a list of Quest()ions '''
         for ss, q in enumerate(values, 1):
+            if q.GID == 'tbd':
+                q.GID = str(uuid.uuid1()).upper()
             q.ID = ss
         return len(values)
         

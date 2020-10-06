@@ -1,7 +1,8 @@
 [
 {
    "ID": 1,
-   "KID": "tbd",   "GID": "tbd",
+   "GID": "B2C57BBE-081A-11EB-9782-C4346B07B0D2",
+   "KID": "tbd",
    "difficulty": "beginner",
    "association": "_builtins",
    "status": "gtg",
@@ -13,7 +14,8 @@
 },
 {
    "ID": 2,
-   "KID": "tbd",   "GID": "tbd",
+   "GID": "B2C5A2C0-081A-11EB-834B-C4346B07B0D2",
+   "KID": "tbd",
    "difficulty": "beginner",
    "association": "_help",
    "status": "gtg",
@@ -24,7 +26,8 @@
 },
 {
    "ID": 3,
-   "KID": "tbd",   "GID": "tbd",
+   "GID": "B2C5A2C1-081A-11EB-9EF2-C4346B07B0D2",
+   "KID": "tbd",
    "difficulty": "expert.jokes",
    "association": "_jokes",
    "status": "gtg",
@@ -33,7 +36,8 @@
 },
 {
    "ID": 4,
-   "KID": "tbd",   "GID": "tbd",
+   "GID": "B2C5A2C2-081A-11EB-A397-C4346B07B0D2",
+   "KID": "tbd",
    "difficulty": "expert.jokes",
    "association": "_jokes",
    "status": "gtg",
@@ -41,8 +45,9 @@
    "answer": "Impossible to say: We won't know until we try to do it."
 },
 {
-   "ID": -1,
-   "KID": "tbd",   "GID": "tbd",
+   "ID": 5,
+   "GID": "B2C5A2C3-081A-11EB-804E-C4346B07B0D2",
+   "KID": "tbd",
    "difficulty": "intermediate.jokes",
    "association": "_jokes",
    "status": "gtg",
