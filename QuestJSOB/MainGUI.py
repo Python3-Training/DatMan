@@ -107,6 +107,8 @@ class Main(Tk, TkParent):
             if not self.pw_view.put_data(self._quest_data):
                 self.show_error('Data Format Error', 'Unable to load questions from ' + self.project)
 
+    def form_data(self, crud_op, name_tag, quest_data):
+        print(crud_op, name_tag, repr(quest_data))
 
     def form_done(self, changed, tag, quest_data):
         print(changed, tag)

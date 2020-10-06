@@ -9,6 +9,7 @@ class Quest:
     def __init__(self, vals):
         ''' Assign a QUESTion dictionary for future use. '''
         self.ID         = vals['ID']
+        self.GID        = vals['GID']
         self.KID        = vals['KID']
         self.difficulty = vals['difficulty']
         self.association= vals['association']

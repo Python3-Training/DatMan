@@ -45,7 +45,7 @@ class EncodedJSOB:
         return result
 
     @staticmethod 
-    def decode(jsob):
+    def decode(jsob) -> str:
         result = ''
         rows = jsob.split('$')
         for row in rows:

@@ -11,6 +11,7 @@ from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
 from collections import OrderedDict
 
+from QuestJSOB.JSOB import JSOB
 from QuestJSOB.TkFrames import TkForm
 from QuestJSOB.TkMacro import *
 from QuestJSOB.Questions import Quest as Quest
@@ -76,13 +77,29 @@ class FrmQuestBrowse(TkForm):
                 "Unsuported Dictionary Format", 
                 "Unsuported JSOB data. Time to upgrade?")
 
-    def _on_share_import(self):
+    def _on_keep_import(self):
         if not McText.has_text(self._text_item):
             self._parent.show_error(
                 "No Data", 
                 "Please paste an item to import?")
             return
         self._pw_quest = None
+        text = McText.get(self._text_item)
+        if EncodedJSOB.is_encoded(text):
+            text = EncodedJSOB.decode(text)
+        text = JSOB.human_to_eval(text)
+        quest = None
+        try:
+            zdict = eval(text)
+            quest = Quest(zdict)
+            self._parent.form_data('C', self._name_tag, quest)
+        except:
+            pass
+        if not quest:
+            self._parent.show_error(
+                "Unsuported Dictionary Format", 
+                "Unsuported JSOB data. Time to upgrade?")
+            return        
 
     def _on_clip_paste(self):
         text = None
@@ -133,12 +150,14 @@ class FrmQuestBrowse(TkForm):
 
         # LabelFrame Sidebar
         zlf_sidem = LabelFrame(self._frame, text=" Actions   ",
-                               bg='gold', fg='dark green')
+                               bg='dark green', fg='gold')
         Button(zlf_sidem, text="Encode", width=10, command=self._on_sel_encode).pack()
         Button(zlf_sidem, text="Decode", width=10, command=self._on_text_decode).pack()
-        Button(zlf_sidem, text="Import", width=10, command=self._on_share_import).pack()
+        Label(zlf_sidem, text="", width=10).pack()
         Button(zlf_sidem, text="Copy", width=10, command=self._on_clip_copy).pack()
         Button(zlf_sidem, text="Paste", width=10, command=self._on_clip_paste).pack()
+        Label(zlf_sidem, text="", width=10).pack()
+        Button(zlf_sidem, text="Keep", width=10, command=self._on_keep_import).pack()
 
         # LabelFrame Top
         zlf_items = LabelFrame(self._frame, 

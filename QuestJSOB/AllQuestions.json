@@ -1,7 +1,7 @@
 [
 {
    "ID": 1,
-   "KID": "tbd",
+   "KID": "tbd",   "GID": "tbd",
    "difficulty": "beginner",
    "association": "_builtins",
    "status": "gtg",
@@ -13,7 +13,7 @@
 },
 {
    "ID": 2,
-   "KID": "tbd",
+   "KID": "tbd",   "GID": "tbd",
    "difficulty": "beginner",
    "association": "_help",
    "status": "gtg",
@@ -24,7 +24,7 @@
 },
 {
    "ID": 3,
-   "KID": "tbd",
+   "KID": "tbd",   "GID": "tbd",
    "difficulty": "expert.jokes",
    "association": "_jokes",
    "status": "gtg",
@@ -33,7 +33,7 @@
 },
 {
    "ID": 4,
-   "KID": "tbd",
+   "KID": "tbd",   "GID": "tbd",
    "difficulty": "expert.jokes",
    "association": "_jokes",
    "status": "gtg",
@@ -42,7 +42,7 @@
 },
 {
    "ID": -1,
-   "KID": "tbd",
+   "KID": "tbd",   "GID": "tbd",
    "difficulty": "intermediate.jokes",
    "association": "_jokes",
    "status": "gtg",

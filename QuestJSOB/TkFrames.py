@@ -13,7 +13,12 @@ class TkParent(ABC):
         pass
 
     @abstractmethod
-    def form_done(self, changed, tag, data):
+    def form_data(self, crud_char, name_tag, data):
+        ''' TkForm / Child Forms: Notify of data C.R.U.D. '''
+        pass
+
+    @abstractmethod
+    def form_done(self, changed, name_tag, data):
         ''' TkForm / Child Forms: Exit routine callback. '''
         pass
 
