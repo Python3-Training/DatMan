@@ -6,7 +6,7 @@ from tkinter import *
 class McGrid:
     ''' Macros to make the grid() layout a tad more humane? '''
     @staticmethod
-    def fill_cell(root, widget, col, row, sticky=N+S+E+W):
+    def fill_cell(root, widget, col, row, sticky=NSEW):
         ''' Expand a widget to fill cell upon parent size-change '''
         widget.grid(row=row, column=col, sticky=sticky)
         root.grid(row=row, column=col, sticky=sticky)
@@ -18,12 +18,13 @@ class McListbox:
     @staticmethod
     def create(parent_frame):
         ''' Wire-up a Listbox + Scrollbar '''
-        sb = Scrollbar(parent_frame, orient="vertical")
-        sb.grid(row=0, column=0, padx=3, sticky=NS)
-        _item_list = Listbox(parent_frame, height=6, width=100, yscrollcommand=sb.set)
-        _item_list.grid(row=0, column=1, sticky=N+E)
+        sb = Scrollbar(parent_frame, width=12, orient="vertical")
+        sb.grid(row=0, column=1, padx=3, sticky=NSEW)
+        _item_list = Listbox(parent_frame, height=6, width=100, 
+                             yscrollcommand=sb.set)
+        _item_list.grid(row=0, column=0, sticky=NSEW)
         sb.config(command=_item_list.yview)
-        return _item_list
+        return _item_list, sb
 
     @staticmethod
     def set(list_box, items):

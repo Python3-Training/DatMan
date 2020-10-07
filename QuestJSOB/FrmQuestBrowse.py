@@ -28,6 +28,7 @@ class FrmQuestBrowse(TkForm):
         self._text_item = None
         self._pw_quest = None
         self._lstbx_items = None
+        self._sb_items = None
 
     def _on_browse_click(self, vevent):
         try:
@@ -98,7 +99,7 @@ class FrmQuestBrowse(TkForm):
             pass
         if not quest:
             self._parent.show_error(
-                "Unsuported Dictionary Format", 
+                "Dictionary Format Error", 
                 "Unsuported JSOB data. Time to upgrade?")
             return        
 
@@ -124,7 +125,7 @@ class FrmQuestBrowse(TkForm):
             return
         if not self._pw_quest:
             self._parent.show_error(
-                "No Question", 
+                "No Item Selected", 
                 "Please select a question to copy to the clipboard.")
             return
         encoded = McText.get(self._text_item).strip()
@@ -165,7 +166,7 @@ class FrmQuestBrowse(TkForm):
                                text=" Questions  ", 
                                bg='dark green', fg='white')
 
-        self._lstbx_items = McListbox.create(zlf_items)
+        self._lstbx_items, self.sb_items = McListbox.create(zlf_items)
         McGrid.fill_cell(zlf_items, self._lstbx_items, 0, 0)
         self._lstbx_items.bind('<<ListboxSelect>>', self._on_browse_click)
 
@@ -175,6 +176,7 @@ class FrmQuestBrowse(TkForm):
 
         self._text_item = Text(zlf_item, bg='light gray')
         McGrid.fill_cell(zlf_item, self._text_item, 0, 0)
+
         McText.lock(self._text_item)
 
         self._frame.add(zlf_sidem)
@@ -182,9 +184,9 @@ class FrmQuestBrowse(TkForm):
         self._frame.add(zlf_item)
         zlf_sidem.grid(row=0, column=0, sticky=N+E)
         #McGrid.fill_cell(self._frame, zlf_sidem, 0, 0, sticky=N+E)
-        zlf_items.grid(row=0, column=1, sticky=N+W)
-        #McGrid.fill_cell(self._frame, zlf_items, 0, 1, sticky=N+W)
-        McGrid.fill_cell(self._frame, zlf_item, 1, 1)
+        zlf_items.grid(row=0, column=1, sticky=NSEW)
+        #McGrid.fill_cell(self._frame, zlf_items, 0, 1, sticky=NSEW)
+        McGrid.fill_cell(self._frame, zlf_item, 1, 1) # Highlander effect?
 
         self._parent.grid_columnconfigure(0, weight=1)
         self._parent.grid_rowconfigure(0, weight=1)
