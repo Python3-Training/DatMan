@@ -11,10 +11,17 @@ class DlgMsg:
 
 	@staticmethod
 	def show_error(parent, title, message, msg_width=40):
-		DlgMsg.show_info(parent, title, message, msg_width, color='red')
+		''' Show a dialog with a red (error) theme '''
+		DlgMsg.show_message(parent, title, message, msg_width, color='red')
 
 	@staticmethod
 	def show_info(parent, title, message, msg_width=40, color='blue'):
+		''' Show a dialog with a blue (info) theme '''
+		DlgMsg.show_message(parent, title, message, msg_width, color='blue')
+
+	@staticmethod
+	def show_message(parent, title, message, msg_width=40, color=None):
+		''' Show a dialog with the default theme '''
 		loc = {
 			'x': parent.winfo_x(),
 			'y': parent.winfo_y(),
