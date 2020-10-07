@@ -1,0 +1,49 @@
+import sys
+sys.path.insert(0, '.')
+sys.path.insert(0, '../')
+
+from tkinter import *
+import textwrap
+
+from QuestJSOB.TkMacro import McText
+
+class DlgMsg:
+
+	@staticmethod
+	def show_error(parent, title, message, msg_width=40):
+		DlgMsg.show_info(parent, title, message, msg_width, color='red')
+
+	@staticmethod
+	def show_info(parent, title, message, msg_width=40, color='blue'):
+		loc = {
+			'x': parent.winfo_x(),
+			'y': parent.winfo_y(),
+			'wide': parent.winfo_width(),
+			'high': parent.winfo_height()
+			}
+		xpos = loc['x'] + (loc['wide']//4)
+		ypos = loc['y'] + (loc['high']//4)
+
+		dlg = None
+		if color:
+			dlg = Toplevel(master=parent, bg=color)
+		else:
+			dlg = Toplevel(master=parent)
+		dlg.geometry(f"+{xpos}+{ypos}")
+		dlg.title(title)
+
+		lines = textwrap.wrap(message, width=msg_width)
+		text = Text(dlg, width=msg_width + 2, height=len(lines)+2)
+		McText.put(text, message)
+		McText.lock(text)
+		text.pack()
+		Button(dlg, text="Okay", command=dlg.destroy).pack()
+		dlg.focus()
+		dlg.grab_set() # modal
+		parent.wait_window(dlg)
+		dlg.destroy()
+
+
+
+
+

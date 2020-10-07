@@ -5,7 +5,8 @@
 
 import os
 import sys
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
+sys.path.insert(0, '.')
+sys.path.insert(0, '../')
 from tkinter import *
 from tkinter import messagebox
 from tkinter.filedialog import askopenfilename

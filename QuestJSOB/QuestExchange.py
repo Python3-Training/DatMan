@@ -1,5 +1,9 @@
-from QuestJSOB.Questions import Quest
+import sys
+sys.path.insert(0, '.')
+sys.path.insert(0, '../')
+
 from QuestJSOB.JSOB import JSOB
+from QuestJSOB.Questions import Quest
 
 class EncodedJSOB:
     ''' Rather than fight whitespaces (etc.) here is

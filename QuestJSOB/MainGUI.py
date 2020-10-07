@@ -6,10 +6,10 @@
 
 import os
 import sys
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
+sys.path.insert(0, '.')
+sys.path.insert(0, '../')
 
 from tkinter import *
-from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
 from collections import OrderedDict
 
@@ -17,7 +17,7 @@ from QuestJSOB.TkMacro import McMenu, McText
 from QuestJSOB.TkFrames import TkParent
 from QuestJSOB.FrmQuestBrowse import FrmQuestBrowse
 from QuestJSOB.Questions import Quest as Quest
-
+from QuestJSOB.DlgMessage import DlgMsg
 
 class Main(Tk, TkParent):
 
@@ -49,7 +49,7 @@ class Main(Tk, TkParent):
                 )
 
     def show_error(self, title, message):
-        messagebox.showerror(title, message)
+        DlgMsg.show_error(self, title, message)
 
     def disable_menu(self):
         McMenu.disable_item(self._menu_main, 'Tools')
@@ -75,25 +75,15 @@ class Main(Tk, TkParent):
     
     def _on_save(self):
         if False:
-            messagebox.showinfo(
-                "Project Saved",
-                "Project file saved.")
+            DlgMsg.show_info(self, "Project Saved", "Project file saved.")
         else:
             self.show_error("No Data", "Synchronization source required.")         
 
     def _on_report(self):
-      dlg = Toplevel(master=self)
-      dlg.title("Database Status")
-      text = Text(dlg, width=50, height=12)
-      McText.put(text, 'Booper')
-      McText.lock(text)
-      text.pack()
-      Button(dlg, text="Okay", command=dlg.destroy).pack()
-      dlg.grab_set() # modal
-      self.wait_window(dlg)
+      DlgMsg.show_info(self, 'ToDo', 'Database Report...')
 
     def _on_about(self):
-        messagebox.showinfo(self.ztitle, "Mode: Framework Testing")
+        DlgMsg.show_info(self, self.ztitle, "Mode: Framework Testing")
 
     def _show_view(self) -> None:
         if not os.path.exists(self.project):

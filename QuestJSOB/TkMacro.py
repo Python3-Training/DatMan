@@ -1,7 +1,10 @@
 from tkinter import *
+''' A place to store api-style 'macro' (Mc*) classes to help make
+    Tkinter a 'tad easier to use. ...
+'''
 
 class McGrid:
-
+    ''' Macros to make the grid() layout a tad more humane? '''
     @staticmethod
     def fill_cell(root, widget, col, row, sticky=N+S+E+W):
         ''' Expand a widget to fill cell upon parent size-change '''
@@ -10,9 +13,8 @@ class McGrid:
         root.grid_columnconfigure(col, weight=1)
         root.grid_rowconfigure(row, weight=1)
 
-
 class McListbox:
-
+    ''' Macros to make the Listbox Widget wonderfull? '''
     @staticmethod
     def create(parent_frame):
         ''' Wire-up a Listbox + Scrollbar '''

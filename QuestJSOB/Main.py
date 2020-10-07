@@ -7,9 +7,11 @@
 # 2020/10/01: Created, Randall Nagy
 # 2020/10/02: New: Load by eval(), save / pretty-print via JSON.
 # 2020/10/03: New: Categorized question reporting.
+# 2020/10/06: New: Quest.GID for epoch 'rarifications. 
 
 import sys
 sys.path.insert(0, '.')
+sys.path.insert(0, '../')
 
 import json
 from QuestJSOB.Questions import Quest as Quest
