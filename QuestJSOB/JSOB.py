@@ -78,7 +78,6 @@ class NewLine:
 
         except Exception as ex:
             self.last_execption = ex
-            raise ex
         return None
 
     def load_by_eval(self) -> list:
@@ -113,7 +112,6 @@ class NewLine:
                         zlines.append(line)
         except Exception as ex:
             self.last_exception = ex
-            raise ex
         return errors, results
 
 
@@ -157,6 +155,5 @@ class JSOB(NewLine):
                 return True
         except Exception as ex:
             self.last_exception = ex
-            raise ex
         return False
 

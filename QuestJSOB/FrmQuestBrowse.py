@@ -45,7 +45,7 @@ class FrmQuestBrowse(TkForm):
                     block = str(self._pw_quest)
                     McText.upl(self._text_item, block)
         except Exception as ex:
-            raise ex
+            self.parent.show_error("Unexpected Exception", str(ex))
 
     def _on_sel_encode(self):
         if not self._pw_quest:
