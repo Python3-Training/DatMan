@@ -16,16 +16,35 @@ sys.path.insert(0, '../')
 import json
 from QuestJSOB.Questions import Quest as Quest
 
+def find_questions():
+    ''' Microsoft (sigh) ... am I right?'''
+    import os
+    results = []
+    name = Quest.FILE_DEFAULT.split('/')[-1]
+    for root, dirs, files in os.walk(os.getcwd()):
+        for file in files:
+            if file == name:
+                node = root + '/' + file
+                node = node.replace('\\','/')
+                results.append(node)
+    return results
+
 if __name__ == '__main__': 
     ''' Demonstration: Putting it all together! '''
-    zfile = './QuestJSOB/'+Quest.FILE_DEFAULT
-    data = Quest.Load(zfile)
-    data = Quest.Reorder(data)
-    Quest.Renum(data)
-    Quest.Sync(data, zfile)
+    files = find_questions()
+    if len(files) != 1:
+        for file in files:
+            print(file)
+        print('Visual Studio: One file, only?')
+    else:
+        zfile = files[0]
+        data = Quest.Load(zfile)
+        data = Quest.Reorder(data)
+        Quest.Renum(data)
+        Quest.Sync(data, zfile)
 
-    for q in data:
-        print(json.dumps(q.__dict__, indent = 3))
+        for q in data:
+            print(json.dumps(q.__dict__, indent = 3))
     
-    for line in Quest.Tally(data):
-        print(line)
+        for line in Quest.Tally(data):
+            print(line)

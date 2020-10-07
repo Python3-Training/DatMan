@@ -127,9 +127,11 @@ class JSOB(NewLine):
 
     def snapshot(self) -> bool:
         ''' Backup the constructed file to a 'probably unique' file name. '''
-        import time; import shutil
+        import os.path; import time; import shutil
         self.last_snap = self.file + '.' + str(time.time()) + ".tmp~"
         try:
+            if not os.path.exists(self.file):
+                return True
             shutil.copyfile(self.file, self.last_snap)
         except Exception as ex:
             self.last_execption = ex
