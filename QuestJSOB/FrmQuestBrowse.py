@@ -12,7 +12,7 @@ from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
 from collections import OrderedDict
 
-from QuestJSOB.JSOB import JSOB
+from QuestJSOB.JSOB import *
 from QuestJSOB.TkFrames import TkForm
 from QuestJSOB.TkMacro import *
 from QuestJSOB.Questions import Quest as Quest
@@ -91,7 +91,7 @@ class FrmQuestBrowse(TkForm):
         text = McText.get(self._text_item)
         if EncodedJSOB.is_encoded(text):
             text = EncodedJSOB.decode(text)
-        text = JSOB.human_to_eval(text)
+        text = NewLine().human_to_eval(text)
         quest = None
         try:
             zdict = eval(text)
