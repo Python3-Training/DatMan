@@ -52,7 +52,7 @@ class Quest(NewLine):
         if use_eval:
             errors, data = coder.load_by_eval()
             if errors:
-                raise Exception(f"eval: {errors} errors were found.")
+                raise Exception(f"eval: {errors} error(s) were found.")
             for dict_ in data:
                 zresults.append(Quest(dict_))
         else:
@@ -122,16 +122,3 @@ class Quest(NewLine):
             'question'      : 'zquestion',
             'answer'        : 'zanswer'
             }
-
-if __name__ == '__main__':
-    ''' Demonstration: Putting it all together! '''
-    data = Quest.Load(Quest.FILE_DEFAULT)
-    data = Quest.Reorder(data)
-    Quest.Renum(data)
-    Quest.Sync(data)
-
-    for q in data:
-        print(json.dumps(q.__dict__, indent = 3))
-    
-    for line in Quest.Tally(data):
-        print(line)

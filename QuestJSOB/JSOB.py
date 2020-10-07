@@ -112,6 +112,7 @@ class NewLine:
                     else:
                         zlines.append(line)
         except Exception as ex:
+            errors += 1
             self.last_exception = ex
         return errors, results
 
@@ -127,7 +128,7 @@ class JSOB(NewLine):
     def snapshot(self) -> bool:
         ''' Backup the constructed file to a 'probably unique' file name. '''
         import time; import shutil
-        self.last_snap = '~' + self.file + '.' + str(time.time()) + ".tmp"
+        self.last_snap = self.file + '.' + str(time.time()) + ".tmp~"
         try:
             shutil.copyfile(self.file, self.last_snap)
         except Exception as ex:
@@ -149,7 +150,8 @@ class JSOB(NewLine):
     def sync(self, json_string) -> bool:
         ''' Save a file, backing-up if, and as, desired. '''
         if self.backup:
-            self.snapshot()
+            if not self.snapshot():
+                raise Exception(f'Unable to backup "{self.file}"?')
         try:
             with open(self.file, 'w') as fh:
                 print(json_string, file=fh)
