@@ -5,24 +5,24 @@ sys.path.insert(0, '../')
 from tkinter import *
 import textwrap
 
-from QuestJSOB.TkMacro import McText
+from QuestJSOB.TkMacro import *
 
 class DlgMsg:
 	''' A color-coded, parent-bethemed, set modal dialogs. '''
 
 	@staticmethod
-	def show_error(parent, title, message, msg_width=40):
+	def show_error(parent, title, message, msg_width=40, wrap=True):
 		''' Show a dialog with a red (error) theme '''
 		parent.bell()
-		DlgMsg.show_message(parent, title, message, msg_width, color='red')
+		DlgMsg.show_message(parent, title, message, msg_width, wrap, color='red')
 
 	@staticmethod
-	def show_info(parent, title, message, msg_width=40, color='blue'):
+	def show_info(parent, title, message, msg_width=40, wrap=True, color='blue'):
 		''' Show a dialog with a blue (info) theme '''
-		DlgMsg.show_message(parent, title, message, msg_width, color='blue')
+		DlgMsg.show_message(parent, title, message, msg_width, wrap, color='blue')
 
 	@staticmethod
-	def show_message(parent, title, message, msg_width=40, color=None):
+	def show_message(parent, title, message, msg_width=40, wrap=True, color=None):
 		''' Show a dialog with the default theme '''
 		loc = {
 			'x': parent.winfo_x(),
@@ -33,20 +33,26 @@ class DlgMsg:
 		xpos = loc['x'] + (loc['wide']//4)
 		ypos = loc['y'] + (loc['high']//4)
 
-		dlg = None
+		dlg = None; frame=None
 		if color:
 			dlg = Toplevel(master=parent, bg=color)
+			frame = Frame(dlg, bg=color)
 		else:
 			dlg = Toplevel(master=parent)
+			frame = Frame(dlg)
 		dlg.geometry(f"+{xpos}+{ypos}")
 		dlg.title(title)
-
-		lines = textwrap.wrap(message, width=msg_width)
-		text = Text(dlg, width=msg_width + 2, height=len(lines)+2)
+		dlg.resizable(False, False)
+		if wrap:
+			lines = textwrap.wrap(message, width=msg_width)
+		else:
+			lines = message
+		text = Text(frame, width=msg_width + 2, height=len(lines)+2)
 		McText.put(text, "\n".join(lines))
 		McText.lock(text)
 		text.pack()
-		Button(dlg, text="Okay", command=dlg.destroy).pack()
+		Button(frame, text="Okay", command=dlg.destroy).pack()
+		frame.pack()
 		dlg.focus()
 		dlg.grab_set() # modal
 		parent.wait_window(dlg)

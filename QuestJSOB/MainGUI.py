@@ -89,10 +89,18 @@ class Main(Tk, TkParent):
         self._show_view()
 
     def _on_report(self):
-      DlgMsg.show_info(self, 'ToDo', 'Database Report...')
+        if not self._quest_data:
+            return
+        report = []
+        for line in Quest.Tally(self._quest_data):
+            cols = line.split('|')
+            report.append(f"{cols[1]:<18} = {cols[0]:<6}")
+        nodes = self.project.split('/')
+        DlgMsg.show_info(self, f'{nodes[-1]}', 
+                         report, msg_width=40, wrap=False)
 
     def _on_about(self):
-        DlgMsg.show_info(self, self.ztitle, "Mode: Framework Testing")
+        DlgMsg.show_info(self, self.ztitle, "Mode: Work In Process")
 
     def _show_view(self) -> None:
         if not os.path.exists(self.project):
@@ -108,7 +116,6 @@ class Main(Tk, TkParent):
                 self.show_error('Data Format Error', 'Unable to load questions from ' + self.project)
 
     def form_data(self, crud_op, name_tag, quest_data):
-        print(crud_op, name_tag, repr(quest_data))
         self._quest_data.append(quest_data)
         Quest.Renum(self._quest_data)
         Quest.Sync(self._quest_data, self.project)
