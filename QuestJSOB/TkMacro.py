@@ -18,8 +18,8 @@ class McListbox:
     @staticmethod
     def create(parent_frame):
         ''' Wire-up a Listbox + Scrollbar '''
-        sb = Scrollbar(parent_frame, width=12, orient="vertical")
-        sb.grid(row=0, column=1, padx=3, sticky=NSEW)
+        sb = Scrollbar(parent_frame, orient="vertical")
+        sb.grid(row=0, column=1, padx=3, sticky=NS)
         _item_list = Listbox(parent_frame, height=6, width=100, 
                              yscrollcommand=sb.set)
         _item_list.grid(row=0, column=0, sticky=NSEW)

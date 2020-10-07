@@ -41,7 +41,7 @@ class DlgMsg:
 
 		lines = textwrap.wrap(message, width=msg_width)
 		text = Text(dlg, width=msg_width + 2, height=len(lines)+2)
-		McText.put(text, message)
+		McText.put(text, "\n".join(lines))
 		McText.lock(text)
 		text.pack()
 		Button(dlg, text="Okay", command=dlg.destroy).pack()
