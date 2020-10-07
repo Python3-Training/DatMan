@@ -195,9 +195,7 @@ class FrmQuestBrowse(TkForm):
         self._frame.add(zlf_items)
         self._frame.add(zlf_item)
         zlf_sidem.grid(row=0, column=0, sticky=N+E)
-        #McGrid.fill_cell(self._frame, zlf_sidem, 0, 0, sticky=N+E)
         zlf_items.grid(row=0, column=1, sticky=NSEW)
-        #McGrid.fill_cell(self._frame, zlf_items, 0, 1, sticky=NSEW)
         McGrid.fill_cell(self._frame, zlf_item, 1, 1) # Highlander effect?
 
         self._parent.grid_columnconfigure(0, weight=1)

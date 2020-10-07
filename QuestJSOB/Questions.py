@@ -30,10 +30,19 @@ class Quest(NewLine):
         return self.to_human(message)
 
     def __repr__(self):
-        result = Quest.Source()
-        for key in result:
-            result[key] = self.__dict__[key]
-        return self.to_human(str(result))
+        result = "{\n"
+        template = Quest.Source()
+        for ss, key in enumerate(template):
+            value = self.__dict__[key]
+            if ss:
+                result += ','
+                result += '\n'
+            if isinstance(value, str):
+                result += f'\t"{key}":"{value}"'
+            else:
+                result += f'\t"{key}":{value}'
+        result += "\n}"
+        return result
 
     @staticmethod
     def Load(file_name = FILE_DEFAULT, use_eval=True):
@@ -95,7 +104,7 @@ class Quest(NewLine):
             if ss:
                 data += ','
             data += '\n'
-            data += str(obj)
+            data += repr(obj)
         data += '\n]\n'
         coder = JSOB(file_name)
         return coder.sync(data)

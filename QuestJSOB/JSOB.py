@@ -9,6 +9,7 @@ class NewLine:
         r'\r': chr(616),
         r'\n': chr(617),
         r'\t': chr(618),
+        r'\\n': chr(619),
         }
     
     def __init__(self):
