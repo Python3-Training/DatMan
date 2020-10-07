@@ -1,27 +1,41 @@
 import json
 
-class JSOB:
-    ''' A quick-fix to enable multi-line strings for Python in J.S.O.N '''
-    def __init__(self, file_name, backup=True):
-        self.file = file_name
-        self.backup = backup
-        self.last_snap = None
+class NewLine:
+    ''' Set problematic characters to unlikely ordinals whilst parsing '''
+    en = {
+        '\r': chr(612),
+        '\n': chr(611),
+        '\t': chr(615),
+        r'\r': chr(616),
+        r'\n': chr(617),
+        r'\t': chr(618),
+        }
+    
+    def __init__(self):
         self.last_execption = None
+        self.de = {}
+        for key in NewLine.en:
+            self.de[NewLine.en[key]] = key
 
-    def snapshot(self) -> bool:
-        ''' Backup the constructed file to a 'probably unique' file name. '''
-        import time; import shutil
-        self.last_snap = '~' + self.file + '.' + str(time.time()) + ".tmp"
-        try:
-            shutil.copyfile(self.file, self.last_snap)
-        except Exception as ex:
-            self.last_execption = ex
-            return False
-        self.last_execption = None
-        return True
+    def decode(self, text) ->str:
+        results = ''
+        for ch in text:
+            if ch in self.de:
+                results += self.de[ch]
+            else:
+                results += ch
+        return results
 
-    @staticmethod
-    def human_to_eval(data) -> str:
+    def encode(self, text) ->str:
+        results = ''
+        for ch in text:
+            if ch in NewLine.en:
+                results += NewLine.en[ch]
+            else:
+                results += ch
+        return results
+
+    def human_to_eval(self, data) -> str:
         ''' Encode a multi-line block, for eval() parsing '''
         results = ''
         if data.find('\r'):
@@ -36,43 +50,36 @@ class JSOB:
                 buffer += seg
                 seg = buffer
                 buffer = ''
-            seg = seg.replace('\\\n', r'\\n')
-            seg = seg.replace('\t', r'\t')
+            seg = self.encode(seg)
             results += seg
         return results
 
-    @staticmethod
-    def from_human_line(data) -> str:
+    def from_human_line(self, data) -> str:
         ''' Encode a single-line for json parsing '''
         if data.find('\r'):
             data = data.replace('\r\n', '\n')
-        data = data.replace('\\\n', r'\\n')
-        data = data.replace('\n', r'\n')
-        data = data.replace('\t', r'\t')
-        return data
+        return self.encode(data)
 
-    @staticmethod
-    def __from_human(data) -> str:
-        ''' Encode the multi-line for Python parsing '''
-        if data.find('\r'):
-            data = data.replace('\r\n', '\n')
-        data = data.replace('\n\n', '\\n')
-        data = data.replace('\t', '\\t')
-        return data
-
-    @staticmethod
-    def to_human(json_string) ->str:
+    def to_human(self, json_string) ->str:
         ''' Decode the multi-line for HUMAN parsing '''
-        json_string = json_string.replace(r"\n", "\n")
-        json_string = json_string.replace(r"\t", "\t")
-        json_string = json_string.replace(r"\\n", "\\n")
-        return json_string
+        return self.decode(json_string)
 
     def parse_one(self, zlines) -> dict:
         try:
-            return eval(' '.join(zlines))
-        except:
-            return None
+            result = {}
+            hold = eval(' '.join(zlines))
+            for key in hold:
+                val = hold[key]
+                if not isinstance(val, str):
+                    result[key] = val
+                else:
+                    result[key] = self.decode(val)
+            return result
+
+        except Exception as ex:
+            self.last_execption = ex
+            raise ex
+        return None
 
     def load_by_eval(self) -> list:
         ''' Parses one dictionary-entry, at-a-time, using eval - NOT THE JSON PARSER. '''
@@ -91,7 +98,7 @@ class JSOB:
                         buffer += line
                         line = buffer
                         buffer = ''
-                    line = JSOB.from_human_line(line.strip())
+                    line = self.from_human_line(line.strip())
                     if not line or line in ignore:
                         continue
                     if line[0] == "}":
@@ -106,7 +113,29 @@ class JSOB:
                         zlines.append(line)
         except Exception as ex:
             self.last_exception = ex
+            raise ex
         return errors, results
+
+
+class JSOB(NewLine):
+    ''' A quick-fix to enable multi-line strings for Python in J.S.O.N '''
+    def __init__(self, file_name, backup=True):
+        super().__init__()
+        self.file = file_name
+        self.backup = backup
+        self.last_snap = None
+
+    def snapshot(self) -> bool:
+        ''' Backup the constructed file to a 'probably unique' file name. '''
+        import time; import shutil
+        self.last_snap = '~' + self.file + '.' + str(time.time()) + ".tmp"
+        try:
+            shutil.copyfile(self.file, self.last_snap)
+        except Exception as ex:
+            self.last_execption = ex
+            return False
+        self.last_execption = None
+        return True
     
     def load_by_json(self) -> str:
         ''' Reads file, converting JSON's 'human readable' multiline escapes, to inline \\n style. '''
@@ -122,12 +151,12 @@ class JSOB:
         ''' Save a file, backing-up if, and as, desired. '''
         if self.backup:
             self.snapshot()
-        # json_string = JSOB.from_human_line(json_string)
         try:
             with open(self.file, 'w') as fh:
                 print(json_string, file=fh)
                 return True
         except Exception as ex:
             self.last_exception = ex
+            raise ex
         return False
 

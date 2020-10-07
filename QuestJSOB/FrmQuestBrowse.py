@@ -22,6 +22,7 @@ from QuestJSOB.DlgMessage import DlgMsg
 class FrmQuestBrowse(TkForm):
     ''' Data importation Form '''
     def __init__(self):
+        super().__init__()
         self._parent = None
         self._data = list()
         self._frame = None
@@ -43,8 +44,8 @@ class FrmQuestBrowse(TkForm):
                     self._pw_quest = self._data[index]
                     block = str(self._pw_quest)
                     McText.upl(self._text_item, block)
-        except:
-            pass
+        except Exception as ex:
+            raise ex
 
     def _on_sel_encode(self):
         if not self._pw_quest:

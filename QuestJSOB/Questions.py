@@ -3,15 +3,16 @@ sys.path.insert(0, '.')
 sys.path.insert(0, '../')
 
 import json
-from QuestJSOB.JSOB import JSOB as JSOB
+from QuestJSOB.JSOB import *
 
-class Quest:
+class Quest(NewLine):
     ''' Demonstrate how to use a basic JSON-serialized dictionary. '''
     
     FILE_DEFAULT = 'AllQuestions.json'
     
     def __init__(self, vals):
         ''' Assign a QUESTion dictionary for future use. '''
+        super().__init__()
         self.ID         = vals['ID']
         self.GID        = vals['GID']
         self.KID        = vals['KID']
@@ -22,29 +23,34 @@ class Quest:
         self.answer     = vals['answer']
 
     def __str__(self):
-        message = json.dumps(self.__dict__, indent=3)
-        return JSOB.to_human(message)
+        result = Quest.Source()
+        for key in result:
+            result[key] = self.__dict__[key]
+        message = json.dumps(result, indent=3)
+        return self.to_human(message)
 
     def __repr__(self):
-        message = str(self.__dict__)
-        return JSOB.to_human(message)
+        result = Quest.Source()
+        for key in result:
+            result[key] = self.__dict__[key]
+        return self.to_human(str(result))
 
     @staticmethod
     def Load(file_name = FILE_DEFAULT, use_eval=True):
         ''' Load a pre-existing file into a list of Quest()s '''
-        results = list()
+        zresults = list()
         coder = JSOB(file_name)
         if use_eval:
             errors, data = coder.load_by_eval()
             if errors:
                 raise Exception(f"eval: {errors} errors were found.")
             for dict_ in data:
-                results.append(Quest(dict_))
+                zresults.append(Quest(dict_))
         else:
             data = coder.load_by_json()
             for zdict in json.loads(data, encoding='utf-8'):
-                results.append(Quest(zdict))
-        return results
+                zresults.append(Quest(zdict))
+        return zresults
         
     @staticmethod
     def Renum(values):
