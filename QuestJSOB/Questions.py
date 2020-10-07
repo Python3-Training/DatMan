@@ -99,7 +99,8 @@ class Quest:
         ''' Get a data-source that can be used by the constructor '''
         return {
             'ID'            : -1,
-            'KID'           : 'zkid',
+            'KID'           : 'zKID',
+            'GID'           : 'tbd',
             'difficulty'    : 'zdifficulty',
             'association'   : 'zassociation',
             'status'        : 'zstat',

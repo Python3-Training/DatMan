@@ -8,10 +8,12 @@ import textwrap
 from QuestJSOB.TkMacro import McText
 
 class DlgMsg:
+	''' A color-coded, parent-bethemed, set modal dialogs. '''
 
 	@staticmethod
 	def show_error(parent, title, message, msg_width=40):
 		''' Show a dialog with a red (error) theme '''
+		parent.bell()
 		DlgMsg.show_message(parent, title, message, msg_width, color='red')
 
 	@staticmethod

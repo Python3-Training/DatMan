@@ -28,7 +28,7 @@ class McListbox:
 
     @staticmethod
     def set(list_box, items):
-        list_box.delete(0, len(items))
+        list_box.delete(0, list_box.size())
         for ss, item in enumerate(items, 0):
             list_box.insert(ss, item)
 

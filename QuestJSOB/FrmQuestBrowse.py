@@ -17,6 +17,7 @@ from QuestJSOB.TkFrames import TkForm
 from QuestJSOB.TkMacro import *
 from QuestJSOB.Questions import Quest as Quest
 from QuestJSOB.QuestExchange import EncodedJSOB
+from QuestJSOB.DlgMessage import DlgMsg
 
 class FrmQuestBrowse(TkForm):
     ''' Data importation Form '''
@@ -94,6 +95,16 @@ class FrmQuestBrowse(TkForm):
         try:
             zdict = eval(text)
             quest = Quest(zdict)
+            if quest.GID != 'tbd':
+                for q in self._data:
+                    if quest.GID == q.GID:
+                        DlgMsg.show_error(self._parent,
+                            "Duplicate Global-Identifier",
+                            "Unable to add this 'keep' item " +
+                            "to the active database; " + 
+                            "a question with a maching GID already " +
+                            "exists. -Consider using another database?")
+                        return
             self._parent.form_data('C', self._name_tag, quest)
         except:
             pass

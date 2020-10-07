@@ -10,7 +10,7 @@ sys.path.insert(0, '.')
 sys.path.insert(0, '../')
 
 from tkinter import *
-from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import askopenfilename, asksaveasfilename
 from collections import OrderedDict
 
 from QuestJSOB.TkMacro import McMenu, McText
@@ -32,8 +32,7 @@ class Main(Tk, TkParent):
         self.pw_view    = None
         self.zoptions = (
             ("Project",     [("New...", self._on_new),
-                             ("Source...", self._on_open),
-                             ("Sync...", self._on_save)]),
+                             ("Source...", self._on_open)]),
             ("Tools",       [("Report...", self._on_report)]),
             ("About",       [("About " + self.ztitle, self._on_about),
                              ("Quit", self.destroy)]),
@@ -60,7 +59,23 @@ class Main(Tk, TkParent):
         McMenu.enable_item(self._menu_main, 'Project')
 
     def _on_new(self):
-        self.title(self.ztitle)
+        self.project = asksaveasfilename(
+            title="New Project File",
+            defaultextension=Main.PROJ_TYPE,
+            filetypes=[(f"{self.ztitle} Project", 
+                        Main.PROJ_TYPE)]
+            )
+        if not self.project:
+            return
+        if not self.project.lower().endswith(Main.PROJ_TYPE):
+            DlgMsg.show_error(self, 'File Type Expected', 
+                              f"JSOB file must end with a {Main.PROJ_TYPE} suffix. Please try again?!")
+            return
+        self._quest_data.clear()
+        self._quest_data.append(Quest(Quest.Source()))
+        Quest.Renum(self._quest_data)
+        Quest.Sync(self._quest_data, self.project)
+        self._quest_data.clear()
         self._show_view()
     
     def _on_open(self):
@@ -70,14 +85,8 @@ class Main(Tk, TkParent):
             )
         if not self.project:
             return
-        
+        self._quest_data.clear()        
         self._show_view()
-    
-    def _on_save(self):
-        if False:
-            DlgMsg.show_info(self, "Project Saved", "Project file saved.")
-        else:
-            self.show_error("No Data", "Synchronization source required.")         
 
     def _on_report(self):
       DlgMsg.show_info(self, 'ToDo', 'Database Report...')
@@ -89,6 +98,7 @@ class Main(Tk, TkParent):
         if not os.path.exists(self.project):
             self.show_error("File not Found", "Unable to import " + self.project)
         else:
+            self._quest_data.clear()        
             self._quest_data = Quest.Load(self.project)
             if not self._quest_data:
                 self.show_error("No Data", "Data not found in " + self.project)
@@ -99,6 +109,11 @@ class Main(Tk, TkParent):
 
     def form_data(self, crud_op, name_tag, quest_data):
         print(crud_op, name_tag, repr(quest_data))
+        self._quest_data.append(quest_data)
+        Quest.Renum(self._quest_data)
+        Quest.Sync(self._quest_data, self.project)
+        self._quest_data.clear()
+        self._show_view()
 
     def form_done(self, changed, tag, quest_data):
         print(changed, tag)
