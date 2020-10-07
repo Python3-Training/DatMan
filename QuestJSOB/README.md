@@ -4,6 +4,10 @@ The need is to use a J.S.O.N friendly editor (like Notepad++ - recommended!) to 
 
 To get started, we simply need to use Main.py. 
 
-The Quest()ion importation / exportation strategy is MainGUI.py - a work in process.
+# GUI File Manager
+The Quest()ion importation / exportation strategy is MainGUI.py.
+
+Status: Testing Release
+Version: 1.0
 
 Video @ https://www.youtube.com/watch?v=HIDW7Q2r24g
