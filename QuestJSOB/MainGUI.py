@@ -25,7 +25,9 @@ class Main(Tk, TkParent):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ztitle = 'Quest 0.1'
+        self.ztitle   = 'QuestJSOB 1.0'
+        self.zrelease = str('Testing Release: Come join us ' +
+        'in the "Python3 Training" & "PyQuest" Groups, on Facebook.')
         self._quest_data = list()
         self._menu_main = None
         self.project    = None
@@ -100,7 +102,7 @@ class Main(Tk, TkParent):
                          report, msg_width=40, wrap=False)
 
     def _on_about(self):
-        DlgMsg.show_info(self, self.ztitle, "Mode: Work In Process")
+        DlgMsg.show_info(self, self.ztitle, self.zrelease)
 
     def _show_view(self) -> None:
         if not os.path.exists(self.project):
