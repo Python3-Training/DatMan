@@ -11,17 +11,26 @@ The Quest()ion importation / exportation / sharing strategy is MainGUI.py.
 
 ## Key operations include:
 
-**[New]** – Create a new .json file, with a default entry to clone / update.
-**[Source]** – Load a previously created .json file.
-**[Reload]** – Reload + renumber a .json file.
-**[Report]** – Tag, tally, and show counts for categories, classifications, and grand totals.
-**[About]** – Display project name, and version.
+**[New]** â€“ Create a new .json file, with a default entry to clone / update.
 
-**[Encode]** – Show what an encoded, selected entry, would look like.
-**[Decode]** – Reverse the **[Encode]**
-**[Copy]** – Copy the clipboard content into the main viewer (‘staging area’.)
-**[Paste]** – **[Encode]** and paste a selected item to the clipboard – usually for sharing.
-**[Keep]** – Save the entry into the active .json file.
+**[Source]** â€“ Load a previously created .json file.
+
+**[Reload]** â€“ Reload + renumber a .json file.
+
+**[Report]** â€“ Tag, tally, and show counts for categories, classifications, and grand totals.
+
+**[About]** â€“ Display project name, and version.
+
+**[Encode]** â€“ Show what an encoded, selected entry, would look like.
+
+**[Decode]** â€“ Reverse the **[Encode]**
+
+**[Copy]** â€“ Copy the clipboard content into the main viewer (â€˜staging areaâ€™.)
+
+**[Paste]** â€“ **[Encode]** and paste a selected item to the clipboard â€“ usually for sharing.
+
+**[Keep]** â€“ Save the entry into the active .json file.
+
 
 Note that each question is granted a global identified (GID.) While we can manually have duplicates, the '**[Keep]**' operation requires that any 'kept' (imported) GID to be unique. Either (1) enter manually, or (2) put a duplicate into a **[New]** JSOB file.
 
