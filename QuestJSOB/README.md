@@ -27,7 +27,7 @@ The Quest()ion importation / exportation / sharing strategy is MainGUI.py.
 
 **[Paste]** – Read clipboard content into the main viewer (‘staging area’.) Usually followed by a **[Keep]**.
 
-**[Copy]** – **[Encode]** and paste a selected item to the clipboard – usually for sharing.
+**[Copy]** – **[Encode]** and save a selected item to the clipboard – usually for sharing.
 
 **[Keep]** – Save the entry into the active .json file.
 
