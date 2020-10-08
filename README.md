@@ -5,6 +5,8 @@ Here 'be 'de playlist, [on the 'tube](https://www.youtube.com/playlist?list=PLIt
 
 In order to get the most from these lessons, students should be familiar with the [Python Basics](https://www.udemy.com/course/python-1000/), [Functional Python](https://www.udemy.com/course/python-1100), [Python Classes](https://www.udemy.com/course/python-2000-beyond-the-basics), as well as [Python File IO](https://www.udemy.com/course/python-3000-tactical-file-io).
 
+If you are looking for 'that question sharing thing,' then QuestJSOB 'be [here](https://github.com/Python3-Training/DatMan/tree/master/QuestJSOB).
+
 Enjoy the journey!
 
 -- Randall
