@@ -17,27 +17,26 @@ class EncodedJSOB:
         return True
 
     @staticmethod
-    def to_share(quest_obj):
+    def to_share(quest_obj) -> str:
         ''' Copy-out object to the human-sharable format. '''
         if not isinstance(quest_obj, Quest):
             return False
-        clear = str(quest_obj)
-        data = NewLine().to_human(clear)
-        return EncodedJSOB.encode(data)
+        clear = repr(quest_obj) # encode values.
+        return EncodedJSOB.encode(clear)
 
     @staticmethod
     def from_share(block):
         ''' Copy-in the human to_share(), to an object. '''
         data = EncodedJSOB.decode(block)
         try:
-            data = NewLine().human_to_eval(data)
-            return Quest(eval(data))
+            data = eval(data)
+            return Quest(data)
         except:
             pass
         return None
 
     @staticmethod 
-    def encode(block):
+    def encode(block) -> str:
         result = '\nBEGIN_BLOCK$\n'
         for ss, ch in enumerate(block,1):
             result += f'0y{ord(ch)}'

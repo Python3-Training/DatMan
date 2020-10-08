@@ -36,34 +36,11 @@ class NewLine:
                 results += ch
         return results
 
-    def human_to_eval(self, data) -> str:
-        ''' Encode a multi-line block, for eval() parsing '''
-        results = ''
-        if data.find('\r'):
-            data = data.replace('\r\n', '\n')
-        buffer = ''
-        for seg in data.split('\n'):
-            if seg.endswith('\\'):
-                seg += '\n'
-                buffer += seg
-                continue
-            if buffer:
-                buffer += seg
-                seg = buffer
-                buffer = ''
-            seg = self.encode(seg)
-            results += seg
-        return results
-
     def from_human_line(self, data) -> str:
         ''' Encode a single-line for json parsing '''
         if data.find('\r'):
             data = data.replace('\r\n', '\n')
         return self.encode(data)
-
-    def to_human(self, json_string) ->str:
-        ''' Decode the multi-line for HUMAN parsing '''
-        return self.decode(json_string)
 
     def parse_one(self, zlines) -> dict:
         try:

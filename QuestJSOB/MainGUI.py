@@ -25,7 +25,7 @@ class Main(Tk, TkParent):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ztitle   = 'QuestJSOB 1.0'
+        self.ztitle   = 'QuestJSOB 1.1'
         self.zrelease = str('Testing Release: Come join us ' +
         'in the "Python3 Training" & "PyQuest" Groups, on Facebook.')
         self._quest_data = list()
@@ -151,7 +151,8 @@ class Main(Tk, TkParent):
     def form_data(self, crud_op, name_tag, quest_data):
         self._quest_data.append(quest_data)
         Quest.Renum(self._quest_data)
-        Quest.Sync(self._quest_data, self.project)
+        if not Quest.Sync(self._quest_data, self.project):
+            DlgMsg.show_error(self, "Internal Data Error", "Data Encoding Error!")
         self._quest_data.clear()
         self._show_project()
 

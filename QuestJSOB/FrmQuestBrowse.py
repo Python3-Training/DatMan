@@ -89,9 +89,12 @@ class FrmQuestBrowse(TkForm):
             return
         self._pw_quest = None
         text = McText.get(self._text_item)
-        if EncodedJSOB.is_encoded(text):
-            text = EncodedJSOB.decode(text)
-        text = NewLine().human_to_eval(text)
+        if not EncodedJSOB.is_encoded(text):
+            self._parent.show_error(
+                "Encoded Data", 
+                "Please paste an encoded question.")
+            return
+        text = EncodedJSOB.decode(text)
         quest = None
         try:
             zdict = eval(text)
@@ -115,7 +118,7 @@ class FrmQuestBrowse(TkForm):
                 "Unsuported JSOB data. Time to upgrade?")
             return        
 
-    def _on_clip_paste(self):
+    def _on_clip_to_text(self):
         text = None
         try:
             text = self._parent.clipboard_get().strip()
@@ -129,7 +132,7 @@ class FrmQuestBrowse(TkForm):
         self._pw_quest = None
         McText.upl(self._text_item, text)
 
-    def _on_clip_copy(self):
+    def _on_text_to_clip(self):
         if not McText.has_text(self._text_item):
             self._parent.show_error(
                 "No Data", 
@@ -142,7 +145,7 @@ class FrmQuestBrowse(TkForm):
             return
         encoded = McText.get(self._text_item).strip()
         if not EncodedJSOB.is_encoded(encoded):
-            encoded = EncodedJSOB.encode(encoded)
+            encoded = EncodedJSOB.to_share(self._pw_quest)
         self._parent.clipboard_clear()
         self._parent.clipboard_append(encoded)
         self._parent.title(f"Copied {self._pw_quest.ID} to Clipboard")
@@ -168,8 +171,8 @@ class FrmQuestBrowse(TkForm):
         Button(zlf_sidem, text="Encode", width=10, command=self._on_sel_encode).pack()
         Button(zlf_sidem, text="Decode", width=10, command=self._on_text_decode).pack()
         Label(zlf_sidem, text="", width=10).pack()
-        Button(zlf_sidem, text="Copy", width=10, command=self._on_clip_copy).pack()
-        Button(zlf_sidem, text="Paste", width=10, command=self._on_clip_paste).pack()
+        Button(zlf_sidem, text="Copy", width=10, command=self._on_text_to_clip).pack()
+        Button(zlf_sidem, text="Paste", width=10, command=self._on_clip_to_text).pack()
         Label(zlf_sidem, text="", width=10).pack()
         Button(zlf_sidem, text="Keep", width=10, command=self._on_keep_import).pack()
 

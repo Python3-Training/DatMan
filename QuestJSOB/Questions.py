@@ -21,15 +21,17 @@ class Quest(NewLine):
         self.status     = vals['status']
         self.question   = vals['question']
         self.answer     = vals['answer']
+        Quest.normalize(self)
+
+    @staticmethod
+    def normalize(quest_obj) -> None:
+        template = Quest.Source()
+        for ss, key in enumerate(template):
+            value = quest_obj.__dict__[key]
+            if isinstance(value, str):
+                quest_obj.__dict__[key] = quest_obj.decode(value)
 
     def __str__(self):
-        result = Quest.Source()
-        for key in result:
-            result[key] = self.__dict__[key]
-        message = json.dumps(result, indent=3)
-        return self.to_human(message)
-
-    def __repr__(self):
         result = "{\n"
         template = Quest.Source()
         for ss, key in enumerate(template):
@@ -42,6 +44,19 @@ class Quest(NewLine):
             else:
                 result += f'\t"{key}": {value}'
         result += "\n}"
+        return result
+
+    def __repr__(self):
+        result = {}
+        template = Quest.Source()
+        for ss, key in enumerate(template):
+            value = self.__dict__[key]
+            if isinstance(value, str):
+                result[key] = self.encode(value)
+            else:
+                result[key] = value
+        result = str(result)
+        eval(result)
         return result
 
     @staticmethod
@@ -105,7 +120,7 @@ class Quest(NewLine):
             if ss:
                 data += ','
             data += '\n'
-            data += repr(obj)
+            data += str(obj)
         data += '\n]\n'
         coder = JSOB(file_name)
         return coder.sync(data)
