@@ -15,7 +15,7 @@ The Quest()ion importation / exportation / sharing strategy is MainGUI.py.
 
 **[Source]** – Load a previously created .json file.
 
-**[Reload]** – Reload + renumber (Quest.ID, only) a .json file. **GENERATES a GID for any 'tbd' GIDs.**  Note that duplicate GID's are accepted, as well as processed. 
+**[Reload]** – Reload + renumber (Quest.ID, only) a .json file. **GENERATES a GID for any 'tbd' GIDs.**  Note that duplicate GIDs are accepted, as well as processed. 
 
 **[Report]** – Tag, tally, and show counts for categories, classifications, and grand totals.
 
