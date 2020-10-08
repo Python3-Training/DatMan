@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, '.')
 sys.path.insert(0, '../')
 
-from QuestJSOB.JSOB import JSOB
+from QuestJSOB.JSOB import *
 from QuestJSOB.Questions import Quest
 
 class EncodedJSOB:
@@ -22,7 +22,7 @@ class EncodedJSOB:
         if not isinstance(quest_obj, Quest):
             return False
         clear = str(quest_obj)
-        data = JSOB.to_human(clear)
+        data = NewLine().to_human(clear)
         return EncodedJSOB.encode(data)
 
     @staticmethod
@@ -30,7 +30,7 @@ class EncodedJSOB:
         ''' Copy-in the human to_share(), to an object. '''
         data = EncodedJSOB.decode(block)
         try:
-            data = JSOB.human_to_eval(data)
+            data = NewLine().human_to_eval(data)
             return Quest(eval(data))
         except:
             pass
