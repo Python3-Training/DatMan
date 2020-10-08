@@ -76,7 +76,6 @@ class Main(Tk, TkParent):
             return
         self._quest_data.clear()
         self._quest_data.append(Quest(Quest.Source()))
-        Quest.Renum(self._quest_data)
         Quest.Sync(self._quest_data, self.project)
         self._quest_data.clear()
         self._show_project()
@@ -100,25 +99,27 @@ class Main(Tk, TkParent):
     def _on_refresh(self):
         if not self.project:
             return
+        node = self.get_file_name()
         data = Quest.Load(self.project)
         if not data:
-            node = get_file_name()
             DlgMsg.show_error(self, "File Error",
                               f"Unable to load {node}.")
             return
         data = Quest.Reorder(data)
         if not data:
-            node = get_file_name()
             DlgMsg.show_error(self, "File Error",
                               f"Unable to process {node}.")
-            return        Quest.Renum(data)
+            return        
+        if not Quest.Renum(data):
+            DlgMsg.show_error(self, "File Error",
+                              f"Unable to [Renum] {node}.")
+            return  
         if not Quest.Sync(data, self.project):
-            node = get_file_name()
             DlgMsg.show_error(self, "File Error",
                               f"Unable to save {node}.")
             return
         self._show_project()
-        DlgMsg.show_info(self, "Success", f'Reloaded {self.get_file_name()}')
+        DlgMsg.show_info(self, "Success", f'Reloaded {self.get_file_name()}. Click to verify updated item(s.)')
 
     def _on_report(self):
         if not self._quest_data:
