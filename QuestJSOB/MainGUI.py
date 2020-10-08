@@ -35,7 +35,8 @@ class Main(Tk, TkParent):
         self.zoptions = (
             ("Project",     [("New...", self._on_new),
                              ("Source...", self._on_open)]),
-            ("Tools",       [("Report...", self._on_report)]),
+            ("Tools",       [("Refresh...", self._on_refresh),
+                             ("Report...", self._on_report)]),
             ("About",       [("About " + self.ztitle, self._on_about),
                              ("Quit", self.destroy)]),
             )
@@ -78,7 +79,7 @@ class Main(Tk, TkParent):
         Quest.Renum(self._quest_data)
         Quest.Sync(self._quest_data, self.project)
         self._quest_data.clear()
-        self._show_view()
+        self._show_project()
     
     def _on_open(self):
         self.project = askopenfilename(
@@ -88,7 +89,36 @@ class Main(Tk, TkParent):
         if not self.project:
             return
         self._quest_data.clear()        
-        self._show_view()
+        self._show_project()
+
+    def get_file_name(self) -> str:
+        if not self.project:
+            return str(None)
+        node = self.project.split('/')[-1]
+        return node.split('\\')[-1] # jic
+
+    def _on_refresh(self):
+        if not self.project:
+            return
+        data = Quest.Load(self.project)
+        if not data:
+            node = get_file_name()
+            DlgMsg.show_error(self, "File Error",
+                              f"Unable to load {node}.")
+            return
+        data = Quest.Reorder(data)
+        if not data:
+            node = get_file_name()
+            DlgMsg.show_error(self, "File Error",
+                              f"Unable to process {node}.")
+            return        Quest.Renum(data)
+        if not Quest.Sync(data, self.project):
+            node = get_file_name()
+            DlgMsg.show_error(self, "File Error",
+                              f"Unable to save {node}.")
+            return
+        self._show_project()
+        DlgMsg.show_info(self, "Success", f'Reloaded {self.get_file_name()}')
 
     def _on_report(self):
         if not self._quest_data:
@@ -104,7 +134,7 @@ class Main(Tk, TkParent):
     def _on_about(self):
         DlgMsg.show_info(self, self.ztitle, self.zrelease)
 
-    def _show_view(self) -> None:
+    def _show_project(self) -> None:
         if not os.path.exists(self.project):
             self.show_error("File not Found", "Unable to import " + self.project)
         else:
@@ -113,7 +143,7 @@ class Main(Tk, TkParent):
             if not self._quest_data:
                 self.show_error("No Data", "Data not found in " + self.project)
                 return
-            self.title(self.project)
+            self.title(self.get_file_name())
             if not self.pw_view.put_data(self._quest_data):
                 self.show_error('Data Format Error', 'Unable to load questions from ' + self.project)
 
@@ -122,7 +152,7 @@ class Main(Tk, TkParent):
         Quest.Renum(self._quest_data)
         Quest.Sync(self._quest_data, self.project)
         self._quest_data.clear()
-        self._show_view()
+        self._show_project()
 
     def form_done(self, changed, tag, quest_data):
         print(changed, tag)

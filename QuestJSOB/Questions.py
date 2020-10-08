@@ -38,9 +38,9 @@ class Quest(NewLine):
                 result += ','
                 result += '\n'
             if isinstance(value, str):
-                result += f'\t"{key}":"{value}"'
+                result += f'\t"{key}": "{value}"'
             else:
-                result += f'\t"{key}":{value}'
+                result += f'\t"{key}": {value}'
         result += "\n}"
         return result
 
@@ -98,7 +98,8 @@ class Quest(NewLine):
     
     @staticmethod
     def Sync(values, file_name = FILE_DEFAULT):
-        ''' Save the data to a multi-line / human editable J.S.O.N database '''
+        ''' Save the data to a multi-line / human editable
+        J.S.O.N database '''
         data = '['
         for ss, obj in enumerate(values):
             if ss:
