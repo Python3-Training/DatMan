@@ -1,8 +1,8 @@
 # JSOB Questions & Answers
 
-The mission is to use a J.S.O.N friendly editor (like Notepad++ - recommended!) to manage a collection of questions. Spell checking is also a great feature of all modern programming editors?
+The mission is to use a J.S.O.N friendly editor (like Notepad++ - recommended!) to manage / spell check a collection of questions.
 
-The sub-mission of the project is also to uniquely identify each and every Quest()ion.
+The sub-mission of the project is to ALSO uniquely identify each and every Quest()ion to support planetary information sharing.
 
 To get started, simply run the GUI (below) and create a **[New]** project.
 
@@ -15,7 +15,7 @@ The Quest()ion importation / exportation / sharing strategy is MainGUI.py.
 
 **[Source]** – Load a previously created .json file.
 
-**[Reload]** – Reload + renumber a .json file.
+**[Reload]** – Reload + renumber (Quest.ID, only) a .json file. Duplicate GID's are accepted, as well as processed.
 
 **[Report]** – Tag, tally, and show counts for categories, classifications, and grand totals.
 
@@ -31,8 +31,9 @@ The Quest()ion importation / exportation / sharing strategy is MainGUI.py.
 
 **[Keep]** – Save the entry into the active .json file.
 
+**Note that each question is granted a unique global identifier (GID.)** The '**[Keep]**' operation requires that any 'kept' (imported) GID be unique. 
 
-Note that each question is granted a global identified (GID.) While we can manually have duplicates, the '**[Keep]**' operation requires that any 'kept' (imported) GID to be unique. Either (1) enter manually, or (2) put a duplicate into a **[New]** JSOB file.
+To add a duplicate entry to your .json collection, either (1) add the duplicate entry using your JSON editor, or (2) **[Keep]** the duplicate in a **[New]** JSOB collection.
 
 Status: Testing Release
 Version: 1.0
