@@ -7,7 +7,7 @@ The sub-mission of the project is to ALSO uniquely identify each and every Quest
 To get started, simply run the GUI (below) and create a **[New]** project.
 
 # GUI File Manager
-The Quest()ion importation / exportation / sharing strategy is MainGUI.py. 
+The Quest()ion importation / exportation / sharing strategy is MainGUI.py.
 
 ## Key operations include:
 
@@ -34,6 +34,8 @@ The Quest()ion importation / exportation / sharing strategy is MainGUI.py.
 **Note that each question is granted a unique global identifier (GID.)** The '**[Keep]**' operation requires that any 'kept' (imported) GID be unique. 
 
 To add a duplicate entry to your .json collection, either (1) add the duplicate entry using your JSON editor, or (2) **[Keep]** the duplicate in a **[New]** JSOB collection.
+
+p.s: When we need **[Reload]** to generate a NEW GID for any question(s), we may simply set a question's **GID: 'tbd',** using our JSON editor.
 
 Status: Testing Release
 Version: 1.0
