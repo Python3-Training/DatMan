@@ -50,7 +50,7 @@ class JSOB(NewLine):
             data = data.replace('\r\n', '\n')
         return self.encode(data)
 
-    def __parse_one(self, zlines) -> dict:
+    def __parse_one(self, zlines, exceptional = False) -> dict:
         try:
             result = {}
             hold = eval(' '.join(zlines))
@@ -64,6 +64,8 @@ class JSOB(NewLine):
 
         except Exception as ex:
             self.last_execption = ex
+            if exceptional:
+                raise ex
         return None
     
     def load_by_json(self) -> str:
@@ -76,7 +78,7 @@ class JSOB(NewLine):
             self.last_exception = ex
         return ''
 
-    def load_by_eval(self) -> list:
+    def load_by_eval(self, exceptional=False) -> list:
         ''' Parses one dictionary-entry, at-a-time, using eval - NOT THE JSON PARSER. '''
         self.last_execption = None
         results = []; errors = 0
@@ -98,7 +100,7 @@ class JSOB(NewLine):
                         continue
                     if line[0] == "}":
                         zlines.append('}')
-                        dict_ = self.__parse_one(zlines)
+                        dict_ = self.__parse_one(zlines, exceptional)
                         if not dict_: 
                             errors += 1
                         else:
@@ -109,6 +111,8 @@ class JSOB(NewLine):
         except Exception as ex:
             errors += 1
             self.last_exception = ex
+            if exceptional:
+                raise ex
         return errors, results
 
     def snapshot(self) -> bool:

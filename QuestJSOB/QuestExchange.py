@@ -27,7 +27,11 @@ class EncodedJSOB:
     @staticmethod
     def from_share(block):
         ''' Copy-in the human to_share(), to an object. '''
-        data = EncodedJSOB.decode(block)
+        decoded = ''
+        for char in block:
+            if char.isprintable():
+                decoded += char
+        data = EncodedJSOB.decode(decoded)
         try:
             data = eval(data)
             return Quest(data)

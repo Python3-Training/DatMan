@@ -62,12 +62,12 @@ class Quest():
         return result
 
     @staticmethod
-    def Load(file_name = FILE_DEFAULT, use_eval=True):
+    def Load(file_name = FILE_DEFAULT, use_eval=True, exceptional=False):
         ''' Load a pre-existing file into a list of Quest()s '''
         zresults = list()
         coder = JSOB(file_name)
         if use_eval:
-            errors, data = coder.load_by_eval()
+            errors, data = coder.load_by_eval(exceptional)
             if errors:
                 raise Exception(f"eval: {errors} error(s) were found.")
             for dict_ in data:
@@ -115,8 +115,7 @@ class Quest():
     
     @staticmethod
     def Sync(values, file_name = FILE_DEFAULT):
-        ''' Save the data to a multi-line / human editable
-        J.S.O.N database '''
+        ''' Save the data to a multi-line / human editable J.S.O.N database '''
         data = '['
         for ss, obj in enumerate(values):
             if ss:
