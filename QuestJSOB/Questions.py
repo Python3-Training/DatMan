@@ -5,7 +5,7 @@ sys.path.insert(0, '../')
 import json
 from QuestJSOB.JSOB import *
 
-class Quest(NewLine):
+class Quest():
     ''' Demonstrate how to use a basic JSON-serialized dictionary. '''
     
     FILE_DEFAULT = 'AllQuestions.json'
@@ -25,11 +25,12 @@ class Quest(NewLine):
 
     @staticmethod
     def normalize(quest_obj) -> None:
+        newline = NewLine()
         template = Quest.Source()
         for ss, key in enumerate(template):
             value = quest_obj.__dict__[key]
             if isinstance(value, str):
-                quest_obj.__dict__[key] = quest_obj.decode(value)
+                quest_obj.__dict__[key] = newline.decode(value)
 
     def __str__(self):
         result = "{\n"
@@ -48,11 +49,12 @@ class Quest(NewLine):
 
     def __repr__(self):
         result = {}
+        newline = NewLine()
         template = Quest.Source()
         for ss, key in enumerate(template):
             value = self.__dict__[key]
             if isinstance(value, str):
-                result[key] = self.encode(value)
+                result[key] = newline.encode(value)
             else:
                 result[key] = value
         result = str(result)

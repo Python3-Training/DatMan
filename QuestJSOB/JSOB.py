@@ -13,7 +13,6 @@ class NewLine:
         }
     
     def __init__(self):
-        self.last_execption = None
         self.de = {}
         for key in NewLine.en:
             self.de[NewLine.en[key]] = key
@@ -35,6 +34,15 @@ class NewLine:
             else:
                 results += ch
         return results
+
+class JSOB(NewLine):
+    ''' A quick-fix to enable multi-line strings for Python in J.S.O.N '''
+    def __init__(self, file_name, backup=True):
+        super().__init__()
+        self.file = file_name
+        self.backup = backup
+        self.last_snap = None
+        self.last_execption = None
 
     def from_human_line(self, data) -> str:
         ''' Encode a single-line for json parsing '''
@@ -93,15 +101,6 @@ class NewLine:
             self.last_exception = ex
         return errors, results
 
-
-class JSOB(NewLine):
-    ''' A quick-fix to enable multi-line strings for Python in J.S.O.N '''
-    def __init__(self, file_name, backup=True):
-        super().__init__()
-        self.file = file_name
-        self.backup = backup
-        self.last_snap = None
-
     def snapshot(self) -> bool:
         ''' Backup the constructed file to a 'probably unique' file name. '''
         import os.path; import time; import shutil
@@ -133,7 +132,7 @@ class JSOB(NewLine):
                 raise Exception(f'Unable to backup "{self.file}"?')
         try:
             with open(self.file, 'w') as fh:
-                print(json_string, file=fh)
+                print(json_string, end='', file=fh)
                 return True
         except Exception as ex:
             self.last_exception = ex
