@@ -44,13 +44,13 @@ class JSOB(NewLine):
         self.last_snap = None
         self.last_execption = None
 
-    def from_human_line(self, data) -> str:
+    def __from_human_line(self, data) -> str:
         ''' Encode a single-line for json parsing '''
         if data.find('\r'):
             data = data.replace('\r\n', '\n')
         return self.encode(data)
 
-    def parse_one(self, zlines) -> dict:
+    def __parse_one(self, zlines) -> dict:
         try:
             result = {}
             hold = eval(' '.join(zlines))
@@ -65,6 +65,16 @@ class JSOB(NewLine):
         except Exception as ex:
             self.last_execption = ex
         return None
+    
+    def load_by_json(self) -> str:
+        ''' Reads file, converting JSON's 'human readable' multiline escapes, to inline \\n style. '''
+        self.last_execption = None
+        try:
+            with open(self.file, encoding='utf-8') as fh:
+                return self.__from_human_line(fh.read())
+        except Exception as ex:
+            self.last_exception = ex
+        return ''
 
     def load_by_eval(self) -> list:
         ''' Parses one dictionary-entry, at-a-time, using eval - NOT THE JSON PARSER. '''
@@ -83,12 +93,12 @@ class JSOB(NewLine):
                         buffer += line
                         line = buffer
                         buffer = ''
-                    line = self.from_human_line(line.strip())
+                    line = self.__from_human_line(line.strip())
                     if not line or line in ignore:
                         continue
                     if line[0] == "}":
                         zlines.append('}')
-                        dict_ = self.parse_one(zlines)
+                        dict_ = self.__parse_one(zlines)
                         if not dict_: 
                             errors += 1
                         else:
@@ -114,16 +124,6 @@ class JSOB(NewLine):
             return False
         self.last_execption = None
         return True
-    
-    def load_by_json(self) -> str:
-        ''' Reads file, converting JSON's 'human readable' multiline escapes, to inline \\n style. '''
-        self.last_execption = None
-        try:
-            with open(self.file, encoding='utf-8') as fh:
-                return self.from_human_line(fh.read())
-        except Exception as ex:
-            self.last_exception = ex
-        return ''
 
     def sync(self, json_string) -> bool:
         ''' Save a file, backing-up if, and as, desired. '''
