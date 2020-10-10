@@ -302,5 +302,6 @@ class FrmQuestBrowse(TkForm):
         for ss, quest in enumerate(quest_data):
             short.append(f'{str(ss+1):>04}\t {quest.question[0:80]} ...')
         McListbox.set(self._lstbx_items, short)
+        self._pw_index = self._pw_index_found = -1
         return True
 

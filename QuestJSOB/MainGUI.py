@@ -103,7 +103,13 @@ class Main(Tk, TkParent):
         if not self.project:
             return
         node = self.get_file_name()
-        data = Quest.Load(self.project)
+        data = None
+        try:
+            data = Quest.Load(self.project)
+            return
+        except Exception as ex:
+            self.show_error('Refresh Error', str(ex))
+            return
         if not data:
             DlgMsg.show_error(self, "File Error",
                               f"Unable to load {node}.")
@@ -142,8 +148,12 @@ class Main(Tk, TkParent):
         if not os.path.exists(self.project):
             self.show_error("File not Found", "Unable to import " + self.project)
         else:
-            self._quest_data.clear()        
-            self._quest_data = Quest.Load(self.project)
+            self._quest_data.clear()
+            try:
+                self._quest_data = Quest.Load(self.project)
+            except Exception as ex:
+                self.show_error('Loading Error', str(ex))
+                return
             if not self._quest_data:
                 self.show_error("No Data", "Data not found in " + self.project)
                 return
