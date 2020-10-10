@@ -18,7 +18,7 @@ from QuestJSOB.TkFrames import TkForm
 from QuestJSOB.TkMacro import *
 from QuestJSOB.Questions import Quest as Quest
 from QuestJSOB.QuestExchange import EncodedJSOB
-from QuestJSOB.DlgMessage import DlgMsg
+from QuestJSOB.DlgMessage import *
 
 class FrmQuestBrowse(TkForm):
     ''' Data importation Form '''
@@ -32,20 +32,27 @@ class FrmQuestBrowse(TkForm):
         self._pw_quest = None
         self._pw_index = -1
         self._pw_index_found = -1
-        self._last_find = ''
         self._lstbx_items = None
         self._sb_items = None
         self._active = False # True = disable event processing
         self._buttons = {}
+        self._dlg_find = DlgCacheResults(self.parent)
 
-    def _show_item(self, index):
-        if index < 0:
-            return
-        view = self._data[index]
-        block = str(view)
-        McText.upl(self._text_item, block)
-        McListbox.set_selected(self._lstbx_items, index)
-        self.parent.show_status(f'Item ID# {view.ID}')
+    def _show_item(self, index) -> bool:
+        try:
+            if index < 0:
+                return
+            self._active = True
+            view = self._data[index]
+            block = str(view)
+            McText.upl(self._text_item, block)
+            McListbox.set_selected(self._lstbx_items, index)
+            self.parent.show_status(f'Item ID# {view.ID}')
+        except:
+            return False
+        finally:
+            self._active = False
+        return True
 
     def _on_browse_click(self, vevent):
         if self._active:
@@ -63,7 +70,8 @@ class FrmQuestBrowse(TkForm):
                     self._show_item(index)
                     self._pw_index_found = index
         except Exception as ex:
-            self.parent.show_error("Unexpected Exception", str(ex))
+            # self.parent.show_error("Unexpected Exception", str(ex))
+            pass # observed!
         finally:
             self._active = False
             self._set_button_state()
@@ -179,21 +187,18 @@ class FrmQuestBrowse(TkForm):
 
         try:
             self._active = True
-            _last_find = simpledialog.askstring(
-                "Find Next Item", "Item Contents:", 
-                initialvalue=str(self._last_find), parent=self.parent)
-            if not _last_find:
+            matcher = self._dlg_find.get_results("Find Next Item", "Item Contents:")
+            if not matcher:
                 return
-            self._last_find = _last_find
             for which in range(self._pw_index_found + 1, len(self._data)):
                 item = self._data[which]
-                if item.contains(_last_find):
+                if item.contains(matcher):
                     self._show_item(which)
                     self._pw_index_found = which
                     return
             for which in range(0, self._pw_index_found):
                 item = self._data[which]
-                if item.contains(_last_find):
+                if item.contains(matcher):
                     self._show_item(which)
                     self._pw_index_found = which
                     return
