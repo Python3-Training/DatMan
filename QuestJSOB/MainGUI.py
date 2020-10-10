@@ -50,6 +50,9 @@ class Main(Tk, TkParent):
                 activeBackground="gold", # e.g. Menu selections
                 )
 
+    def show_status(self, message):
+        self.title(message)
+
     def show_error(self, title, message):
         DlgMsg.show_error(self, title, message)
 

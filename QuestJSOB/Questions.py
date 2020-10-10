@@ -23,6 +23,13 @@ class Quest():
         self.answer     = vals['answer']
         Quest.normalize(self)
 
+    def contains(self, search) -> bool:
+        for key in Quest.Source():
+            value = str(self.__dict__[key])
+            if value.find(search) != -1:
+                return True
+        return False
+
     @staticmethod
     def normalize(quest_obj) -> None:
         newline = NewLine()

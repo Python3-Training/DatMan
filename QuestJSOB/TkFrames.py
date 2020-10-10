@@ -8,6 +8,11 @@ class TkParent(ABC):
     ''' What every parent knows '''
 
     @abstractmethod
+    def show_status(message):
+        ''' Update the status '''
+        pass
+
+    @abstractmethod
     def show_error(title, message):
         ''' How to log / show an error '''
         pass

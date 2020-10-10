@@ -32,6 +32,11 @@ class McListbox:
         for ss, item in enumerate(items, 0):
             list_box.insert(ss, item)
 
+    def set_selected(list_box, index) -> None:
+        if isinstance(index, int):
+            list_box.see(index)
+            # list_box.activate(index)
+
     def get_selected(list_box) -> str:
         return list_box.get(list_box.curselection())
 

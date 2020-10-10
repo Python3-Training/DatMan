@@ -9,6 +9,7 @@ sys.path.insert(0, '.')
 sys.path.insert(0, '../')
 from tkinter import *
 from tkinter import messagebox
+import tkinter.simpledialog as simpledialog
 from tkinter.filedialog import askopenfilename
 from collections import OrderedDict
 
@@ -23,17 +24,34 @@ class FrmQuestBrowse(TkForm):
     ''' Data importation Form '''
     def __init__(self):
         super().__init__()
-        self._parent = None
+        self.parent = None
         self._data = list()
         self._frame = None
         self._name_tag = None
         self._text_item = None
         self._pw_quest = None
+        self._pw_index = -1
+        self._pw_index_found = -1
+        self._last_find = ''
         self._lstbx_items = None
         self._sb_items = None
+        self._active = False # True = disable event processing
+        self._buttons = {}
+
+    def _show_item(self, index):
+        if index < 0:
+            return
+        view = self._data[index]
+        block = str(view)
+        McText.upl(self._text_item, block)
+        McListbox.set_selected(self._lstbx_items, index)
+        self.parent.show_status(f'Item ID# {view.ID}')
 
     def _on_browse_click(self, vevent):
+        if self._active:
+            return
         try:
+            self._active = True
             line = McListbox.get_selected(self._lstbx_items)
             if line:
                 pos = line.find('\t')
@@ -41,15 +59,18 @@ class FrmQuestBrowse(TkForm):
                     return
                 else:
                     index = int(line[0:pos]) - 1
-                    self._pw_quest = self._data[index]
-                    block = str(self._pw_quest)
-                    McText.upl(self._text_item, block)
+                    self._pw_index = index
+                    self._show_item(index)
+                    self._pw_index_found = index
         except Exception as ex:
             self.parent.show_error("Unexpected Exception", str(ex))
+        finally:
+            self._active = False
+            self._set_button_state()
 
     def _on_sel_encode(self):
         if not self._pw_quest:
-            self._parent.show_error(
+            self.parent.show_error(
                 "No Data", 
                 "Please select an item to encode?")
             return
@@ -68,29 +89,29 @@ class FrmQuestBrowse(TkForm):
         try:
             self._pw_quest = EncodedJSOB.from_share(text)
             if not self._pw_quest:
-                self._parent.show_error(
+                self.parent.show_error(
                     "Unsuported Format", 
                     "Unknown JSOB format. Time to upgrade?")
                 return
             block = str(self._pw_quest)
             McText.upl(self._text_item, block)
-            self._parent.title('JSOB Question Decoded.')
+            self.parent.title('JSOB Question Decoded.')
             return
         except:
-            self._parent.show_error(
+            self.parent.show_error(
                 "Unsuported Dictionary Format", 
                 "Unsuported JSOB data. Time to upgrade?")
 
     def _on_keep_import(self):
         if not McText.has_text(self._text_item):
-            self._parent.show_error(
+            self.parent.show_error(
                 "No Data", 
                 "Please paste an item to import?")
             return
         self._pw_quest = None
         text = McText.get(self._text_item)
         if not EncodedJSOB.is_encoded(text):
-            self._parent.show_error(
+            self.parent.show_error(
                 "Encoded Data", 
                 "Please paste an encoded question.")
             return
@@ -102,18 +123,18 @@ class FrmQuestBrowse(TkForm):
             if quest.GID != 'tbd':
                 for q in self._data:
                     if quest.GID == q.GID:
-                        DlgMsg.show_error(self._parent,
+                        DlgMsg.show_error(self.parent,
                             "Duplicate Global-Identifier",
                             "Unable to add this 'keep' item " +
                             "to the active database; " + 
                             "a question with a maching GID already " +
                             "exists. -Consider using another database?")
                         return
-            self._parent.form_data('C', self._name_tag, quest)
+            self.parent.form_data('C', self._name_tag, quest)
         except:
             pass
         if not quest:
-            self._parent.show_error(
+            self.parent.show_error(
                 "Dictionary Format Error", 
                 "Unsuported JSOB data. Time to upgrade?")
             return        
@@ -121,11 +142,11 @@ class FrmQuestBrowse(TkForm):
     def _on_clip_to_text(self):
         text = None
         try:
-            text = self._parent.clipboard_get().strip()
+            text = self.parent.clipboard_get().strip()
         except:
             pass
         if not text:
-            self._parent.show_error(
+            self.parent.show_error(
                 "No Data", 
                 "The clipboard is empty?")
             return
@@ -134,32 +155,72 @@ class FrmQuestBrowse(TkForm):
 
     def _on_text_to_clip(self):
         if not McText.has_text(self._text_item):
-            self._parent.show_error(
+            self.parent.show_error(
                 "No Data", 
                 "Please select an item to copy to the clipboard?")
             return
         if not self._pw_quest:
-            self._parent.show_error(
+            self.parent.show_error(
                 "No Item Selected", 
                 "Please select a question to copy to the clipboard.")
             return
         encoded = McText.get(self._text_item).strip()
         if not EncodedJSOB.is_encoded(encoded):
             encoded = EncodedJSOB.to_share(self._pw_quest)
-        self._parent.clipboard_clear()
-        self._parent.clipboard_append(encoded)
-        self._parent.title(f"Copied {self._pw_quest.ID} to Clipboard")
+        self.parent.clipboard_clear()
+        self.parent.clipboard_append(encoded)
+        self.parent.title(f"Copied {self._pw_quest.ID} to Clipboard")
+
+    def _on_locate(self):
+        if self._pw_index < 0:
+            return
+        if self._pw_index_found < 0:
+            self._pw_index_found = self._pw_index
+
+        try:
+            self._active = True
+            _last_find = simpledialog.askstring(
+                "Find Next Item", "Item Contents:", 
+                initialvalue=str(self._last_find), parent=self.parent)
+            if not _last_find:
+                return
+            self._last_find = _last_find
+            for which in range(self._pw_index_found + 1, len(self._data)):
+                item = self._data[which]
+                if item.contains(_last_find):
+                    self._show_item(which)
+                    self._pw_index_found = which
+                    return
+            for which in range(0, self._pw_index_found):
+                item = self._data[which]
+                if item.contains(_last_find):
+                    self._show_item(which)
+                    self._pw_index_found = which
+                    return
+            self.parent.show_status('Item not found.')
+        finally:
+            self._active = False
 
     def _on_quit(self):
-        self._parent.form_done(False,self._name_tag,{})
+        self.parent.form_done(False,self._name_tag,{})
 
     def destroy(self):
         if self._frame:
             self._frame.destroy()
 
+    def _set_button_state(self):
+        if self._pw_index < 0:
+            for key in self._buttons:
+                ref = self._buttons[key]
+                ref['state'] = DISABLED
+        else:
+            for key in self._buttons:
+                ref = self._buttons[key]
+                ref['state'] = NORMAL
+
     def create_form(self, zframe, name_tag):
         ''' Creates another TkForm. Return TkForm / self. '''
-        self._parent = zframe
+        self.parent = zframe
         self._name_tag = name_tag
 
         # Parent Frame
@@ -168,13 +229,27 @@ class FrmQuestBrowse(TkForm):
         # LabelFrame Sidebar
         zlf_sidem = LabelFrame(self._frame, text=" Actions   ",
                                bg='dark green', fg='gold')
-        Button(zlf_sidem, text="Encode", width=10, command=self._on_sel_encode).pack()
-        Button(zlf_sidem, text="Decode", width=10, command=self._on_text_decode).pack()
+
+        btn = Button(zlf_sidem, text="Encode", width=10, command=self._on_sel_encode)
+        btn.pack()
+        self._buttons['encode'] = btn
+        btn = Button(zlf_sidem, text="Decode", width=10, command=self._on_text_decode)
+        btn.pack()
+        self._buttons['decode'] = btn
         Label(zlf_sidem, text="", width=10).pack()
-        Button(zlf_sidem, text="Copy", width=10, command=self._on_text_to_clip).pack()
-        Button(zlf_sidem, text="Paste", width=10, command=self._on_clip_to_text).pack()
+        btn = Button(zlf_sidem, text="Copy", width=10, command=self._on_text_to_clip)
+        btn.pack()
+        self._buttons['copy'] = btn
+        btn = Button(zlf_sidem, text="Paste", width=10, command=self._on_clip_to_text)
+        btn.pack()
+        self._buttons['paste'] = btn
+        btn = Button(zlf_sidem, text="Find", width=10, command=self._on_locate)
+        btn.pack()
+        self._buttons['find'] = btn
         Label(zlf_sidem, text="", width=10).pack()
-        Button(zlf_sidem, text="Keep", width=10, command=self._on_keep_import).pack()
+        btn = Button(zlf_sidem, text="Keep", width=10, command=self._on_keep_import)
+        btn.pack()
+        self._buttons['keep'] = btn
 
         # LabelFrame Top
         zlf_items = LabelFrame(self._frame, 
@@ -201,9 +276,10 @@ class FrmQuestBrowse(TkForm):
         zlf_items.grid(row=0, column=1, sticky=NSEW)
         McGrid.fill_cell(self._frame, zlf_item, 1, 1) # Highlander effect?
 
-        self._parent.grid_columnconfigure(0, weight=1)
-        self._parent.grid_rowconfigure(0, weight=1)
+        self.parent.grid_columnconfigure(0, weight=1)
+        self.parent.grid_rowconfigure(0, weight=1)
         self._frame.pack(anchor=CENTER, fill=BOTH, expand=True)
+        self._set_button_state()
         return self
 
     def get_data(self, quest_data) -> bool:
