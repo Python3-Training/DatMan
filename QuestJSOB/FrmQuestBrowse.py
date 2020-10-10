@@ -34,7 +34,6 @@ class FrmQuestBrowse(TkForm):
         self._pw_index_found = -1
         self._lstbx_items = None
         self._sb_items = None
-        self._active = False # True = disable event processing
         self._buttons = {}
         self._dlg_find = DlgCacheResults(self.parent)
 
@@ -42,7 +41,6 @@ class FrmQuestBrowse(TkForm):
         try:
             if index < 0:
                 return
-            self._active = True
             view = self._data[index]
             block = str(view)
             McText.upl(self._text_item, block)
@@ -50,15 +48,10 @@ class FrmQuestBrowse(TkForm):
             self.parent.show_status(f'Item ID# {view.ID}')
         except:
             return False
-        finally:
-            self._active = False
         return True
 
     def _on_browse_click(self, vevent):
-        if self._active:
-            return
         try:
-            self._active = True
             line = McListbox.get_selected(self._lstbx_items)
             if line:
                 pos = line.find('\t')
@@ -67,13 +60,13 @@ class FrmQuestBrowse(TkForm):
                 else:
                     index = int(line[0:pos]) - 1
                     self._pw_index = index
+                    self._pw_quest = self._data[index]
                     self._show_item(index)
                     self._pw_index_found = index
         except Exception as ex:
             # self.parent.show_error("Unexpected Exception", str(ex))
             pass # observed!
         finally:
-            self._active = False
             self._set_button_state()
 
     def _on_sel_encode(self):
@@ -185,26 +178,22 @@ class FrmQuestBrowse(TkForm):
         if self._pw_index_found < 0:
             self._pw_index_found = self._pw_index
 
-        try:
-            self._active = True
-            matcher = self._dlg_find.get_results("Find Next Item", "Item Contents:")
-            if not matcher:
+        matcher = self._dlg_find.get_results("Find Next Item", "Item Contents:")
+        if not matcher:
+            return
+        for which in range(self._pw_index_found + 1, len(self._data)):
+            item = self._data[which]
+            if item.contains(matcher):
+                self._show_item(which)
+                self._pw_index_found = which
                 return
-            for which in range(self._pw_index_found + 1, len(self._data)):
-                item = self._data[which]
-                if item.contains(matcher):
-                    self._show_item(which)
-                    self._pw_index_found = which
-                    return
-            for which in range(0, self._pw_index_found):
-                item = self._data[which]
-                if item.contains(matcher):
-                    self._show_item(which)
-                    self._pw_index_found = which
-                    return
-            self.parent.show_status('Item not found.')
-        finally:
-            self._active = False
+        for which in range(0, self._pw_index_found):
+            item = self._data[which]
+            if item.contains(matcher):
+                self._show_item(which)
+                self._pw_index_found = which
+                return
+        self.parent.show_status('Item not found.')
 
     def _on_quit(self):
         self.parent.form_done(False,self._name_tag,{})
