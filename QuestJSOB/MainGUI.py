@@ -106,7 +106,6 @@ class Main(Tk, TkParent):
         data = None
         try:
             data = Quest.Load(self.project)
-            return
         except Exception as ex:
             self.show_error('Refresh Error', str(ex))
             return
