@@ -95,7 +95,10 @@ class JSOB(NewLine):
                         buffer += line
                         line = buffer
                         buffer = ''
-                    line = self.__from_human_line(line.strip())
+                    line = line.strip()
+                    if line.endswith('"'):
+                        line += ',' # a common gotcha
+                    line = self.__from_human_line(line)
                     if not line or line in ignore:
                         continue
                     if line[0] == "}":
