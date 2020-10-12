@@ -7,7 +7,7 @@ import textwrap
 
 from QuestJSOB.TkMacro import *
 
-class DlgCacheResults:
+class DlgMsgCache:
 	''' Save + re-use a previous query result '''
 	def __init__(self, parent):
 		self.parent = parent
@@ -73,11 +73,16 @@ class DlgMsg:
 				lines = textwrap.wrap(message, width=msg_width)
 			else:
 				lines = message
-			text = Text(frame, width=msg_width + 2, height=len(lines)+2)
-			McText.put(text, "\n".join(lines))
-			McText.lock(text)
-			text['state'] = DISABLED
-			text.pack()
+			if len(lines) > 10:
+				lbox = Listbox(frame, width=msg_width + 2, height=10)
+				lbox.insert(0, *lines)
+				lbox.pack()
+			else:
+				text = Text(frame, width=msg_width + 2, height=len(lines)+2)
+				McText.put(text, "\n".join(lines))
+				McText.lock(text)
+				text['state'] = DISABLED
+				text.pack()
 			Button(frame, text="Okay", command=dlg.destroy).pack()
 			frame.pack()
 			dlg.focus()

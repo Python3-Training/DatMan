@@ -35,7 +35,7 @@ class FrmQuestBrowse(TkForm):
         self._lstbx_items = None
         self._sb_items = None
         self._buttons = {}
-        self._dlg_find = DlgCacheResults(self.parent)
+        self._dlg_find = DlgMsgCache(self.parent)
 
     def _show_item(self, index) -> bool:
         try:
@@ -126,9 +126,9 @@ class FrmQuestBrowse(TkForm):
                     if quest.GID == q.GID:
                         DlgMsg.show_error(self.parent,
                             "Duplicate Global-Identifier",
-                            "Unable to add this 'keep' item " +
-                            "to the active database; " + 
-                            "a question with a maching GID already " +
+                            "Unable to add this 'keep' item "
+                            "to the active database; "
+                            "a question with a maching GID already "
                             "exists. -Consider using another database?")
                         return
             self.parent.form_data('C', self._name_tag, quest)
