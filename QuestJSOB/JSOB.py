@@ -138,7 +138,7 @@ class JSOB(NewLine):
             if not self.snapshot():
                 raise Exception(f'Unable to backup "{self.file}"?')
         try:
-            with open(self.file, 'w') as fh:
+            with open(self.file, 'w', encoding='utf-8') as fh:
                 print(json_string, end='', file=fh)
                 return True
         except Exception as ex:
