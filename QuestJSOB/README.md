@@ -2,6 +2,8 @@
 
 The mission is to use a J.S.O.N friendly editor (like Notepad++ - recommended!) to manage / spell check a collection of questions.
 
+Getting started: https://youtu.be/qBsSf2DIFLs
+
 The sub-mission of the project is to ALSO uniquely identify - as well as to encode - each and every Quest()ion to better support planetary information sharing.
 
 To get started, simply run the GUI (below) and create a **[New]** project.
