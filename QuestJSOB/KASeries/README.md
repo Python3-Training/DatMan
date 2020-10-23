@@ -12,4 +12,4 @@ The rest, as they say, is pure [serendipity](https://www.dictionary.com/browse/s
 
 Because Python is in it's "magic" 3rd revision (much as I mention in [my amazon book](https://www.amazon.com/dp/B08HJBD98J)) mentioned therein, again – and over the decades - I have discovered that it is that “golden third” which makes the continued evolution of ANY project worthy of our attention. -Certainly – in the case of Python 3 - ever more interesting to follow. 
 
-So whilst we all continue to learn what is new & cool with Python – and as those PEPs trudge ever onward - my sincere hopes are that - if nothing else - that following these Q’s and A’s will prove to be yet another great way for us all to keep up with a more responsible evolution of the Python Standard. 
+So whilst we all continue to learn what is new & cool with Python – and as those PEPs trudge ever onward - my sincere hopes are - if nothing else - that following these Q’s and A’s will prove to be yet another great way for us all to keep up with a more responsible evolution of the Python Standard. 
