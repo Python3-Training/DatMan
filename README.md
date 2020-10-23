@@ -7,6 +7,8 @@ In order to get the most from these lessons, students should be familiar with th
 
 If you are looking for 'that question sharing thing,' then QuestJSOB 'be [here](https://github.com/Python3-Training/DatMan/tree/master/QuestJSOB).
 
+We are also sharing the work-in-progress. An enumerated set of questions & answers 'Pythoneers can use to better prepare for professional exams & interviews @ https://github.com/Python3-Training/DatMan/tree/master/QuestJSOB/KASeries/KA9000
+
 Enjoy the journey!
 
 -- Randall
