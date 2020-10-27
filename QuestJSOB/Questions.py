@@ -96,8 +96,10 @@ class Quest():
         return len(values)
         
     @staticmethod
-    def Reorder(values):
+    def Reorder(values, bGid=False):
         ''' Demonstrate how to work on a list of Quest()ions '''
+        if bGid:
+            return sorted(values, key=lambda a: a.KID + a.GID)
         return sorted(values, key=lambda a: a.status + a.association + a.difficulty)
         
     @staticmethod

@@ -36,6 +36,7 @@ class Main(Tk, TkParent):
             ("Project",     [("New...", self._on_new),
                              ("Source...", self._on_open)]),
             ("Tools",       [("Refresh...", self._on_refresh),
+                             ("K-Group...", self._on_group),
                              ("Report...", self._on_report)]),
             ("About",       [("About " + self.ztitle, self._on_about),
                              ("Quit", self.destroy)]),
@@ -98,6 +99,36 @@ class Main(Tk, TkParent):
             return str(None)
         node = self.project.split('/')[-1]
         return node.split('\\')[-1] # jic
+
+    def _on_group(self):
+        if not self.project:
+            return
+        node = self.get_file_name()
+        data = None
+        try:
+            data = Quest.Load(self.project)
+        except Exception as ex:
+            self.show_error('Refresh Error', str(ex))
+            return
+        if not data:
+            DlgMsg.show_error(self, "File Error",
+                              f"Unable to load {node}.")
+            return
+        data = Quest.Reorder(data, True)
+        if not data:
+            DlgMsg.show_error(self, "File Error",
+                              f"Unable to process {node}.")
+            return        
+        if not Quest.Renum(data):
+            DlgMsg.show_error(self, "File Error",
+                              f"Unable to [Renum] {node}.")
+            return  
+        if not Quest.Sync(data, self.project):
+            DlgMsg.show_error(self, "File Error",
+                              f"Unable to save {node}.")
+            return
+        self._show_project()
+        DlgMsg.show_info(self, "Success", f'Reloaded {self.get_file_name()}. Click to verify updated item(s.)')
 
     def _on_refresh(self):
         if not self.project:
