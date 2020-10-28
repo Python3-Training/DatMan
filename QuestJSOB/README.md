@@ -44,7 +44,9 @@ p.s: When we need **[Reload]** to generate a NEW GID for any question(s), we may
 Status: Testing Release
 Version: 1.x
 
-Video @ https://www.youtube.com/watch?v=HIDW7Q2r24g
+How to use this code to collect, and reliably share, questions & answers: https://www.youtube.com/watch?v=qBsSf2DIFLs
+
+Original mission: https://www.youtube.com/watch?v=HIDW7Q2r24g
 
 ## Something to collect:
 
