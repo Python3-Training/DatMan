@@ -8,7 +8,8 @@ The sub-mission of the project is to ALSO uniquely identify - as well as to enco
 
 - We are also sharing the work-in-progress. An set of K-Questions, Answers, & Code that 'Pythoneers can use to better prepare for professional exams & interviews [in this folder](https://github.com/Python3-Training/DatMan/tree/master/QuestJSOB/KASeries/KA9000)
 
-- 2020/11/21: The [first book](https://www.amazon.com/dp/B08NYZ99PS) is now on Amazon.
+- 2020/11/21: The [first book](https://www.amazon.com/dp/B08NYZ99PS) is designed for advanced Pythoneers. Kindle & paperback book is now on Amazon.
+- 2020/11/26: The [second book](https://www.amazon.com/dp/B08P7JYG1R) is designed for 'functional' Pythoneers. Kindle & paperback book is also now on Amazon.
 
 To get started collecting and / or managing your, mine, or our gobally-unique questions, simply run the GUI (below) and create a **[New]** project.
 
