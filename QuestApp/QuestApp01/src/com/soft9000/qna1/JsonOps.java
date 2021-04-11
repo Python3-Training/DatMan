@@ -21,12 +21,25 @@ import javax.json.*;
 public class JsonOps {
 
     public static List<BasicQuestion> ImportFile(File file) {
+        try {
+            FileInputStream fs = new FileInputStream(file);
+            JsonReader pzr = Json.createReader(fs);
 
+            JsonArray rows = pzr.readArray();
+            for (JsonValue row : rows) {
+                System.out.println(row.toString());
+            }
+            pzr.close();
+            fs.close();
+
+        } catch (Exception ex) {
+            Logger.getLogger(JsonOps.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
     }
 
     public static void main(String[] args) {
-        JsonOps.ImportFile(new File("/d_drive/a5/2020_01_03_TEC/2021_01_01_Python_Related/9000_Python_QnA_2020_12_29/2021_01_01_9000_Python_QnA/AllQuestions.json"));
+        JsonOps.ImportFile(new File("/d_drive/a5/2020_01_03_TEC/2021_01_01_Python_Related/9000_Python_QnA_2020_12_29/2021_01_01_9000_Python_QnA/ascii.json"));
     }
 
 }
