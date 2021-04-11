@@ -38,61 +38,59 @@
  * holder.
  */
 
-package javax.json.stream;
+package org.glassfish.json;
 
-import javax.json.JsonException;
+import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonGeneratorFactory;
+import java.io.OutputStream;
+import java.io.Writer;
+import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * {@code JsonParsingException} is used when an incorrect JSON is
- * being parsed.
- *
  * @author Jitendra Kotamraju
  */
-public class JsonParsingException extends JsonException {
+class JsonGeneratorFactoryImpl implements JsonGeneratorFactory {
 
-    private final JsonLocation location;
+    private final boolean prettyPrinting;
+    private final Map<String, Object> config;
 
-    /**
-     * Constructs a new runtime exception with the specified detail message.
-     * The cause is not initialized, and may subsequently be initialized by a
-     * call to {@link #initCause}.
-     *
-     * @param message the detail message. The detail message is saved for
-     *                later retrieval by the {@link #getMessage()} method.
-     * @param location the location of the incorrect JSON
-     */
-    public JsonParsingException(String message, JsonLocation location) {
-        super(message);
-        this.location = location;
+    JsonGeneratorFactoryImpl(Map<String, ?> config) {
+        prettyPrinting = config != null
+                && JsonProviderImpl.isPrettyPrintingEnabled(config);
+        Map<String, Object> providerConfig = new HashMap<String, Object>();
+        if (prettyPrinting) {
+            providerConfig.put(JsonGenerator.PRETTY_PRINTING, true);
+        }
+        this.config = Collections.unmodifiableMap(providerConfig);
     }
 
-    /**
-     * Constructs a new runtime exception with the specified detail message and
-     * cause.  <p>Note that the detail message associated with
-     * {@code cause} is <i>not</i> automatically incorporated in
-     * this runtime exception's detail message.
-     *
-     * @param message the detail message (which is saved for later retrieval
-     *                by the {@link #getMessage()} method).
-     * @param cause the cause (which is saved for later retrieval by the
-     *              {@link #getCause()} method). (A <tt>null</tt> value is
-     *              permitted, and indicates that the cause is nonexistent or
-     *              unknown.)
-     * @param location the location of the incorrect JSON
-     */
-    public JsonParsingException(String message, Throwable cause, JsonLocation location) {
-        super(message, cause);
-        this.location = location;
+    @Override
+    public JsonGenerator createGenerator(Writer writer) {
+        return prettyPrinting
+                ? new JsonPrettyGeneratorImpl(writer)
+                : new JsonGeneratorImpl(writer);
     }
 
-    /**
-     * Return the location of the incorrect JSON.
-     *
-     * @return the non-null location of the incorrect JSON
-     */
-    public JsonLocation getLocation() {
-        return location;
+    @Override
+    public JsonGenerator createGenerator(OutputStream out) {
+        return prettyPrinting
+                ? new JsonPrettyGeneratorImpl(out)
+                : new JsonGeneratorImpl(out);
+    }
+
+    @Override
+    public JsonGenerator createGenerator(OutputStream out, Charset charset) {
+        return prettyPrinting
+                ? new JsonPrettyGeneratorImpl(out, charset)
+                : new JsonGeneratorImpl(out, charset);
+    }
+
+    @Override
+    public Map<String, ?> getConfigInUse() {
+        return config;
     }
 
 }
-

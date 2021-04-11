@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -38,61 +38,43 @@
  * holder.
  */
 
-package javax.json.stream;
+package org.glassfish.json;
 
-import javax.json.JsonException;
+import javax.json.stream.JsonLocation;
 
 /**
- * {@code JsonParsingException} is used when an incorrect JSON is
- * being parsed.
- *
  * @author Jitendra Kotamraju
  */
-public class JsonParsingException extends JsonException {
+class JsonLocationImpl implements JsonLocation {
+    static final JsonLocation UNKNOWN = new JsonLocationImpl(-1, -1, -1);
 
-    private final JsonLocation location;
+    private final long columnNo;
+    private final long lineNo;
+    private final long offset;
 
-    /**
-     * Constructs a new runtime exception with the specified detail message.
-     * The cause is not initialized, and may subsequently be initialized by a
-     * call to {@link #initCause}.
-     *
-     * @param message the detail message. The detail message is saved for
-     *                later retrieval by the {@link #getMessage()} method.
-     * @param location the location of the incorrect JSON
-     */
-    public JsonParsingException(String message, JsonLocation location) {
-        super(message);
-        this.location = location;
+    JsonLocationImpl(long lineNo, long columnNo, long streamOffset) {
+        this.lineNo = lineNo;
+        this.columnNo = columnNo;
+        this.offset = streamOffset;
     }
 
-    /**
-     * Constructs a new runtime exception with the specified detail message and
-     * cause.  <p>Note that the detail message associated with
-     * {@code cause} is <i>not</i> automatically incorporated in
-     * this runtime exception's detail message.
-     *
-     * @param message the detail message (which is saved for later retrieval
-     *                by the {@link #getMessage()} method).
-     * @param cause the cause (which is saved for later retrieval by the
-     *              {@link #getCause()} method). (A <tt>null</tt> value is
-     *              permitted, and indicates that the cause is nonexistent or
-     *              unknown.)
-     * @param location the location of the incorrect JSON
-     */
-    public JsonParsingException(String message, Throwable cause, JsonLocation location) {
-        super(message, cause);
-        this.location = location;
+    @Override
+    public long getLineNumber() {
+        return lineNo;
     }
 
-    /**
-     * Return the location of the incorrect JSON.
-     *
-     * @return the non-null location of the incorrect JSON
-     */
-    public JsonLocation getLocation() {
-        return location;
+    @Override
+    public long getColumnNumber() {
+        return columnNo;
+    }
+
+    @Override
+    public long getStreamOffset() {
+        return offset;
+    }
+
+    public String toString() {
+        return "(line no="+lineNo+", column no="+columnNo+", offset="+ offset +")";
     }
 
 }
-

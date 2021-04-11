@@ -38,61 +38,51 @@
  * holder.
  */
 
-package javax.json.stream;
+package org.glassfish.json;
 
-import javax.json.JsonException;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.stream.JsonParserFactory;
+import javax.json.stream.JsonParser;
+import java.io.InputStream;
+import java.io.Reader;
+import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.Map;
 
 /**
- * {@code JsonParsingException} is used when an incorrect JSON is
- * being parsed.
- *
  * @author Jitendra Kotamraju
  */
-public class JsonParsingException extends JsonException {
+class JsonParserFactoryImpl implements JsonParserFactory {
+    private final Map<String, ?> config = Collections.emptyMap();
 
-    private final JsonLocation location;
-
-    /**
-     * Constructs a new runtime exception with the specified detail message.
-     * The cause is not initialized, and may subsequently be initialized by a
-     * call to {@link #initCause}.
-     *
-     * @param message the detail message. The detail message is saved for
-     *                later retrieval by the {@link #getMessage()} method.
-     * @param location the location of the incorrect JSON
-     */
-    public JsonParsingException(String message, JsonLocation location) {
-        super(message);
-        this.location = location;
+    @Override
+    public JsonParser createParser(Reader reader) {
+        return new JsonParserImpl(reader);
     }
 
-    /**
-     * Constructs a new runtime exception with the specified detail message and
-     * cause.  <p>Note that the detail message associated with
-     * {@code cause} is <i>not</i> automatically incorporated in
-     * this runtime exception's detail message.
-     *
-     * @param message the detail message (which is saved for later retrieval
-     *                by the {@link #getMessage()} method).
-     * @param cause the cause (which is saved for later retrieval by the
-     *              {@link #getCause()} method). (A <tt>null</tt> value is
-     *              permitted, and indicates that the cause is nonexistent or
-     *              unknown.)
-     * @param location the location of the incorrect JSON
-     */
-    public JsonParsingException(String message, Throwable cause, JsonLocation location) {
-        super(message, cause);
-        this.location = location;
+    @Override
+    public JsonParser createParser(InputStream in) {
+        return new JsonParserImpl(in);
     }
 
-    /**
-     * Return the location of the incorrect JSON.
-     *
-     * @return the non-null location of the incorrect JSON
-     */
-    public JsonLocation getLocation() {
-        return location;
+    @Override
+    public JsonParser createParser(InputStream in, Charset charset) {
+        return new JsonParserImpl(in, charset);
     }
 
+    @Override
+    public JsonParser createParser(JsonArray array) {
+        return new JsonStructureParser(array);
+    }
+
+    @Override
+    public Map<String, ?> getConfigInUse() {
+        return config;
+    }
+
+    @Override
+    public JsonParser createParser(JsonObject object) {
+        return new JsonStructureParser(object);
+    }
 }
-

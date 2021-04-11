@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -38,44 +38,50 @@
  * holder.
  */
 
-package javax.json;
+package org.glassfish.json;
 
-/**
- * <code>JsonException</code> indicates that some exception happened during
- * JSON processing.
- *
- * @author Jitendra Kotamraju
- */
-public class JsonException extends RuntimeException {
+import javax.json.JsonString;
 
-    /**
-     * Constructs a new runtime exception with the specified detail message.
-     * The cause is not initialized, and may subsequently be initialized by a
-     * call to {@link #initCause}.
-     *
-     * @param message the detail message. The detail message is saved for
-     *          later retrieval by the {@link #getMessage()} method.
-     */
-    public JsonException(String message) {
-        super(message);
+final class JsonStringImpl implements JsonString {
+
+    private final String value;
+
+    public JsonStringImpl(String value) {
+        this.value = value;
     }
 
-    /**
-     * Constructs a new runtime exception with the specified detail message and
-     * cause.  <p>Note that the detail message associated with
-     * {@code cause} is <i>not</i> automatically incorporated in
-     * this runtime exception's detail message.
-     *
-     * @param message the detail message (which is saved for later retrieval
-     *         by the {@link #getMessage()} method).
-     * @param cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method). (A <tt>null</tt> value is
-     *         permitted, and indicates that the cause is nonexistent or
-     *         unknown.)
-     */
-    public JsonException(String message, Throwable cause) {
-        super(message, cause);
+    @Override
+    public String getString() {
+        return value;
     }
 
+    @Override
+    public CharSequence getChars() {
+        return value;
+    }
+
+    @Override
+    public ValueType getValueType() {
+        return ValueType.STRING;
+    }
+
+    @Override
+    public int hashCode() {
+        return getString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof JsonString)) {
+            return false;
+        }
+        JsonString other = (JsonString)obj;
+        return getString().equals(other.getString());
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }
 
