@@ -27,22 +27,166 @@ public class JfrMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jPanel1 = new javax.swing.JPanel();
+        jToolBar1 = new javax.swing.JToolBar();
+        jbNew = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JToolBar.Separator();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        jbDelete = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jToolBar2 = new javax.swing.JToolBar();
+        jbLockToggle = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel3_2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
+        jmuMain = new javax.swing.JMenuBar();
+        jmFile = new javax.swing.JMenu();
+        jmiDbNew = new javax.swing.JMenuItem();
+        jmiDbOpen = new javax.swing.JMenuItem();
+        jmTools = new javax.swing.JMenu();
+        jmiStatus = new javax.swing.JMenuItem();
+        jmiSelect = new javax.swing.JMenuItem();
+        jmAdmin = new javax.swing.JMenu();
+        jmiExport = new javax.swing.JMenuItem();
+        jmiMerge = new javax.swing.JMenuItem();
+        jmHelp = new javax.swing.JMenu();
+        jmiHelpAbout = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("QnA Database");
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jPanel1.setLayout(new java.awt.CardLayout());
+
+        jToolBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jToolBar1.setFloatable(false);
+        jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jToolBar1.setRollover(true);
+
+        jbNew.setText("NEW");
+        jbNew.setFocusable(false);
+        jbNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbNew.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jbNew);
+        jToolBar1.add(jSeparator2);
+
+        jButton1.setText("PASTE");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButton1);
+
+        jButton2.setText("COPY");
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton2);
+        jToolBar1.add(jSeparator1);
+
+        jbDelete.setText("DELETE");
+        jbDelete.setFocusable(false);
+        jbDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jbDelete);
+
+        jPanel1.add(jToolBar1, "card2");
+
+        jSplitPane1.setLeftComponent(jPanel1);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jToolBar2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jToolBar2.setRollover(true);
+
+        jbLockToggle.setText("[UNLOCK]");
+        jbLockToggle.setFocusable(false);
+        jbLockToggle.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbLockToggle.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jbLockToggle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbLockToggleActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jbLockToggle);
+
+        jPanel2.add(jToolBar2, java.awt.BorderLayout.PAGE_START);
+
+        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.setLayout(new java.awt.CardLayout());
+        jPanel2.add(jPanel3, java.awt.BorderLayout.SOUTH);
+
+        jPanel3_2.setBorder(javax.swing.BorderFactory.createTitledBorder(" Question "));
+        jPanel3_2.setLayout(new java.awt.CardLayout());
+
+        jScrollPane1.setViewportView(jEditorPane1);
+
+        jPanel3_2.add(jScrollPane1, "card2");
+
+        jPanel2.add(jPanel3_2, java.awt.BorderLayout.CENTER);
+
+        jSplitPane1.setRightComponent(jPanel2);
+
+        getContentPane().add(jSplitPane1);
+
+        jmFile.setText(" File ");
+
+        jmiDbNew.setText("New ...");
+        jmFile.add(jmiDbNew);
+
+        jmiDbOpen.setText("Open ...");
+        jmFile.add(jmiDbOpen);
+
+        jmuMain.add(jmFile);
+
+        jmTools.setText(" Tools ");
+
+        jmiStatus.setText("Status ...");
+        jmTools.add(jmiStatus);
+
+        jmiSelect.setText("Select ...");
+        jmTools.add(jmiSelect);
+
+        jmuMain.add(jmTools);
+
+        jmAdmin.setText(" Share ");
+
+        jmiExport.setText("Export");
+        jmAdmin.add(jmiExport);
+
+        jmiMerge.setText("Merge ...");
+        jmAdmin.add(jmiMerge);
+
+        jmuMain.add(jmAdmin);
+
+        jmHelp.setText(" Help ");
+
+        jmiHelpAbout.setText("About ...");
+        jmHelp.add(jmiHelpAbout);
+
+        jmuMain.add(jmHelp);
+
+        setJMenuBar(jmuMain);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jbLockToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLockToggleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbLockToggleActionPerformed
 
     /**
      * @param args the command line arguments
@@ -83,5 +227,33 @@ public class JfrMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JEditorPane jEditorPane1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel3_2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JButton jbDelete;
+    private javax.swing.JButton jbLockToggle;
+    private javax.swing.JButton jbNew;
+    private javax.swing.JMenu jmAdmin;
+    private javax.swing.JMenu jmFile;
+    private javax.swing.JMenu jmHelp;
+    private javax.swing.JMenu jmTools;
+    private javax.swing.JMenuItem jmiDbNew;
+    private javax.swing.JMenuItem jmiDbOpen;
+    private javax.swing.JMenuItem jmiExport;
+    private javax.swing.JMenuItem jmiHelpAbout;
+    private javax.swing.JMenuItem jmiMerge;
+    private javax.swing.JMenuItem jmiSelect;
+    private javax.swing.JMenuItem jmiStatus;
+    private javax.swing.JMenuBar jmuMain;
     // End of variables declaration//GEN-END:variables
 }
