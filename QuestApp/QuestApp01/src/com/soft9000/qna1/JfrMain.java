@@ -5,6 +5,8 @@
  */
 package com.soft9000.qna1;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author profnagy
@@ -27,22 +29,33 @@ public class JfrMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         jSplitPane1 = new javax.swing.JSplitPane();
-        jPanel1 = new javax.swing.JPanel();
-        jToolBar1 = new javax.swing.JToolBar();
+        jpLeftControls = new javax.swing.JPanel();
+        jtbLeft = new javax.swing.JToolBar();
         jbNew = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
-        jButton1 = new javax.swing.JButton();
+        jbPaste = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         jbDelete = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jToolBar2 = new javax.swing.JToolBar();
+        jbDataViews = new javax.swing.JPanel();
+        jpFU = new javax.swing.JPanel();
+        jSplitPane2 = new javax.swing.JSplitPane();
+        jpNorth = new javax.swing.JPanel();
+        jtbNorth = new javax.swing.JToolBar();
         jbLockToggle = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel3_2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jcbViewSelection = new javax.swing.JComboBox<>();
+        jpSouth = new javax.swing.JPanel();
+        jSplitSouthDatas = new javax.swing.JSplitPane();
+        jpListData = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList<>();
+        jbViewDataRow = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jEditorPane1 = new javax.swing.JEditorPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jmuMain = new javax.swing.JMenuBar();
         jmFile = new javax.swing.JMenu();
         jmiDbNew = new javax.swing.JMenuItem();
@@ -56,29 +69,46 @@ public class JfrMain extends javax.swing.JFrame {
         jmHelp = new javax.swing.JMenu();
         jmiHelpAbout = new javax.swing.JMenuItem();
 
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(jList1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("QnA Database");
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
-        jPanel1.setLayout(new java.awt.CardLayout());
+        jpLeftControls.setLayout(new java.awt.CardLayout());
 
-        jToolBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jToolBar1.setFloatable(false);
-        jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jToolBar1.setRollover(true);
+        jtbLeft.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jtbLeft.setFloatable(false);
+        jtbLeft.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jtbLeft.setRollover(true);
 
         jbNew.setText("NEW");
         jbNew.setFocusable(false);
         jbNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jbNew.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jbNew);
-        jToolBar1.add(jSeparator2);
+        jbNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNewActionPerformed(evt);
+            }
+        });
+        jtbLeft.add(jbNew);
+        jtbLeft.add(jSeparator2);
 
-        jButton1.setText("PASTE");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton1);
+        jbPaste.setText("PASTE");
+        jbPaste.setFocusable(false);
+        jbPaste.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbPaste.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jbPaste.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbPasteActionPerformed(evt);
+            }
+        });
+        jtbLeft.add(jbPaste);
 
         jButton2.setText("COPY");
         jButton2.setFocusable(false);
@@ -89,24 +119,35 @@ public class JfrMain extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton2);
-        jToolBar1.add(jSeparator1);
+        jtbLeft.add(jButton2);
+        jtbLeft.add(jSeparator1);
 
         jbDelete.setText("DELETE");
         jbDelete.setFocusable(false);
         jbDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jbDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jbDelete);
+        jbDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbDeleteActionPerformed(evt);
+            }
+        });
+        jtbLeft.add(jbDelete);
 
-        jPanel1.add(jToolBar1, "card2");
+        jpLeftControls.add(jtbLeft, "card2");
 
-        jSplitPane1.setLeftComponent(jPanel1);
+        jSplitPane1.setLeftComponent(jpLeftControls);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.setLayout(new java.awt.BorderLayout());
+        jbDataViews.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jbDataViews.setLayout(new java.awt.BorderLayout());
 
-        jToolBar2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jToolBar2.setRollover(true);
+        jpFU.setLayout(new java.awt.CardLayout());
+
+        jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        jpNorth.setLayout(new java.awt.CardLayout());
+
+        jtbNorth.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jtbNorth.setRollover(true);
 
         jbLockToggle.setText("[UNLOCK]");
         jbLockToggle.setFocusable(false);
@@ -117,33 +158,75 @@ public class JfrMain extends javax.swing.JFrame {
                 jbLockToggleActionPerformed(evt);
             }
         });
-        jToolBar2.add(jbLockToggle);
+        jtbNorth.add(jbLockToggle);
 
-        jPanel2.add(jToolBar2, java.awt.BorderLayout.PAGE_START);
+        jLabel1.setText("  Selection: ");
+        jtbNorth.add(jLabel1);
 
-        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel3.setLayout(new java.awt.CardLayout());
-        jPanel2.add(jPanel3, java.awt.BorderLayout.SOUTH);
+        jcbViewSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "  DEFAULT  " }));
+        jtbNorth.add(jcbViewSelection);
 
-        jPanel3_2.setBorder(javax.swing.BorderFactory.createTitledBorder(" Question "));
-        jPanel3_2.setLayout(new java.awt.CardLayout());
+        jpNorth.add(jtbNorth, "card2");
 
-        jScrollPane1.setViewportView(jEditorPane1);
+        jSplitPane2.setLeftComponent(jpNorth);
 
-        jPanel3_2.add(jScrollPane1, "card2");
+        jpSouth.setLayout(new java.awt.CardLayout());
 
-        jPanel2.add(jPanel3_2, java.awt.BorderLayout.CENTER);
+        jSplitSouthDatas.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-        jSplitPane1.setRightComponent(jPanel2);
+        jpListData.setBorder(javax.swing.BorderFactory.createTitledBorder(" Selected "));
+        jpListData.setLayout(new java.awt.CardLayout());
+
+        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane3.setViewportView(jList2);
+
+        jpListData.add(jScrollPane3, "card2");
+
+        jSplitSouthDatas.setLeftComponent(jpListData);
+
+        jbViewDataRow.setBorder(javax.swing.BorderFactory.createTitledBorder(" Detail "));
+        jbViewDataRow.setLayout(new java.awt.CardLayout());
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jbViewDataRow.add(jScrollPane1, "card2");
+
+        jSplitSouthDatas.setRightComponent(jbViewDataRow);
+
+        jpSouth.add(jSplitSouthDatas, "card2");
+
+        jSplitPane2.setRightComponent(jpSouth);
+
+        jpFU.add(jSplitPane2, "card2");
+
+        jbDataViews.add(jpFU, java.awt.BorderLayout.CENTER);
+
+        jSplitPane1.setRightComponent(jbDataViews);
 
         getContentPane().add(jSplitPane1);
 
         jmFile.setText(" File ");
 
         jmiDbNew.setText("New ...");
+        jmiDbNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiDbNewActionPerformed(evt);
+            }
+        });
         jmFile.add(jmiDbNew);
 
         jmiDbOpen.setText("Open ...");
+        jmiDbOpen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiDbOpenActionPerformed(evt);
+            }
+        });
         jmFile.add(jmiDbOpen);
 
         jmuMain.add(jmFile);
@@ -151,9 +234,19 @@ public class JfrMain extends javax.swing.JFrame {
         jmTools.setText(" Tools ");
 
         jmiStatus.setText("Status ...");
+        jmiStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiStatusActionPerformed(evt);
+            }
+        });
         jmTools.add(jmiStatus);
 
         jmiSelect.setText("Select ...");
+        jmiSelect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiSelectActionPerformed(evt);
+            }
+        });
         jmTools.add(jmiSelect);
 
         jmuMain.add(jmTools);
@@ -171,6 +264,11 @@ public class JfrMain extends javax.swing.JFrame {
         jmHelp.setText(" Help ");
 
         jmiHelpAbout.setText("About ...");
+        jmiHelpAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiHelpAboutActionPerformed(evt);
+            }
+        });
         jmHelp.add(jmiHelpAbout);
 
         jmuMain.add(jmHelp);
@@ -181,12 +279,44 @@ public class JfrMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        doCopy();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jbLockToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLockToggleActionPerformed
-        // TODO add your handling code here:
+        doUnlock();
     }//GEN-LAST:event_jbLockToggleActionPerformed
+
+    private void jbNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNewActionPerformed
+        doNew();
+    }//GEN-LAST:event_jbNewActionPerformed
+
+    private void jbPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPasteActionPerformed
+        doPaste();
+    }//GEN-LAST:event_jbPasteActionPerformed
+
+    private void jbDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDeleteActionPerformed
+        doDelete();
+    }//GEN-LAST:event_jbDeleteActionPerformed
+
+    private void jmiDbNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiDbNewActionPerformed
+        doCreateDb();
+    }//GEN-LAST:event_jmiDbNewActionPerformed
+
+    private void jmiDbOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiDbOpenActionPerformed
+        doOpenDb();
+    }//GEN-LAST:event_jmiDbOpenActionPerformed
+
+    private void jmiStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiStatusActionPerformed
+        doShowStatus();
+    }//GEN-LAST:event_jmiStatusActionPerformed
+
+    private void jmiSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSelectActionPerformed
+        doSetSelect();
+    }//GEN-LAST:event_jmiSelectActionPerformed
+
+    private void jmiHelpAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiHelpAboutActionPerformed
+        doAbout();
+    }//GEN-LAST:event_jmiHelpAboutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,6 +349,10 @@ public class JfrMain extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 JfrMain view = new JfrMain();
+                Dimension dim = view.getSize();
+                dim.width = 800;
+                dim.height = 600;
+                view.setSize(dim);
                 // TODO: Need to check for multiple monitors!
                 com.soft9000.gui.Misc.ScreenCenter(view);
                 view.setVisible(true);
@@ -227,22 +361,26 @@ public class JfrMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JEditorPane jEditorPane1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel3_2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JSplitPane jSplitSouthDatas;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JPanel jbDataViews;
     private javax.swing.JButton jbDelete;
     private javax.swing.JButton jbLockToggle;
     private javax.swing.JButton jbNew;
+    private javax.swing.JButton jbPaste;
+    private javax.swing.JPanel jbViewDataRow;
+    private javax.swing.JComboBox<String> jcbViewSelection;
     private javax.swing.JMenu jmAdmin;
     private javax.swing.JMenu jmFile;
     private javax.swing.JMenu jmHelp;
@@ -255,5 +393,52 @@ public class JfrMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiSelect;
     private javax.swing.JMenuItem jmiStatus;
     private javax.swing.JMenuBar jmuMain;
+    private javax.swing.JPanel jpFU;
+    private javax.swing.JPanel jpLeftControls;
+    private javax.swing.JPanel jpListData;
+    private javax.swing.JPanel jpNorth;
+    private javax.swing.JPanel jpSouth;
+    private javax.swing.JToolBar jtbLeft;
+    private javax.swing.JToolBar jtbNorth;
     // End of variables declaration//GEN-END:variables
+
+    private void doNew() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void doPaste() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void doCopy() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void doDelete() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void doUnlock() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void doCreateDb() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void doOpenDb() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void doShowStatus() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void doSetSelect() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void doAbout() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
