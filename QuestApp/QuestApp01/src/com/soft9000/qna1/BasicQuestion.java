@@ -7,12 +7,27 @@ package com.soft9000.qna1;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.soft9000.EnDecode.OctalExchange;
 
 /**
  *
  * @author profnagy
  */
 public class BasicQuestion {
+
+    static BasicQuestion FromClipboard(String data) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    static String Encode(String str) {
+        OctalExchange oder = new OctalExchange();
+        return oder.encode(str);
+    }
+
+    static String Decode(String str) {
+        OctalExchange oder = new OctalExchange();
+        return oder.decode(str);
+    }
 
     public int id = 0;
     public String KID = "";
@@ -23,6 +38,7 @@ public class BasicQuestion {
     public String Question = "";
     public String Answer = "";
 
+    @Override
     public boolean equals(Object obj) {
         if (obj == null || (obj instanceof BasicQuestion) == false) {
             return false;
@@ -55,16 +71,47 @@ public class BasicQuestion {
         return true;
     }
 
-    public static BasicQuestion FromJSON(String prop) {
-        Gson gson = new Gson();
-        return gson.fromJson(prop, BasicQuestion.class);
+    /**
+     * Opportunity to see an editable template (etc) whilst we are using the
+     * JSON format.
+     *
+     * @return
+     */
+    public static String GetNewJSON() {
+        return BasicQuestion.ToJSON(new BasicQuestion());
     }
 
+    /**
+     * Create an object from a JSON / user edited string.
+     *
+     * @param prop Data to parse.
+     * @return Object parsed, else null.
+     */
+    public static BasicQuestion FromJSON(String prop) {
+        try {
+            Gson gson = new Gson();
+            return gson.fromJson(prop, BasicQuestion.class);
+        } catch (Exception ex) {
+        }
+        return null;
+    }
+
+    /**
+     * Extract a JSON string from an object.
+     *
+     * @param bq
+     * @return Object data, else a default / all empty JSON schema, for same.
+     */
     public static String ToJSON(BasicQuestion bq) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();       
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(bq);
     }
 
+    /**
+     * The JSON parser is from Google - I have tested this version a lot.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         BasicQuestion q1 = new BasicQuestion();
         BasicQuestion q2 = new BasicQuestion();

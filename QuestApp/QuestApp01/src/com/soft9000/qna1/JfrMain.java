@@ -6,12 +6,17 @@
 package com.soft9000.qna1;
 
 import java.awt.Dimension;
+import java.sql.Connection;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author profnagy
  */
 public class JfrMain extends javax.swing.JFrame {
+
+    boolean bChanged = false;
 
     /**
      * Creates new form JfrMain
@@ -35,6 +40,7 @@ public class JfrMain extends javax.swing.JFrame {
         jpLeftControls = new javax.swing.JPanel();
         jtbLeft = new javax.swing.JToolBar();
         jbNew = new javax.swing.JButton();
+        jbSync = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
         jbPaste = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -97,6 +103,17 @@ public class JfrMain extends javax.swing.JFrame {
             }
         });
         jtbLeft.add(jbNew);
+
+        jbSync.setText("SYNC");
+        jbSync.setFocusable(false);
+        jbSync.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbSync.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jbSync.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSyncActionPerformed(evt);
+            }
+        });
+        jtbLeft.add(jbSync);
         jtbLeft.add(jSeparator2);
 
         jbPaste.setText("PASTE");
@@ -177,11 +194,6 @@ public class JfrMain extends javax.swing.JFrame {
         jpListData.setBorder(javax.swing.BorderFactory.createTitledBorder(" Selected "));
         jpListData.setLayout(new java.awt.CardLayout());
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane3.setViewportView(jList2);
 
         jpListData.add(jScrollPane3, "card2");
@@ -318,6 +330,10 @@ public class JfrMain extends javax.swing.JFrame {
         doAbout();
     }//GEN-LAST:event_jmiHelpAboutActionPerformed
 
+    private void jbSyncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSyncActionPerformed
+        doSync();
+    }//GEN-LAST:event_jbSyncActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -379,6 +395,7 @@ public class JfrMain extends javax.swing.JFrame {
     private javax.swing.JButton jbLockToggle;
     private javax.swing.JButton jbNew;
     private javax.swing.JButton jbPaste;
+    private javax.swing.JButton jbSync;
     private javax.swing.JPanel jbViewDataRow;
     private javax.swing.JComboBox<String> jcbViewSelection;
     private javax.swing.JMenu jmAdmin;
@@ -403,15 +420,36 @@ public class JfrMain extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void doNew() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String str = BasicQuestion.GetNewJSON();
+        this.jTextArea1.setText(str);
     }
 
     private void doPaste() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (this.bChanged) {
+            int sel = JOptionPane.showConfirmDialog(rootPane, "Data update will be lost. Okay?", "Data Changed", JOptionPane.OK_CANCEL_OPTION);
+            if (sel != JOptionPane.OK_OPTION) {
+                return;
+            }
+        }
+        String data = com.soft9000.gui.Misc.Paste();
+        if (data.equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Clipboard is empty.");
+            return;
+        }
+        String decode = BasicQuestion.Decode(data);
+        BasicQuestion info = BasicQuestion.FromClipboard(decode);
+        if (info == null) {
+            JOptionPane.showMessageDialog(rootPane, "Unsupport data format.");
+            return;
+        }
+        doSync(info);
+        this.bChanged = false;
     }
 
     private void doCopy() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String str = this.jTextArea1.getText();
+        String encoded = BasicQuestion.Encode(str);
+        com.soft9000.gui.Misc.Copy(encoded);
     }
 
     private void doDelete() {
@@ -441,4 +479,50 @@ public class JfrMain extends javax.swing.JFrame {
     private void doAbout() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    /**
+     * If the data exists, then update. Else, append.
+     */
+    private void doSync() {
+        String str = this.jTextArea1.getText();
+        BasicQuestion obj = BasicQuestion.FromJSON(str);
+        doSync(obj);
+    }
+
+    /**
+     * If the data exists, then update. Else, append.
+     */
+    public void doSync(final BasicQuestion obj) {
+        Connection conn = null;
+        try {
+            if (obj == null) {
+                JOptionPane.showMessageDialog(rootPane, "Unable to read data changes.");
+                return;
+            }
+            QuestDAO dao = new QuestDAO();
+            if (dao.assign(obj) == false) {
+                JOptionPane.showMessageDialog(rootPane, "Unsupported data format.");
+                return;
+            }
+            conn = QuestDAO.Connect();
+            if (dao.ID == 0) {
+                dao.insert(conn);
+            } else {
+                dao.update(conn);
+            }
+
+        } catch (Exception ex) {
+
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Unable to sync data changes.");
+                }
+            }
+
+        }
+    }
+
 }
