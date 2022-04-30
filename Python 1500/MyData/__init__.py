@@ -15,5 +15,3 @@ __all__ = [
     "MyPickle.update", "MyPickle.search",
     "MyPickle.list_files", "MyJSON.delete"
            ]
-
-print(dir())
