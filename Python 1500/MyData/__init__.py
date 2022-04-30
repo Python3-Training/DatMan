@@ -3,9 +3,9 @@
 if __name__ == '__main__':
     import sys
     sys.path.insert(0,'../')
-else:
-    import MyData.MyJSON
-    import MyData.MyPickle
+
+import MyData.MyJSON
+import MyData.MyPickle
 
 __all__ = [
     "MyJSON.create", "MyJSON.read",
