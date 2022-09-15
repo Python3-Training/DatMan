@@ -9,12 +9,12 @@ If you are looking for 'that question sharing thing,' [as seen on YouTube](https
 
 If you need to prepare for an interview, then you may also enjoy our growing **PyQuest** series:
 
-[Interview Questions &amp; Concepts for Beginers](https://www.amazon.com/gp/product/B08P7JYG1R)
+[Interview Questions &amp; Concepts for Beginers](https://www.amazon.com/gp/product/B08P7JYG1R).
 
-[Interview Questions &amp; Concepts for Experts](https://www.amazon.com/gp/product/B08NYZ99PS)
+[Interview Questions &amp; Concepts for Experts](https://www.amazon.com/gp/product/B08NYZ99PS).
 
 
-We are also sharing the work-in-progress. An enumerated set of questions & answers 'Pythoneers can use to better prepare for professional exams & interviews [in this folder](https://github.com/Python3-Training/PyQuest/tree/main/QuestJSOB/KASeries/KA9000)
+We are also sharing the work-in-progress. An enumerated set of questions & answers 'Pythoneers can use to better prepare for professional exams & interviews [in this folder](https://github.com/Python3-Training/PyQuest/tree/main/QuestJSOB/KASeries/KA9000).
 
 Enjoy the journey!
 
