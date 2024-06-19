@@ -3,7 +3,7 @@
 # File: Adv01.py
 # Mission: Demonstrate a simple way to manage data, via 
 # a plausable C.R.U.D signature.
-# Related: https://www.youtube.com/watch?v=IX9vYXT2NW8
+# Mentoring: https://tl.page/randall_nagy
 # Author: Randall Nagy
 # Version: 1.0
 

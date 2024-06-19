@@ -3,7 +3,7 @@
 # File: Adv03_S3D2.py
 # Mission: Implement a Source, Sync, Search, and Delete Pattern.
 # Related: https://github.com/Python3-Training/DatMan
-#   Video: https://youtu.be/utazxKN7uJA
+# Mentoring: https://tl.page/randall_nagy
 # Author: Randall Nagy
 # Version: 1.1.1
 import os

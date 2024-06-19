@@ -2,3 +2,5 @@ The place to support our [Python 1500](https://www.udemy.com/course/python-missi
 
 Here is our [Facebook Group](https://www.facebook.com/groups/pythonmissions).
 
+NEW! If you need help, note that private mentoring is now (available online)[https://tl.page/randall_nagy].
+

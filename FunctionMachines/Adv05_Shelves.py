@@ -5,7 +5,7 @@
 # File: Adv05_Shelves.py
 # Mission: Use S3D2 over the core 'shelve' Package
 # Related:  https://github.com/Python3-Training/DatMan
-# Playlist: https://youtu.be/utazxKN7uJA
+# Mentoring: https://tl.page/randall_nagy
 # Author: Randall Nagy
 # Version: 1.0
 #endregion

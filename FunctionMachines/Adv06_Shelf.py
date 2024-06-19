@@ -5,7 +5,7 @@
 # File: Adv06_Shelf.py
 # Mission: Use S3D2 to mange 'objects' on a 'shelf'
 # Related:  https://github.com/Python3-Training/DatMan
-# Playlist: https://youtu.be/utazxKN7uJA
+# Mentoring: https://tl.page/randall_nagy
 # Author: Randall Nagy
 # Version: 2.0
 #endregion

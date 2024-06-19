@@ -1,2 +1,2 @@
-Part of a [video series](https://www.youtube.com/playlist?list=PLItP5KoawLqniVxFwjPatXjxq9vQLdX26).
+Part of an educational [video series](https://tl.page/randall_nagy).
 

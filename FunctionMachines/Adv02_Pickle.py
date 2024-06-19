@@ -3,10 +3,7 @@
 # File: Adv02_Pickle.py
 # Mission: Review how savvy design can make DatMan, easier.
 # ALSO review a few common object persistance caveats...
-# Related: 
-#   Video One: https://www.youtube.com/watch?v=VdjmzNysy-A
-#   Video Two: https://www.youtube.com/watch?v=9QqdskqKtsQ
-#   Video Three: https://www.youtube.com/watch?v=zyoZUZCYhoQ
+# Mentoring: https://tl.page/randall_nagy
 # Author: Randall Nagy
 # Version: 1.0
 
