@@ -3,9 +3,7 @@
 # File: Adv02.py
 # Mission: Provide a useful implementation of the
 # previous (Adv01.py) signature.
-# Related: 
-#   Video One: https://www.youtube.com/watch?v=VdjmzNysy-A
-#   Video Two: https://www.youtube.com/watch?v=9QqdskqKtsQ
+# Mentoring: https://tl.page/randall_nagy
 # Author: Randall Nagy
 # Version: 1.0
 
