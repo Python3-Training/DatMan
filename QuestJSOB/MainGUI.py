@@ -26,8 +26,7 @@ class Main(Tk, TkParent):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ztitle   = 'QuestJSOB 1.1'
-        self.zrelease = str('Testing Release: Come join us ' +
-        'in the "Python3 Training" & "PyQuest" Groups, on Facebook.')
+        self.zrelease = str('Testing Release')
         self._quest_data = list()
         self._menu_main = None
         self.project    = None
