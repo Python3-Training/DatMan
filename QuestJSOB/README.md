@@ -2,7 +2,6 @@
 
 The mission is to use a J.S.O.N friendly editor (like Notepad++ - recommended!) to manage / spell check a collection of questions.
 
-Getting started: https://youtu.be/qBsSf2DIFLs
 
 The sub-mission of the project is to ALSO uniquely identify - as well as to encode - each and every Quest()ion to better support planetary information sharing.
 
@@ -43,13 +42,6 @@ The Quest()ion importation / exportation / sharing strategy is MainGUI.py.
 To add a duplicate entry to your .json collection, either (1) add the duplicate entry using your JSON editor, or (2) **[Keep]** the duplicate in a **[New]** JSOB collection.
 
 p.s: When we need **[Reload]** to generate a NEW GID for any question(s), we may simply set a question's **GID: 'tbd',** using our JSON editor.
-
-Status: Testing Release
-Version: 1.x
-
-How to use this code to collect, and reliably share, questions & answers: https://www.youtube.com/watch?v=qBsSf2DIFLs
-
-Original mission: https://www.youtube.com/watch?v=HIDW7Q2r24g
 
 ## Something to collect:
 
