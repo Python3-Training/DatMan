@@ -3,9 +3,11 @@
 # File: Adv01.py
 # Mission: Demonstrate a simple way to manage data, via 
 # a plausable C.R.U.D signature.
-# Videos: https://www.youtube.com/@TotalPythoneering
+# Source:  https://github.com/Python3-Training/DatMan/blob/master/FunctionMachines/Adv01.py
+# Short:   https://youtube.com/shorts/urRnkGywVEE?si=p5de5R-vNky65rCc
+# Related: https://www.youtube.com/@TotalPythoneering
 # Author: Randall Nagy
-# Version: 1.0.b
+# Version: 1.0.d
 
 def create():
     print("Create something...")
