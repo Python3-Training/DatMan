@@ -3,9 +3,9 @@
 # File: Adv01.py
 # Mission: Demonstrate a simple way to manage data, via 
 # a plausable C.R.U.D signature.
-# Mentoring: https://tl.page/randall_nagy
+# Videos: https://www.youtube.com/@TotalPythoneering
 # Author: Randall Nagy
-# Version: 1.0
+# Version: 1.0.b
 
 def create():
     print("Create something...")
