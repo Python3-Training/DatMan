@@ -3,9 +3,12 @@
 # File: Adv02.py
 # Mission: Provide a useful implementation of the
 # previous (Adv01.py) signature.
-# Mentoring: https://tl.page/randall_nagy
+# Source:  https://github.com/Python3-Training/DatMan/blob/master/FunctionMachines/Adv02.py
+# Short:   https://youtube.com/shorts/urRnkGywVEE?si=p5de5R-vNky65rCc
+# Video:   https://youtu.be/ZXcPPkn3JIc
+# Related: https://www.youtube.com/@TotalPythoneering
 # Author: Randall Nagy
-# Version: 1.0
+# Version: 1.0.a
 
 import os
 import os.path
