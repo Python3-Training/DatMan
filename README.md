@@ -26,6 +26,8 @@ Short **Introduction:** [This design pattern will change your life ... !](https:
 
 **Lesson 02:** [Function Machines - The JSON DAO (DatMan 2 of 10)](https://youtu.be/ZXcPPkn3JIc?si=4fJSzgRtT5gGlKQv)
 
+**Lesson 03:** [Function Machines - The JSON DAO (DatMan 3 of 10)](https://youtu.be/xQ9Ra3z9GBE)
+
 (***more soon!***)
 
 
