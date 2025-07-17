@@ -15,13 +15,16 @@ We've also sharing a card game - an enumerated set of questions 'Pythoneers can 
 
 ## Free & Open Education
 
-This project is documented as part of the 10 part **DatMan** educational shared on the [Total Pythoneering](https://www.youtube.com/@TotalPythoneering) video series.
+The DatMan Project was created in 2020. Lightly updated, DatMan is now documented as part of the **DatMan** code review shared on the [Total Pythoneering](https://www.youtube.com/@TotalPythoneering) Channel.
 
-Short **Overview:** [Stop caring about databases!](https://youtube.com/shorts/Jzt_jFKQ-qQ)
+### Videos Include:
 
-Short **Introduction:** [This design pattern will change your life ... !](https://youtube.com/shorts/urRnkGywVEE)
+#### Shorts:
+**Overview:** [Stop caring about databases!](https://youtube.com/shorts/Jzt_jFKQ-qQ)
 
+**Introduction:** [This design pattern will change your life ... !](https://youtube.com/shorts/urRnkGywVEE)
 
+#### Classic Lessons:
 **Lesson 01:** [When is CRUD not enough? (DatMan 1 of 9)](https://youtu.be/0YSIB16eTcc)
 
 **Lesson 02:** [Function Machines - The JSON DAO (DatMan 2 of 9)](https://youtu.be/ZXcPPkn3JIc?si=4fJSzgRtT5gGlKQv)
@@ -32,13 +35,13 @@ Short **Introduction:** [This design pattern will change your life ... !](https:
 
 **Lesson 05:** [VSCode & GitHub on Linux (DatMan 5 of 9)](https://youtu.be/Y1zeMIpCLkM)
 
-**Lesson 06:** [The Dictionary DAO (DatMan 6 of 9)](https://youtu.be/VaUHhfvlyU4)
+**Lesson 06:** [The Shelves DAO (DatMan 6 of 9)](https://youtu.be/VaUHhfvlyU4)
 
 **Lesson 07:** [The S3D2 Pattern (DatMan 7 of 9)](https://youtu.be/g909VoooLp0)
 
-**Lesson 08:** [The S3D2 Pattern (DatMan 8 of 9)](https://youtu.be/Gzykn-rbTbM)
+**Lesson 08:** [POSIX DBM DAO (DatMan 8 of 9)](https://youtu.be/Gzykn-rbTbM)
 
-**Lesson 09:** [The S3D2 Pattern (DatMan 9 of 9)](https://youtu.be/Ushiw_CRDaE)
+**Lesson 09:** [Python's Pickle DAO (DatMan 9 of 9)](https://youtu.be/Ushiw_CRDaE)
 
 Enjoy the 'spiration!
 
