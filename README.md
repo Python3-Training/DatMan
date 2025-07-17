@@ -22,13 +22,27 @@ Short **Overview:** [Stop caring about databases!](https://youtube.com/shorts/Jz
 Short **Introduction:** [This design pattern will change your life ... !](https://youtube.com/shorts/urRnkGywVEE)
 
 
-**Lesson 01:** [When is CRUD not enough? (DatMan 1 of 10)](https://youtu.be/0YSIB16eTcc)
+**Lesson 01:** [When is CRUD not enough? (DatMan 1 of 9)](https://youtu.be/0YSIB16eTcc)
 
-**Lesson 02:** [Function Machines - The JSON DAO (DatMan 2 of 10)](https://youtu.be/ZXcPPkn3JIc?si=4fJSzgRtT5gGlKQv)
+**Lesson 02:** [Function Machines - The JSON DAO (DatMan 2 of 9)](https://youtu.be/ZXcPPkn3JIc?si=4fJSzgRtT5gGlKQv)
 
-**Lesson 03:** [Function Machines - The JSON DAO (DatMan 3 of 10)](https://youtu.be/xQ9Ra3z9GBE)
+**Lesson 03:** [Function Machines - The JSON DAO (DatMan 3 of 9)](https://youtu.be/xQ9Ra3z9GBE)
 
-(***more soon!***)
+**Lesson 04:** [VSCode on Ubuntu in 2020 (DatMan 4 of 9)](https://youtu.be/e538Kctrsg0)
+
+**Lesson 05:** [VSCode & GitHub on Linux (DatMan 5 of 9)](https://youtu.be/Y1zeMIpCLkM)
+
+**Lesson 06:** [The Dictionary DAO (DatMan 6 of 9)](https://youtu.be/VaUHhfvlyU4)
+
+**Lesson 07:** [The S3D2 Pattern (DatMan 7 of 9)](https://youtu.be/g909VoooLp0)
+
+**Lesson 08:** [The S3D2 Pattern (DatMan 8 of 9)](https://youtu.be/Gzykn-rbTbM)
+
+**Lesson 09:** [The S3D2 Pattern (DatMan 9 of 9)](https://youtu.be/Ushiw_CRDaE)
+
+Enjoy the 'spiration!
+
+--- Rn
 
 
 
