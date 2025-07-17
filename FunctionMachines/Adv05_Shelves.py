@@ -4,10 +4,13 @@
 # License: MIT
 # File: Adv05_Shelves.py
 # Mission: Use S3D2 over the core 'shelve' Package
-# Related:  https://github.com/Python3-Training/DatMan
-# Mentoring: https://tl.page/randall_nagy
+# Related: https://github.com/Python3-Training/DatMan
+# Source:  https://github.com/Python3-Training/DatMan/blob/master/FunctionMachines/Adv02.py
+# Short:   https://youtube.com/shorts/urRnkGywVEE?si=p5de5R-vNky65rCc
+# Video:   https://youtu.be/ZXcPPkn3JIc
+# Related: https://www.youtube.com/@TotalPythoneering
 # Author: Randall Nagy
-# Version: 1.0
+# Version: 1.0.b
 #endregion
 
 # Note: Conversion from `dbm` to `shelve` was pretty
